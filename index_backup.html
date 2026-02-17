@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prathamesh Nikam — Developer & Creator</title>
+    <meta name="description"
+        content="Portfolio of Prathamesh Nikam - Android Developer, ML Engineer, and Creative Technologist">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Space+Grotesk:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <span class="logo-text">PN</span>
+            </div>
+            <button class="load-btn" id="loadBtn">
+                <span class="btn-text">LOAD PORTFOLIO</span>
+                <span class="btn-glow"></span>
+            </button>
+        </div>
+        <div class="loading-bg"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-logo">
+            <a href="#hero">PN</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+            <span class="hamburger"></span>
+        </button>
+    </nav>
+
+    <!-- Full Screen Menu -->
+    <div class="menu-overlay" id="menuOverlay">
+        <div class="menu-grid">
+            <div class="menu-images">
+                <div class="menu-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80')">
+                </div>
+                <div class="menu-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80')">
+                </div>
+                <div class="menu-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80')">
+                </div>
+                <div class="menu-image"
+                    style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80')">
+                </div>
+            </div>
+            <div class="menu-links">
+                <a href="#about" class="menu-link" data-section="about">
+                    <span class="link-number">01</span>
+                    <span class="link-text">About</span>
+                </a>
+                <a href="#projects" class="menu-link" data-section="projects">
+                    <span class="link-number">02</span>
+                    <span class="link-text">Projects</span>
+                </a>
+                <a href="#skills" class="menu-link" data-section="skills">
+                    <span class="link-number">03</span>
+                    <span class="link-text">Skills</span>
+                </a>
+                <a href="#experience" class="menu-link" data-section="experience">
+                    <span class="link-number">04</span>
+                    <span class="link-text">Experience</span>
+                </a>
+                <a href="#contact" class="menu-link" data-section="contact">
+                    <span class="link-number">05</span>
+                    <span class="link-text">Contact</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-bg">
+                <div class="topo-lines"></div>
+            </div>
+            <div class="hero-content">
+                <div class="hero-label">Developer & Creator</div>
+                <h1 class="hero-title">
+                    <span class="title-line" data-parallax="0.2">PRATHAMESH</span>
+                    <span class="title-line" data-parallax="0.4">NIKAM</span>
+                </h1>
+                <div class="hero-subtitle">Building the future, one line of code at a time</div>
+            </div>
+            <div class="scroll-indicator">
+                <span class="scroll-text">Scroll to explore</span>
+                <div class="scroll-line"></div>
+            </div>
+            <div class="hero-signature"></div>
+        </section>
+
+        <!-- About Section -->
+        <section class="about" id="about">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-number">01</span>
+                    <h2 class="section-title">About Me</h2>
+                </div>
+                <div class="about-grid">
+                    <div class="about-text">
+                        <p class="about-intro">
+                            I'm a Machine Learning Engineer and AI enthusiast specializing in quantum-inspired
+                            algorithms,
+                            distributed systems, and cutting-edge AI applications. With expertise in Python, deep
+                            learning,
+                            and NLP, I build innovative solutions that push the boundaries of what's possible with AI.
+                        </p>
+                        <div class="about-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">4+</div>
+                                <div class="stat-label">Hackathons</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">10+</div>
+                                <div class="stat-label">ML Projects</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">86%</div>
+                                <div class="stat-label">CIFAR-10 Accuracy</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="about-info">
+                        <div class="info-card">
+                            <div class="info-label">Location</div>
+                            <div class="info-value">India</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">prathmeshnikam2208@gmail.com</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Mobile</div>
+                            <div class="info-value">+91 7249725186</div>
+                        </div>
+                        <div class="info-card">
+                            <div class="info-label">Focus</div>
+                            <div class="info-value">ML/AI • Quantum Computing • NLP</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-bg-text" data-parallax="0.1">ML ENGINEER</div>
+        </section>
+
+        <!-- Hackathons Section -->
+        <section class="hackathons" id="hackathons">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-number">02</span>
+                    <h2 class="section-title">Hackathons & Competitions</h2>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card" data-project="hackathon-1">
+                        <div class="project-image">
+                            <div class="project-overlay"></div>
+                            <img src="project2smartpilgrimage.png" alt="Smart India Hackathon">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">SIH</span>
+                                <span class="tag">React</span>
+                                <span class="tag">TypeScript</span>
+                                <span class="tag">Real-time</span>
+                            </div>
+                            <h3 class="project-title">Smart India Hackathon</h3>
+                            <p class="project-desc">
+                                Developed comprehensive crowd management system for major pilgrimage sites.
+                                Features real-time monitoring, queue management, analytics dashboard, and emergency
+                                response system.
+                            </p>
+                            <div class="project-link">
+                                <span>View Project</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-project="hackathon-2">
+                        <div class="project-image">
+                            <div class="project-overlay"></div>
+                            <img src="neuralconsensusengine.png" alt="Agentathon">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">Agentathon</span>
+                                <span class="tag">Multi-Agent AI</span>
+                                <span class="tag">GenAI</span>
+                                <span class="tag">Firebase</span>
+                            </div>
+                            <h3 class="project-title">Agentathon - Neural Consensus Engine</h3>
+                            <p class="project-desc">
+                                Built multi-agent AI consensus system where expert AI agents deliberate on prompts
+                                and provide cohesive verdicts through collaborative decision-making.
+                            </p>
+                            <div class="project-link">
+                                <span>View Project</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-project="hackathon-3">
+                        <div class="project-image">
+                            <div class="project-overlay"></div>
+                            <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80"
+                                alt="Accurate Background Hackathon">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">Accurate Background</span>
+                                <span class="tag">NDA</span>
+                                <span class="tag">Confidential</span>
+                            </div>
+                            <h3 class="project-title">Accurate Background Hackathon</h3>
+                            <p class="project-desc">
+                                Developed innovative solution for Accurate Background hackathon.
+                                Project details are confidential due to Non-Disclosure Agreement (NDA).
+                            </p>
+                            <div class="project-link">
+                                <span>Confidential</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 2L3 6v5c0 4.4 3 8.5 7 10 4-1.5 7-5.6 7-10V6l-7-4z"
+                                        stroke="currentColor" stroke-width="2" fill="none" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-project="hackathon-4">
+                        <div class="project-image">
+                            <div class="project-overlay"></div>
+                            <img src="https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=800&q=80"
+                                alt="SupeRR Selector Hackathon">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">SupeRR</span>
+                                <span class="tag">Top 20</span>
+                                <span class="tag">Sports Analytics</span>
+                                <span class="tag">ML</span>
+                            </div>
+                            <h3 class="project-title">SupeRR Selector Hackathon</h3>
+                            <p class="project-desc">
+                                Top 20 Finalist in Rajasthan Royals' IPL Auction Strategy hackathon on UNSTOP.
+                                Developed ML-based player selection system using advanced analytics for optimal squad
+                                formation.
+                            </p>
+                            <div class="project-link">
+                                <span>Top 20 Finalist</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M10 2l2.5 6.5H19l-5.5 4 2 6.5L10 15l-5.5 4 2-6.5-5.5-4h6.5z"
+                                        stroke="currentColor" stroke-width="2" fill="none" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-bg-text" data-parallax="0.15">HACKATHONS</div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="projects" id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-number">03</span>
+                    <h2 class="section-title">Featured Projects</h2>
+                </div>
+                <div class="projects-grid">
+                    <div class="project-card" data-project="1">
+                        <div class="project-image">
+                            <div class="project-overlay"></div>
+                            <img src="neuralconsensusengine.png" alt="Neural Consensus Engine">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">React</span>
+                                <span class="tag">AI</span>
+                                <span class="tag">Multi-Agent</span>
+                                <span class="tag">Firebase</span>
+                            </div>
+                            <h3 class="project-title">Neural Consensus Engine</h3>
+                            <p class="project-desc">
+                                A React-based web application for multi-agent AI consensus. Simulates a "room" of expert
+                                AI agents
+                                that deliberate on prompts and provide cohesive verdicts via a Final Decision Maker.
+                            </p>
+                            <div class="project-link">
+                                <span>View on GitHub</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-project="2">
+                        <div class="project-image">
+                            <div class="project-overlay"></div>
+                            <img src="project2smartpilgrimage.png" alt="Smart Pilgrimage System">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">React</span>
+                                <span class="tag">TypeScript</span>
+                                <span class="tag">Node.js</span>
+                                <span class="tag">SIH</span>
+                            </div>
+                            <h3 class="project-title">Smart Pilgrimage Crowd Management</h3>
+                            <p class="project-desc">
+                                Comprehensive web-based solution for managing crowds at major pilgrimage sites.
+                                Features real-time monitoring, queue management, analytics dashboard, and emergency
+                                management.
+                            </p>
+                            <div class="project-link">
+                                <span>View on GitHub</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-project="3">
+                        <div class="project-image">
+                            <div class="project-overlay"></div>
+                            <img src="project3hqde.png" alt="HQDE Framework">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">Quantum ML</span>
+                                <span class="tag">Ray</span>
+                                <span class="tag">CUDA</span>
+                            </div>
+                            <h3 class="project-title">Hierarchical Quantum-Distributed Ensemble Learning</h3>
+                            <p class="project-desc">
+                                Quantum-inspired ensemble learning framework for distributed environments.
+                                Features quantum aggregation, fault tolerance, and achieved 86.1% accuracy on CIFAR-10.
+                            </p>
+                            <div class="project-link">
+                                <span>View on GitHub</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-project="4">
+                        <div class="project-image">
+                            <div class="project-overlay"></div>
+                            <img src="f1prediction.png" alt="F1 Race Prediction">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">ML</span>
+                                <span class="tag">Gradio</span>
+                                <span class="tag">XGBoost</span>
+                            </div>
+                            <h3 class="project-title">F1 Race Position Predictor</h3>
+                            <p class="project-desc">
+                                Advanced ML project predicting finishing positions of Formula 1 drivers.
+                                Features data processing pipeline, hyperparameter tuning, and interactive web UI.
+                            </p>
+                            <div class="project-link">
+                                <span>View on GitHub</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-project="5">
+                        <div class="project-image">
+                            <div class="project-overlay"></div>
+                            <img src="artreasurehunt.png" alt="AR Treasure Hunt">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">AR</span>
+                                <span class="tag">Unity</span>
+                                <span class="tag">Vuforia</span>
+                                <span class="tag">C#</span>
+                            </div>
+                            <h3 class="project-title">AR Treasure Hunt Game</h3>
+                            <p class="project-desc">
+                                Marker-based Augmented Reality treasure hunt game.
+                                Scan physical markers to trigger AR hints and interactive gameplay elements.
+                            </p>
+                            <div class="project-link">
+                                <span>View on GitHub</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="project-card" data-project="6">
+                        <div class="project-image">
+                            <div class="project-overlay"></div>
+                            <img src="aivoicesummarizer.png" alt="AI Voice Summarizer">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-tags">
+                                <span class="tag">Python</span>
+                                <span class="tag">AI</span>
+                                <span class="tag">Whisper</span>
+                                <span class="tag">LM Studio</span>
+                            </div>
+                            <h3 class="project-title">AI Voice Summarizer</h3>
+                            <p class="project-desc">
+                                Tool for summarizing voice notes and audio using local LLMs via LM Studio.
+                                Features Deepseek and Whisper model finetuning for accurate transcription and
+                                summarization.
+                            </p>
+                            <div class="project-link">
+                                <span>View on GitHub</span>
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                    <path d="M4 10H16M16 10L10 4M16 10L10 16" stroke="currentColor" stroke-width="2" />
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-bg-text" data-parallax="0.15">PROJECTS</div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="skills" id="skills">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-number">03</span>
+                    <h2 class="section-title">Skills & Technologies</h2>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3 class="category-title">Frontend Development</h3>
+                        <div class="skill-items">
+                            <div class="skill-item">
+                                <span class="skill-name">React & Vite</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">TypeScript</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="88"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">JavaScript</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="92"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Tailwind CSS</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="85"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3 class="category-title">Machine Learning & AI</h3>
+                        <div class="skill-items">
+                            <div class="skill-item">
+                                <span class="skill-name">Python</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="92"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Quantum ML</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="80"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Ray (Distributed)</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="75"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Whisper & LLMs</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="85"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3 class="category-title">Backend & Cloud</h3>
+                        <div class="skill-items">
+                            <div class="skill-item">
+                                <span class="skill-name">Node.js & Express</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="88"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Firebase</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">REST APIs</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="90"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">CUDA & GPU</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="70"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3 class="category-title">Specialized Tech</h3>
+                        <div class="skill-items">
+                            <div class="skill-item">
+                                <span class="skill-name">AR/VR (Unity, Vuforia)</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="78"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Kotlin & Android</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="82"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Data Visualization</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="85"></div>
+                                </div>
+                            </div>
+                            <div class="skill-item">
+                                <span class="skill-name">Git & CI/CD</span>
+                                <div class="skill-bar">
+                                    <div class="skill-fill" data-skill="88"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-bg-text" data-parallax="0.12">SKILLS</div>
+        </section>
+
+        <!-- Experience Section -->
+        <section class="experience" id="experience">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-number">04</span>
+                    <h2 class="section-title">Experience</h2>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">August 2021 - Present</div>
+                            <h3 class="timeline-title">Android Developer</h3>
+                            <p class="timeline-desc">
+                                Developed and maintained Android applications using Kotlin and modern Android
+                                architecture components.
+                                Implemented features, optimized performance, and ensured seamless user experiences.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">2020 - 2021</div>
+                            <h3 class="timeline-title">ML Engineer & Developer</h3>
+                            <p class="timeline-desc">
+                                Built machine learning models for text and audio processing.
+                                Developed AI-powered applications with focus on NLP and data analysis.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">2019 - 2020</div>
+                            <h3 class="timeline-title">Full Stack Developer</h3>
+                            <p class="timeline-desc">
+                                Created web applications using modern frameworks and technologies.
+                                Worked on both frontend and backend development with focus on user experience.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-bg-text" data-parallax="0.08">EXPERIENCE</div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact" id="contact">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-number">05</span>
+                    <h2 class="section-title">Get In Touch</h2>
+                </div>
+                <div class="contact-content">
+                    <div class="contact-text">
+                        <h3 class="contact-heading">Let's create something amazing together</h3>
+                        <p class="contact-desc">
+                            I'm always open to discussing new projects, creative ideas,
+                            or opportunities to be part of your vision.
+                        </p>
+                    </div>
+                    <div class="contact-links">
+                        <a href="mailto:prathmeshnikam2208@gmail.com" class="contact-link">
+                            <span class="link-icon">📧</span>
+                            <span class="link-text">prathmeshnikam2208@gmail.com</span>
+                        </a>
+                        <a href="tel:+917249725186" class="contact-link">
+                            <span class="link-icon">📱</span>
+                            <span class="link-text">+91 7249725186</span>
+                        </a>
+                        <a href="https://github.com" target="_blank" class="contact-link">
+                            <span class="link-icon">💻</span>
+                            <span class="link-text">GitHub</span>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" class="contact-link">
+                            <span class="link-icon">💼</span>
+                            <span class="link-text">LinkedIn</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="footer-signature">PN</div>
+                <p class="footer-text">© 2025 Prathamesh Nikam. Crafted with passion.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

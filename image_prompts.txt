@@ -1,0 +1,143 @@
+IMAGE GENERATION PROMPTS FOR PORTFOLIO WEBSITE
+================================================
+
+INSTRUCTIONS FOR NANO BANANA (OR ANY AI IMAGE GENERATOR):
+These prompts are designed to create stunning, modern project images for a developer portfolio website.
+Style: Dark, futuristic, high-tech, cinematic with neon accents (cyan, purple, blue)
+Resolution: 1920x1080 or 16:9 aspect ratio
+Quality: High detail, 8K quality, professional
+
+================================================
+
+PROJECT 1: NEURAL CONSENSUS ENGINE
+-----------------------------------
+Prompt:
+"A futuristic digital conference room with multiple holographic AI avatars sitting around a glowing circular table, each avatar has a distinct color aura (blue, purple, cyan, green, pink), they are debating and exchanging glowing data streams between them, dark background with neon lighting, central hologram showing a brain network, cinematic lighting, ultra detailed, 8k, cyberpunk aesthetic, professional tech visualization"
+
+Alternative Prompt:
+"Abstract visualization of multiple AI agents collaborating, interconnected neural networks with glowing nodes, data flowing between different colored AI entities, dark space background with neon blue and purple accents, geometric patterns, futuristic interface elements, high-tech dashboard in background, cinematic, 8k quality"
+
+Color Palette: Neon blue (#00ffff), Purple (#9b59b6), Dark background (#0a0a0a)
+Tags: React, AI, Multi-Agent, Consensus
+
+================================================
+
+PROJECT 2: SMART PILGRIMAGE CROWD MANAGEMENT SYSTEM
+----------------------------------------------------
+Prompt:
+"Bird's eye view of a modern Indian temple entrance with advanced digital crowd management system, glowing pathways showing crowd flow in teal and orange colors, holographic status displays floating above, clean futuristic interface overlays, people represented as glowing dots moving through organized queues, nighttime scene with dramatic lighting, professional architectural visualization, 8k, ultra detailed"
+
+Alternative Prompt:
+"High-tech control room dashboard showing real-time crowd analytics for a pilgrimage site, multiple screens displaying heat maps, queue status, and emergency alerts, modern UI with teal and orange accent colors, 3D map of temple complex, data visualization charts, professional tech interface, cinematic lighting, 8k quality"
+
+Color Palette: Teal (#00d9ff), Orange (#ff6b35), Dark blue (#1a1a2e)
+Tags: React, TypeScript, Real-time, SIH Hackathon
+
+================================================
+
+PROJECT 3: HIERARCHICAL QUANTUM-DISTRIBUTED ENSEMBLE LEARNING (HQDE)
+---------------------------------------------------------------------
+Prompt:
+"Abstract representation of quantum computing and machine learning fusion, glowing golden and electric blue particles forming quantum entanglement patterns, neural network structures intertwined with quantum circuits, deep space background with nebula effects, mathematical formulas and equations floating in the background, superposition visualization with overlapping translucent layers, cinematic, highly detailed, 8k, scientific visualization"
+
+Alternative Prompt:
+"Futuristic quantum computer visualization with distributed neural networks, glowing quantum bits (qubits) connected in a hierarchical structure, golden and blue energy flows representing data processing, abstract geometric shapes representing ensemble learning, dark cosmic background, professional scientific illustration, 8k quality, award-winning visualization"
+
+Color Palette: Golden (#ffd700), Electric blue (#00bfff), Deep purple (#4a148c)
+Tags: Python, Quantum ML, Distributed Computing, CUDA
+
+================================================
+
+PROJECT 4: F1 RACE PREDICTION
+------------------------------
+Prompt:
+"Futuristic Formula 1 race track from above with glowing racing lines, holographic data overlays showing predicted positions and statistics, sleek F1 cars with light trails, neon grid patterns on the track, digital speedometer and analytics floating in the air, dark background with red and cyan accent lighting, dynamic motion blur, cinematic sports visualization, 8k quality"
+
+Alternative Prompt:
+"High-tech machine learning dashboard for F1 race predictions, multiple screens showing driver statistics, track conditions, and predicted finishing positions, 3D visualization of race track with data points, gradient charts and graphs, modern UI with racing-inspired design, red and cyan color scheme, professional sports analytics interface, 8k"
+
+Color Palette: Racing red (#e10600), Cyan (#00ffff), Carbon black (#1a1a1a)
+Tags: Python, Machine Learning, Sports Analytics, Gradio
+
+================================================
+
+PROJECT 5: AR TREASURE HUNT
+----------------------------
+Prompt:
+"Augmented reality scene showing a physical treasure map on a table with holographic 3D pirate ship and treasure chest floating above it, glowing AR markers and digital overlays, magical particles and light effects, mysterious atmosphere with blue and gold lighting, modern AR interface elements, cinematic composition, highly detailed, 8k quality"
+
+Alternative Prompt:
+"Split-screen showing real world view through phone camera on left and AR overlay on right, treasure hunt game interface with glowing waypoints and digital compass, pirate-themed holographic elements appearing in real environment, vibrant colors with blue and gold accents, modern mobile AR interface, professional game visualization, 8k"
+
+Color Palette: Treasure gold (#ffd700), Ocean blue (#0077be), Mystery purple (#6a0dad)
+Tags: AR, Unity, Vuforia, Game Development
+
+================================================
+
+PROJECT 6: AI VOICE SUMMARIZER
+-------------------------------
+Prompt:
+"Futuristic audio waveform visualization transforming into text and summary, glowing sound waves in cyan and purple colors, AI brain processing the audio in the center, text snippets floating and organizing themselves, dark background with neon accents, modern AI interface elements, microphone icon with energy rings, professional tech illustration, 8k quality"
+
+Alternative Prompt:
+"Modern AI studio setup with voice recording equipment, holographic display showing audio waveforms being processed by AI, text summaries appearing in floating windows, LM Studio interface in background, clean tech aesthetic with purple and cyan lighting, professional workspace visualization, cinematic, 8k"
+
+Color Palette: Cyan (#00ffff), Purple (#a855f7), Dark gray (#2d2d2d)
+Tags: Python, AI, Whisper, LM Studio, NLP
+
+================================================
+
+GENERAL HERO/BACKGROUND IMAGES
+-------------------------------
+
+Hero Background:
+"Abstract topographical wireframe pattern in neon cyan on pure black background, geometric lines creating depth and perspective, minimal and clean, modern tech aesthetic, subtle glow effects, seamless tileable pattern, 4k"
+
+About Section Background:
+"Subtle circuit board pattern with glowing connections in dark blue and cyan, minimal and professional, technology background, very subtle and not distracting, 8k quality"
+
+Skills Section Background:
+"Abstract geometric shapes and particles floating in dark space, representing different programming languages and technologies, minimal color palette with cyan and purple accents, professional tech background, 8k"
+
+================================================
+
+STYLE GUIDELINES FOR ALL IMAGES:
+---------------------------------
+1. Dark backgrounds (black, dark blue, dark gray)
+2. Neon accent colors (cyan, purple, blue, gold)
+3. Futuristic and high-tech aesthetic
+4. Clean and professional composition
+5. Cinematic lighting with dramatic shadows
+6. High contrast for visual impact
+7. Geometric patterns and modern UI elements
+8. Glowing effects and light trails
+9. 8K quality, ultra detailed
+10. Professional tech/startup vibe
+
+================================================
+
+ADDITIONAL PROMPTS FOR VARIETY:
+--------------------------------
+
+Code/Development Theme:
+"Floating holographic code snippets in multiple programming languages, glowing syntax highlighting in cyan and purple, dark background, matrix-style digital rain effect, modern developer workspace, cinematic, 8k"
+
+Innovation Theme:
+"Abstract representation of innovation and creativity, lightbulb made of glowing particles and neural connections, ideas flowing as energy streams, dark background with colorful accents, inspiring and modern, 8k quality"
+
+Technology Stack Theme:
+"3D visualization of modern tech stack, floating logos and icons for React, Python, TypeScript, Android connected by glowing lines, organized in layers, dark background with neon accents, professional tech illustration, 8k"
+
+================================================
+
+NOTES:
+- All images should maintain a consistent dark, futuristic aesthetic
+- Use the specified color palettes for each project to match the website theme
+- Images should be visually striking and immediately communicate the project's purpose
+- Avoid stock photo look - aim for custom, artistic tech visualizations
+- Each image should work well as a hero image for the project card
+- Consider adding subtle animations or motion blur for dynamic feel
+
+================================================
+
+END OF PROMPTS FILE
