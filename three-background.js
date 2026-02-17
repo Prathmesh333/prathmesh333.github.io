@@ -195,7 +195,23 @@ class ParticleBackground {
             .contact-link:hover {
                 box-shadow: 0 0 30px ${primaryGlow} !important;
             }
+            
+            /* Footer signature with theme colors */
+            .footer-signature {
+                background: linear-gradient(90deg, ${primaryColor}, ${secondaryColor}, ${accentColor}, ${primaryColor}) !important;
+                background-size: 200% auto !important;
+                -webkit-background-clip: text !important;
+                -webkit-text-fill-color: transparent !important;
+                background-clip: text !important;
+                animation: gradientFlow 6s linear infinite !important;
+                display: inline-block !important;
+            }
         `;
+        
+        console.log(`🎨 Footer Signature Colors:`);
+        console.log(`   Primary: ${primaryColor}`);
+        console.log(`   Secondary: ${secondaryColor}`);
+        console.log(`   Accent: ${accentColor}`);
         
         // Remove old dynamic style if exists
         const oldStyle = document.getElementById('dynamic-theme-colors');
