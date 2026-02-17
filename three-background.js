@@ -172,7 +172,12 @@ class ParticleBackground {
                 color: ${primaryColor} !important;
             }
             
+            .nav-toggle {
+                border-color: #666666 !important;
+            }
+            
             .nav-toggle:hover {
+                border-color: ${primaryColor} !important;
                 box-shadow: 0 0 20px ${primaryGlow} !important;
             }
             
@@ -205,6 +210,23 @@ class ParticleBackground {
                 background-clip: text !important;
                 animation: gradientFlow 6s linear infinite !important;
                 display: inline-block !important;
+            }
+            
+            /* Nav logo with primary color */
+            .nav-logo a {
+                color: ${primaryColor} !important;
+            }
+            
+            /* Hamburger menu with primary color */
+            .hamburger,
+            .hamburger::before,
+            .hamburger::after {
+                background: ${primaryColor} !important;
+            }
+            
+            .nav-toggle.active .hamburger::before,
+            .nav-toggle.active .hamburger::after {
+                background: ${primaryColor} !important;
             }
         `;
         

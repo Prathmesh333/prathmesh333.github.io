@@ -560,6 +560,7 @@ class HeroTitleEffects {
         this.canvas = null;
         this.ctx = null;
         this.letterPositions = [];
+        this.activeGlitchIntervals = []; // Store all active glitch intervals
         
         if (!this.titleLines.length || !this.heroSection) return;
         
@@ -572,7 +573,29 @@ class HeroTitleEffects {
         this.initGlitchEffect();
         this.initMouseTracking();
         this.getLetterPositions();
+        this.initVisibilityHandler();
         this.animate();
+    }
+    
+    initVisibilityHandler() {
+        // Store original text for all title lines
+        this.titleLines.forEach(line => {
+            line.dataset.originalText = line.textContent;
+        });
+        
+        // Reset text when page becomes visible or hidden
+        document.addEventListener('visibilitychange', () => {
+            // Clear all active glitch intervals
+            this.activeGlitchIntervals.forEach(interval => clearInterval(interval));
+            this.activeGlitchIntervals = [];
+            
+            // Reset all title lines to original text
+            this.titleLines.forEach(line => {
+                line.textContent = line.dataset.originalText;
+                line.style.transform = '';
+                line.style.textShadow = '';
+            });
+        });
     }
     
     createCanvas() {
@@ -764,13 +787,30 @@ class HeroTitleEffects {
     }
     
     glitch(element) {
-        const originalText = element.textContent;
+        // Don't glitch if page is hidden
+        if (document.hidden) return;
+        
+        const originalText = element.dataset.originalText || element.textContent;
         const glitchChars = '!<>-_\\/[]{}—=+*^?#________';
         
         let iterations = 0;
         const maxIterations = 8;
         
         const glitchInterval = setInterval(() => {
+            // Stop if page becomes hidden
+            if (document.hidden) {
+                clearInterval(glitchInterval);
+                // Remove from active intervals
+                const index = this.activeGlitchIntervals.indexOf(glitchInterval);
+                if (index > -1) {
+                    this.activeGlitchIntervals.splice(index, 1);
+                }
+                element.textContent = originalText;
+                element.style.transform = '';
+                element.style.textShadow = '';
+                return;
+            }
+            
             element.textContent = originalText
                 .split('')
                 .map((char, index) => {
@@ -793,26 +833,19 @@ class HeroTitleEffects {
             
             if (iterations > maxIterations) {
                 clearInterval(glitchInterval);
+                // Remove from active intervals
+                const index = this.activeGlitchIntervals.indexOf(glitchInterval);
+                if (index > -1) {
+                    this.activeGlitchIntervals.splice(index, 1);
+                }
                 element.textContent = originalText;
                 element.style.transform = '';
                 element.style.textShadow = '';
             }
         }, 50);
         
-        // Store interval ID on element for cleanup
-        element.dataset.glitchInterval = glitchInterval;
-        
-        // Reset if page visibility changes
-        const resetOnVisibilityChange = () => {
-            if (document.hidden) {
-                clearInterval(glitchInterval);
-                element.textContent = originalText;
-                element.style.transform = '';
-                element.style.textShadow = '';
-            }
-        };
-        
-        document.addEventListener('visibilitychange', resetOnVisibilityChange, { once: true });
+        // Store the interval so we can clear it later
+        this.activeGlitchIntervals.push(glitchInterval);
     }
     
     initMouseTracking() {
