@@ -798,6 +798,21 @@ class HeroTitleEffects {
                 element.style.textShadow = '';
             }
         }, 50);
+        
+        // Store interval ID on element for cleanup
+        element.dataset.glitchInterval = glitchInterval;
+        
+        // Reset if page visibility changes
+        const resetOnVisibilityChange = () => {
+            if (document.hidden) {
+                clearInterval(glitchInterval);
+                element.textContent = originalText;
+                element.style.transform = '';
+                element.style.textShadow = '';
+            }
+        };
+        
+        document.addEventListener('visibilitychange', resetOnVisibilityChange, { once: true });
     }
     
     initMouseTracking() {
