@@ -13,7 +13,7 @@ Project descriptions are tied to the public repositories. Architecture-only, sim
 - Project notes in an accessible dialog
 - Education, Teaching Assistant experience and the TRACE hackathon win
 - The current resume, GitHub and LinkedIn links
-- Anime.js letter choreography, line drawing, reveals and project-cover motion
+- Anime.js letter choreography, line drawing, reveals and restrained project-image motion
 - Lenis scrolling with reduced-motion support
 - A generated editorial workbench hero image
 - Keyboard navigation, visible focus states and responsive layouts
@@ -34,7 +34,7 @@ The four featured projects are written in [`index.html`](index.html). The downlo
 
 ## Visual assets
 
-The current hero uses [`assets/generated/hero-workbench.webp`](assets/generated/hero-workbench.webp). Its final prompt is recorded in [`assets/ASSET-PROMPTS.md`](assets/ASSET-PROMPTS.md). The four featured covers are generated in the browser as SVG, which lets Anime.js draw their paths without adding more image weight.
+The hero and four featured-project covers use generated editorial photography stored in [`assets/generated`](assets/generated). Their final prompts are recorded in [`assets/ASSET-PROMPTS.md`](assets/ASSET-PROMPTS.md).
 
 ## Libraries
 

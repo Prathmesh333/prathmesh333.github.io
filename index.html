@@ -33,6 +33,7 @@
     <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
     <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
     <div class="scroll-progress" aria-hidden="true"><span id="scrollProgress"></span></div>
+    <span class="header-sentinel" id="headerSentinel" aria-hidden="true"></span>
 
     <header class="site-header" id="siteHeader">
         <a class="brand magnetic" href="#top" aria-label="Prathamesh Nikam, home">
@@ -50,10 +51,7 @@
         <div class="header-actions">
             <button class="icon-button magnetic" id="motionToggle" type="button" aria-pressed="false"
                 aria-label="Reduce motion">
-                <svg aria-hidden="true" viewBox="0 0 24 24">
-                    <path d="M4 12c2.5-6 5.5-6 8 0s5.5 6 8 0" />
-                    <path d="M4 18c2.5-6 5.5-6 8 0s5.5 6 8 0" />
-                </svg>
+                <span class="motion-glyph" aria-hidden="true">M</span>
             </button>
             <a class="header-resume magnetic" href="Prathamesh_Nikam_Resume.pdf" target="_blank"
                 rel="noopener noreferrer">Resume <span aria-hidden="true">&nearr;</span></a>
@@ -67,13 +65,13 @@
     <aside class="mobile-menu" id="mobileMenu" aria-hidden="true">
         <div class="mobile-menu__meta">
             <span>Prathamesh Nikam</span>
-            <span>Hyderabad / 2026</span>
+            <span>ML &amp; Generative AI Engineer</span>
         </div>
         <nav aria-label="Mobile navigation">
-            <a href="#work"><span>01</span> Work</a>
-            <a href="#profile"><span>02</span> About</a>
-            <a href="#projects"><span>03</span> Projects</a>
-            <a href="#contact"><span>04</span> Contact</a>
+            <a href="#work">Work</a>
+            <a href="#profile">About</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
         </nav>
         <div class="mobile-menu__footer">
             <a href="mailto:prathmeshnikam2208@gmail.com">prathmeshnikam2208@gmail.com</a>
@@ -91,16 +89,13 @@
                         d="M38 578 C 172 548, 178 425, 328 432 S 512 522, 562 360 S 670 132, 856 92" />
                     <circle class="hero-route__node" cx="856" cy="92" r="5" />
                 </svg>
-                <p class="hero-photo__caption">Notebook / models / late-night iterations</p>
             </div>
 
             <div class="hero__status hero-reveal">
                 <span class="availability"><i></i> Open to ML engineering roles</span>
-                <span>Hyderabad, India</span>
             </div>
 
             <div class="hero__content">
-                <p class="hero__hello hero-reveal">Hello, I am</p>
                 <h1 class="hero-name" id="hero-title" aria-label="Prathamesh Nikam">
                     <span class="hero-name__line" aria-hidden="true">
                         <span data-split>P</span><span data-split>r</span><span data-split>a</span><span
@@ -115,27 +110,15 @@
                 </h1>
 
                 <div class="hero__intro hero-reveal">
-                    <p class="hero__role">ML &amp; Generative AI Engineer</p>
-                    <p>I turn research ideas into software people can try: retrieval systems, forecasting tools,
-                        dialogue models and full-stack AI prototypes.</p>
+                    <p>ML &amp; Generative AI engineer turning retrieval systems, forecasting tools and dialogue
+                        models into software people can try.</p>
                     <div class="hero__actions">
-                        <a class="button button--primary magnetic" href="#work">View my work <span
-                                aria-hidden="true">&darr;</span></a>
+                        <a class="button button--primary magnetic" href="#work">View my work</a>
                         <a class="button button--quiet magnetic" href="Prathamesh_Nikam_Resume.pdf" target="_blank"
                             rel="noopener noreferrer">Read my resume <span aria-hidden="true">&nearr;</span></a>
                     </div>
                 </div>
             </div>
-
-            <aside class="hero-note hero-reveal" aria-label="Current focus">
-                <span>Right now</span>
-                <p>M.Tech Information Technology candidate at the University of Hyderabad.</p>
-            </aside>
-
-            <a class="scroll-cue hero-reveal" href="#work">
-                <span>Scroll to browse</span>
-                <i aria-hidden="true"></i>
-            </a>
         </section>
 
         <div class="marquee" aria-hidden="true">
@@ -152,7 +135,6 @@
 
         <section class="personal-intro section-shell" aria-labelledby="intro-title">
             <div class="shell personal-intro__grid">
-                <p class="section-label reveal">A little about me</p>
                 <div class="personal-intro__copy reveal">
                     <h2 id="intro-title">From idea to working demo.</h2>
                     <p>That stretch between a notebook sketch and a working demo: cleaning the data, testing the
@@ -167,19 +149,18 @@
             <div class="shell">
                 <div class="section-head reveal">
                     <div>
-                        <p class="section-label">Selected work / 2026</p>
+                        <p class="section-label">Selected work</p>
                         <h2 class="section-title" id="work-title">A few things<br>I have built.</h2>
+                        <p class="section-intro">Four public repositories that show the way I think, test and ship.</p>
                     </div>
-                    <p>Four public repositories that show the way I think, test and ship.</p>
                 </div>
 
                 <div class="featured-grid">
                     <article class="project-feature project-feature--wide reveal">
                         <div class="project-feature__visual" data-tilt>
-                            <svg viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice"
-                                data-cover="shortlistd" aria-hidden="true"></svg>
-                            <span class="project-feature__index">01</span>
-                            <span class="project-feature__kind">AI resume studio</span>
+                            <img class="project-feature__image"
+                                src="assets/generated/project-shortlistd-editorial.webp" width="1536" height="1024"
+                                loading="lazy" decoding="async" alt="">
                         </div>
                         <div class="project-feature__copy">
                             <p class="project-feature__meta">Next.js / Gemini / LaTeX</p>
@@ -195,10 +176,9 @@
 
                     <article class="project-feature reveal">
                         <div class="project-feature__visual" data-tilt>
-                            <svg viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice"
-                                data-cover="forecastforge" aria-hidden="true"></svg>
-                            <span class="project-feature__index">02</span>
-                            <span class="project-feature__kind">Forecasting</span>
+                            <img class="project-feature__image"
+                                src="assets/generated/project-forecastforge-editorial.webp" width="1693" height="929"
+                                loading="lazy" decoding="async" alt="">
                         </div>
                         <div class="project-feature__copy">
                             <p class="project-feature__meta">Python / XGBoost / Streamlit</p>
@@ -213,10 +193,8 @@
 
                     <article class="project-feature reveal">
                         <div class="project-feature__visual" data-tilt>
-                            <svg viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice"
-                                data-cover="hqde" aria-hidden="true"></svg>
-                            <span class="project-feature__index">03</span>
-                            <span class="project-feature__kind">Open source</span>
+                            <img class="project-feature__image" src="assets/generated/project-hqde-editorial.webp"
+                                width="1536" height="1024" loading="lazy" decoding="async" alt="">
                         </div>
                         <div class="project-feature__copy">
                             <p class="project-feature__meta">PyTorch / Ray / PyPI</p>
@@ -234,10 +212,9 @@
 
                     <article class="project-feature project-feature--wide project-feature--reverse reveal">
                         <div class="project-feature__visual" data-tilt>
-                            <svg viewBox="0 0 600 450" preserveAspectRatio="xMidYMid slice"
-                                data-cover="psychota" aria-hidden="true"></svg>
-                            <span class="project-feature__index">04</span>
-                            <span class="project-feature__kind">Dialogue research</span>
+                            <img class="project-feature__image"
+                                src="assets/generated/project-psychota-editorial.webp" width="1536" height="1024"
+                                loading="lazy" decoding="async" alt="">
                         </div>
                         <div class="project-feature__copy">
                             <p class="project-feature__meta">PyTorch / DeBERTa / BiGRU</p>
@@ -258,8 +235,7 @@
             <div class="shell">
                 <div class="section-head section-head--about reveal">
                     <div>
-                        <p class="section-label">About</p>
-                        <h2 class="section-title" id="profile-title">Research brain.<br>Builder hands.</h2>
+                        <h2 class="section-title" id="profile-title">Research, code,<br>and the web.</h2>
                     </div>
                     <div class="about-lead">
                         <p>I work across machine learning, Generative AI and the web layer around them. I care about
@@ -271,7 +247,7 @@
 
                 <div class="about-grid">
                     <div class="toolbox reveal">
-                        <p class="section-label">Tools I reach for</p>
+                        <h3 class="toolbox__title">Tools I use</h3>
                         <div class="toolbox__group">
                             <span>Modeling</span>
                             <p>PyTorch, XGBoost, scikit-learn, Ray, SHAP</p>
@@ -330,15 +306,10 @@
             <div class="shell">
                 <div class="section-head archive-head reveal">
                     <div>
-                        <p class="section-label">Project archive</p>
-                        <h2 class="section-title" id="projects-title">The rest of<br>the lab.</h2>
+                        <h2 class="section-title" id="projects-title">More<br>projects.</h2>
                     </div>
                     <div class="archive-search-wrap">
                         <label class="archive-search">
-                            <svg viewBox="0 0 24 24" aria-hidden="true">
-                                <circle cx="11" cy="11" r="7"></circle>
-                                <path d="m20 20-3.2-3.2"></path>
-                            </svg>
                             <input type="search" id="projectSearch" placeholder="Search projects or tools"
                                 aria-label="Search projects">
                             <kbd>/</kbd>
@@ -362,7 +333,6 @@
         <section class="contact section-shell" id="contact" aria-labelledby="contact-title">
             <div class="shell contact__grid">
                 <div class="reveal">
-                    <p class="section-label">Contact</p>
                     <h2 class="contact__title" id="contact-title">Say hello.</h2>
                 </div>
                 <div class="contact__copy reveal">
@@ -390,7 +360,7 @@
             <span>Prathamesh Nikam</span>
             <p>ML &amp; Generative AI Engineer / Hyderabad</p>
         </div>
-        <p>Designed around notebooks, code and one papaya line.</p>
+        <p>&copy; 2026. Built with HTML, CSS and JavaScript.</p>
         <a href="#top">Back to top &uarr;</a>
     </footer>
 
@@ -401,9 +371,7 @@
                 <h2 id="dialogTitle"></h2>
             </div>
             <button class="dialog-close" id="dialogClose" type="button" aria-label="Close dialog">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M6 6l12 12M18 6 6 18"></path>
-                </svg>
+                <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="dialog-body">

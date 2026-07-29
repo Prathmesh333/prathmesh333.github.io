@@ -1,5 +1,5 @@
 /* =========================================================
-   PRATHAMESH NIKAM — PORTFOLIO
+   PRATHAMESH NIKAM - PORTFOLIO
    Anime.js choreography · generative SVG art · Lenis scroll
    ========================================================= */
 
@@ -214,7 +214,6 @@ const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)
 const storedMotionPreference = localStorage.getItem("pn-motion");
 state.motionOff = storedMotionPreference === "off" || (storedMotionPreference === null && prefersReducedMotion.matches);
 
-const SVG_NS = "http://www.w3.org/2000/svg";
 const el = (id) => document.getElementById(id);
 const animeApi = () => window.anime;
 
@@ -223,12 +222,10 @@ const animeApi = () => window.anime;
 ------------------------------------------------------------------ */
 document.addEventListener("DOMContentLoaded", () => {
     applyMotionPreference();
-    buildCaseCovers();
     renderProjects();
     initSmoothScroll();
     initNavigation();
     initScrollState();
-    initScrollProgress();
     initReveals();
     initProjectFilters();
     initProjectDialog();
@@ -257,72 +254,6 @@ function applyMotionPreference() {
     const toggle = el("motionToggle");
     if (toggle) toggle.setAttribute("aria-pressed", String(state.motionOff));
     document.documentElement.classList.toggle("motion-off", state.motionOff);
-}
-
-/* ------------------------------------------------------------------
-   BOOT (minimal)
------------------------------------------------------------------- */
-function finishBoot() {
-    const boot = el("boot");
-    if (!boot) return;
-    const a = animeApi();
-    if (state.motionOff || !a?.animate) {
-        boot.classList.add("is-done");
-        runHero();
-        return;
-    }
-    a.animate(".boot__mark span", {
-        y: { from: 110 },
-        opacity: { from: 0 },
-        duration: 620,
-        delay: a.stagger(120),
-        ease: "outExpo"
-    });
-    setTimeout(() => {
-        boot.classList.add("is-done");
-        runHero();
-    }, 720);
-}
-
-/* ------------------------------------------------------------------
-   HERO ART — generative SVG speed-field (F1 soul, papaya streaks)
------------------------------------------------------------------- */
-function buildHeroArt() {
-    const lines = el("speedLines");
-    const grid = el("gridLines");
-    if (!lines || !grid) return;
-
-    // perspective speed lines converging toward a vanishing point on the right
-    const vanishX = 1180;
-    const vanishY = 300;
-    const count = 34;
-    let frag = "";
-    for (let i = 0; i < count; i++) {
-        const t = i / (count - 1);
-        // distribute start points across the left edge and bottom
-        const startX = -80 + Math.random() * 200;
-        const startY = 120 + t * 760 + (Math.random() - 0.5) * 60;
-        const cx1 = startX + (vanishX - startX) * 0.55 + (Math.random() - 0.5) * 80;
-        const cy1 = startY + (vanishY - startY) * 0.4;
-        const op = (0.25 + Math.random() * 0.6).toFixed(2);
-        frag += `<path d="M${startX} ${startY} C${cx1} ${cy1}, ${vanishX - 120} ${vanishY + 40}, ${vanishX + 200} ${vanishY}" opacity="${op}" stroke-dasharray="${20 + Math.random() * 60} ${40 + Math.random() * 120}"/>`;
-    }
-    lines.innerHTML = frag;
-
-    // receding horizon grid (perspective floor)
-    let g = "";
-    for (let i = 0; i < 14; i++) {
-        const y = 560 + i * (28 + i * 4);
-        if (y > 940) break;
-        g += `<path d="M-100 ${y} L1540 ${y}" opacity="${(0.5 - i * 0.03).toFixed(2)}"/>`;
-    }
-    // vertical perspective lines fanning from a low center point
-    const baseY = 920;
-    for (let i = -8; i <= 8; i++) {
-        const bx = 720 + i * 120;
-        g += `<path d="M720 ${baseY - 360} L${bx} ${baseY}" opacity="0.35"/>`;
-    }
-    grid.innerHTML = g;
 }
 
 function runHero() {
@@ -362,144 +293,6 @@ function runHero() {
         alternate: true,
         ease: "inOutSine"
     });
-}
-
-/* ------------------------------------------------------------------
-   CASE-STUDY COVERS — distinct generative SVG per project
------------------------------------------------------------------- */
-function buildCaseCovers() {
-    const makers = {
-        shortlistd: coverShortlistd,
-        forecastforge: coverForecast,
-        hqde: coverNetwork,
-        psychota: coverDialogue
-    };
-    document.querySelectorAll("svg[data-cover]").forEach((svg) => {
-        const key = svg.getAttribute("data-cover");
-        const fn = makers[key];
-        if (fn) svg.innerHTML = fn();
-    });
-
-    // animate stroke draw-ons when covers enter view
-    if (state.motionOff) return;
-    const a = animeApi();
-    if (!a?.animate) return;
-    const obs = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            const svg = entry.target;
-            const paths = svg.querySelectorAll("[data-draw]");
-            if (paths.length) {
-                a.animate(paths, {
-                    strokeDashoffset: [1, 0],
-                    opacity: [0, 1],
-                    duration: 1400,
-                    delay: a.stagger(90),
-                    ease: "outQuart"
-                });
-            }
-            obs.unobserve(svg);
-        });
-    }, { threshold: 0.25 });
-    document.querySelectorAll("svg[data-cover]").forEach((s) => obs.observe(s));
-}
-
-function svgDefs(id, stops) {
-    return `<defs>
-        <linearGradient id="${id}-bg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stop-color="#121218"/>
-            <stop offset="100%" stop-color="#07070b"/>
-        </linearGradient>
-        <linearGradient id="${id}-line" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stop-color="#ff6a00" stop-opacity="0"/>
-            <stop offset="60%" stop-color="#ff8a2a"/>
-            <stop offset="100%" stop-color="#ffb347" stop-opacity="0"/>
-        </linearGradient>
-        ${stops || ""}
-    </defs>`;
-}
-const dash = (p) => `pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" data-draw="1"`;
-
-function coverShortlistd() {
-    // layered paper sheets passing through a scanning frame
-    return `${svgDefs("sl")}
-        <rect width="600" height="450" fill="url(#sl-bg)"/>
-        <g opacity="0.5">${coverGridLines(40, 0.05)}</g>
-        <g transform="translate(300 225)">
-            ${[0, 1, 2, 3].map((i) => {
-                const a = (i - 1.5) * 7;
-                return `<g transform="rotate(${a})">
-                    <rect x="-110" y="-150" width="220" height="300" rx="6"
-                        fill="#1b1b22" stroke="rgba(244,241,234,0.14)"/>
-                    <rect x="-90" y="-120" width="120" height="8" rx="2" fill="rgba(244,241,234,0.10)"/>
-                    ${[0,1,2,3,4,5].map((r)=>`<rect x="-90" y="${-90 + r*36}" width="${100 + Math.random()*90}" height="6" rx="2" fill="rgba(244,241,234,0.07)"/>`).join("")}
-                </g>`;
-            }).join("")}
-            <rect x="-130" y="-6" width="260" height="14" fill="url(#sl-line)" opacity="0.85"/>
-            <line x1="-130" y1="0" x2="130" y2="0" stroke="#ff8a2a" stroke-width="1.5" ${dash("")}/>
-        </g>`;
-}
-
-function coverForecast() {
-    // P10 / P50 / P90 paths converging toward a decision gate
-    return `${svgDefs("ff")}
-        <rect width="600" height="450" fill="url(#ff-bg)"/>
-        <g opacity="0.4">${coverGridLines(50, 0.05)}</g>
-        <path d="M40 360 C 180 340, 240 200, 470 120" fill="none" stroke="rgba(244,241,234,0.25)" stroke-width="1.5" ${dash("")}/>
-        <path d="M40 320 C 180 300, 260 220, 470 150" fill="none" stroke="url(#ff-line)" stroke-width="2.5" ${dash("")}/>
-        <path d="M40 280 C 180 270, 240 250, 470 180" fill="none" stroke="rgba(244,241,234,0.25)" stroke-width="1.5" ${dash("")}/>
-        ${[60,140,220,300,380].map((x)=>`<circle cx="${x}" cy="${340-(x*0.4)}" r="3" fill="#ff8a2a" opacity="0.8"/>`).join("")}
-        <g transform="translate(490 150)">
-            <rect x="-4" y="-50" width="8" height="100" rx="4" fill="#ff6a00"/>
-            <circle r="14" fill="none" stroke="#ff6a00" stroke-width="1.5" ${dash("")}/>
-        </g>`;
-}
-
-function coverNetwork() {
-    // distributed nodes syncing toward a central core
-    return `${svgDefs("hq")}
-        <rect width="600" height="450" fill="url(#hq-bg)"/>
-        <g opacity="0.35">${coverGridLines(60, 0.04)}</g>
-        <g transform="translate(300 225)">
-            ${[[ -170, -90],[-160, 80],[150,-100],[170,90],[0,-160],[0,150] ].map((n)=>{
-                return `<line x1="0" y1="0" x2="${n[0]}" y2="${n[1]}" stroke="rgba(255,138,42,0.4)" stroke-width="1" ${dash("")}/>`;
-            }).join("")}
-            ${[[ -170, -90],[-160, 80],[150,-100],[170,90],[0,-160],[0,150] ].map((n)=>{
-                return `<g transform="translate(${n[0]} ${n[1]})">
-                    <rect x="-18" y="-18" width="36" height="36" rx="6" fill="#1b1b22" stroke="rgba(244,241,234,0.2)"/>
-                    <circle r="4" fill="#ff8a2a"/>
-                </g>`;
-            }).join("")}
-            <circle r="34" fill="#07070b" stroke="rgba(255,138,42,0.6)" stroke-width="1.5" ${dash("")}/>
-            <circle r="18" fill="url(#ff-line)"/>
-            <circle r="6" fill="#ff6a00"/>
-        </g>`;
-}
-
-function coverDialogue() {
-    // interleaving dialogue pulses resolving into quadrants
-    return `${svgDefs("pt")}
-        <rect width="600" height="450" fill="url(#pt-bg)"/>
-        <g opacity="0.3">${coverGridLines(45, 0.04)}</g>
-        <g transform="translate(300 225)">
-            <circle r="150" fill="none" stroke="rgba(244,241,234,0.10)" ${dash("")}/>
-            <circle r="95" fill="none" stroke="rgba(244,241,234,0.14)" ${dash("")}/>
-            <line x1="-150" y1="0" x2="150" y2="0" stroke="rgba(255,138,42,0.4)" ${dash("")}/>
-            <line x1="0" y1="-150" x2="0" y2="150" stroke="rgba(255,138,42,0.4)" ${dash("")}/>
-            ${Array.from({length:18}).map((_,i)=>{
-                const ang = (i/18)*Math.PI*2;
-                const r = 40 + (i%3)*22;
-                return `<circle cx="${Math.cos(ang)*r}" cy="${Math.sin(ang)*r}" r="${2+(i%3)}" fill="#ff8a2a" opacity="${0.4+ (i%3)*0.2}"/>`;
-            }).join("")}
-            <circle r="8" fill="#ff6a00"/>
-        </g>`;
-}
-
-function coverGridLines(step, op) {
-    let g = "";
-    for (let x = 0; x <= 600; x += step) g += `<line x1="${x}" y1="0" x2="${x}" y2="450" stroke="rgba(244,241,234,${op})"/>`;
-    for (let y = 0; y <= 450; y += step) g += `<line x1="0" y1="${y}" x2="600" y2="${y}" stroke="rgba(244,241,234,${op})"/>`;
-    return g;
 }
 
 /* ------------------------------------------------------------------
@@ -591,21 +384,12 @@ function initNavigation() {
 
 function initScrollState() {
     const header = el("siteHeader");
-    if (!header) return;
-    const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 24);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-}
-
-function initScrollProgress() {
-    const bar = el("scrollProgress");
-    if (!bar) return;
-    const onScroll = () => {
-        const h = document.documentElement.scrollHeight - window.innerHeight;
-        bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    const sentinel = el("headerSentinel");
+    if (!header || !sentinel || !("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(([entry]) => {
+        header.classList.toggle("is-scrolled", !entry.isIntersecting);
+    });
+    observer.observe(sentinel);
 }
 
 /* ------------------------------------------------------------------
@@ -638,30 +422,6 @@ function initReveals() {
 }
 
 /* ------------------------------------------------------------------
-   MANIFESTO — word-by-word light-up on scroll
------------------------------------------------------------------- */
-function initManifesto() {
-    const words = document.querySelectorAll(".manifesto .word");
-    if (!words.length) return;
-    if (state.motionOff || !("IntersectionObserver" in window)) {
-        words.forEach((w) => w.classList.add("is-lit"));
-        return;
-    }
-    const block = el("manifesto");
-    const onScroll = () => {
-        const rect = block.getBoundingClientRect();
-        const vh = window.innerHeight;
-        // progress: how far the block has traveled up through viewport
-        const progress = (vh * 0.78 - rect.top) / (rect.height + vh * 0.4);
-        const lit = Math.max(0, Math.min(1, progress));
-        const count = Math.round(lit * words.length);
-        words.forEach((w, i) => w.classList.toggle("is-lit", i < count));
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-}
-
-/* ------------------------------------------------------------------
    PROJECT ARCHIVE
 ------------------------------------------------------------------ */
 function renderProjects() {
@@ -674,11 +434,10 @@ function renderProjects() {
         grid.innerHTML = `<p class="archive-empty">No projects match “${escapeHTML(state.query)}”.</p>`;
         return;
     }
-    grid.innerHTML = list.map((p, i) => {
-        const num = String(i + 1).padStart(2, "0");
+    grid.innerHTML = list.map((p) => {
         const stack = p.stack.slice(0, 3).map((s) => `<span>${escapeHTML(s)}</span>`).join("");
         return `<button class="archive-card" type="button" data-id="${p.id}" aria-label="Open ${escapeHTML(p.title)} details">
-            <div class="archive-card__top"><span class="num">${num}</span><span>${escapeHTML(p.year)}</span></div>
+            <div class="archive-card__top"><span>${escapeHTML(p.year)}</span></div>
             <h3 class="archive-card__title">${escapeHTML(p.title)}</h3>
             <p class="archive-card__type">${escapeHTML(p.type)}</p>
             <p class="archive-card__summary">${escapeHTML(p.summary)}</p>
@@ -791,7 +550,7 @@ function initContact() {
                 await navigator.clipboard.writeText(copy.dataset.copy);
                 showToast("Email copied");
             } catch {
-                showToast("Copy failed — long-press the address");
+                showToast("Copy failed. Long-press the address");
             }
         });
     }
@@ -1007,7 +766,7 @@ function fetchGitHubStats() {
             }
         })
         .catch(() => {
-            if (stars) stars.textContent = "—";
+            if (stars) stars.textContent = "Unavailable";
         });
 
     // stars require a search query (rate-limited); best-effort
