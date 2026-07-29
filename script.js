@@ -243,6 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initSlashSearch();
     fetchGitHubStats();
     runHero();
+    initContinuousMotion();
 });
 
 window.addEventListener("pageshow", (event) => {
@@ -279,6 +280,24 @@ function runHero() {
         delay: 260,
         ease: "inOutQuart"
     });
+}
+
+/* ------------------------------------------------------------------
+   CONTINUOUS MOTION (ambient system activity)
+------------------------------------------------------------------ */
+function initContinuousMotion() {
+    if (state.motionOff) return;
+    const a = animeApi();
+    if (!a?.animate) return;
+
+    a.animate(".hero-route__signal", {
+        strokeDashoffset: [0, -1],
+        opacity: [0.35, 1],
+        duration: 4200,
+        delay: 1800,
+        loop: true,
+        ease: "linear"
+    });
 
     a.animate(".hero-route__node", {
         scale: [1, 1.75],
@@ -288,6 +307,34 @@ function runHero() {
         alternate: true,
         ease: "inOutSine"
     });
+
+    a.animate(".availability i", {
+        scale: [0.78, 1.18],
+        opacity: [0.62, 1],
+        duration: 1900,
+        loop: true,
+        alternate: true,
+        ease: "inOutSine"
+    });
+
+    const sweeps = [...document.querySelectorAll(".project-feature__visual")].map((visual) => {
+        const sweep = document.createElement("span");
+        sweep.className = "project-feature__sweep";
+        sweep.setAttribute("aria-hidden", "true");
+        visual.append(sweep);
+        return sweep;
+    });
+
+    if (sweeps.length) {
+        a.animate(sweeps, {
+            translateX: ["-220%", "900%"],
+            rotate: [12, 12],
+            duration: 9800,
+            delay: a.stagger(1500),
+            loop: true,
+            ease: "inOutSine"
+        });
+    }
 }
 
 /* ------------------------------------------------------------------
