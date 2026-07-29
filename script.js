@@ -211,8 +211,8 @@ const state = {
 };
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-const storedMotionPreference = localStorage.getItem("pn-motion");
-state.motionOff = storedMotionPreference === "off" || (storedMotionPreference === null && prefersReducedMotion.matches);
+localStorage.removeItem("pn-motion");
+state.motionOff = prefersReducedMotion.matches;
 
 const el = (id) => document.getElementById(id);
 const animeApi = () => window.anime;
@@ -221,20 +221,23 @@ const animeApi = () => window.anime;
    INIT
 ------------------------------------------------------------------ */
 document.addEventListener("DOMContentLoaded", () => {
-    applyMotionPreference();
+    document.documentElement.classList.toggle("motion-off", state.motionOff);
     renderProjects();
     initSmoothScroll();
     initNavigation();
     initScrollState();
     initReveals();
+    initKineticHeadings();
     initProjectFilters();
     initProjectDialog();
     initContact();
     initMagneticElements();
     initCursor();
     initTilt();
+    initProjectCardMotion();
     initHeroParallax();
     initApproachStory();
+    initLearningMotion();
     initCountUp();
     initMarquee();
     initSlashSearch();
@@ -247,15 +250,6 @@ window.addEventListener("pageshow", (event) => {
         resetSmoothScroll();
     }
 });
-
-/* ------------------------------------------------------------------
-   MOTION PREFERENCE
------------------------------------------------------------------- */
-function applyMotionPreference() {
-    const toggle = el("motionToggle");
-    if (toggle) toggle.setAttribute("aria-pressed", String(state.motionOff));
-    document.documentElement.classList.toggle("motion-off", state.motionOff);
-}
 
 function runHero() {
     const a = animeApi();
@@ -321,7 +315,6 @@ function resetSmoothScroll() {
 function initNavigation() {
     const menuToggle = el("menuToggle");
     const mobileMenu = el("mobileMenu");
-    const motionToggle = el("motionToggle");
 
     if (menuToggle && mobileMenu) {
         const closeMenu = () => {
@@ -346,22 +339,6 @@ function initNavigation() {
         mobileMenu.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape" && mobileMenu.classList.contains("is-open")) closeMenu();
-        });
-    }
-
-    if (motionToggle) {
-        motionToggle.addEventListener("click", () => {
-            state.motionOff = !state.motionOff;
-            localStorage.setItem("pn-motion", state.motionOff ? "off" : "on");
-            applyMotionPreference();
-            showToast(state.motionOff ? "Motion reduced" : "Motion on");
-            if (state.motionOff) {
-                state.lenis?.destroy();
-                state.lenis = null;
-            } else {
-                resetSmoothScroll();
-            }
-            window.location.reload();
         });
     }
 
@@ -420,6 +397,80 @@ function initReveals() {
         });
     }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
     elements.forEach((e) => observer.observe(e));
+}
+
+/* ------------------------------------------------------------------
+   KINETIC HEADINGS (word-by-word hierarchy reveal)
+------------------------------------------------------------------ */
+function initKineticHeadings() {
+    const headings = [...document.querySelectorAll("[data-kinetic]")];
+    if (!headings.length) return;
+
+    headings.forEach((heading) => {
+        const textNodes = [];
+        const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT);
+        while (walker.nextNode()) textNodes.push(walker.currentNode);
+
+        textNodes.forEach((node) => {
+            const parts = node.textContent.split(/(\s+)/);
+            const fragment = document.createDocumentFragment();
+            parts.forEach((part) => {
+                if (!part) return;
+                if (/^\s+$/.test(part)) {
+                    fragment.append(document.createTextNode(part));
+                    return;
+                }
+                const mask = document.createElement("span");
+                const word = document.createElement("span");
+                mask.className = "kinetic-word";
+                word.textContent = part;
+                mask.append(word);
+                fragment.append(mask);
+            });
+            node.replaceWith(fragment);
+        });
+    });
+
+    const show = (heading) => {
+        const words = heading.querySelectorAll(".kinetic-word > span");
+        if (state.motionOff) {
+            words.forEach((word) => {
+                word.style.transform = "none";
+                word.style.opacity = "1";
+            });
+            return;
+        }
+        const a = animeApi();
+        if (!a?.animate) {
+            words.forEach((word) => {
+                word.style.transform = "none";
+                word.style.opacity = "1";
+            });
+            return;
+        }
+        a.animate(words, {
+            translateY: ["112%", "0%"],
+            opacity: [0.15, 1],
+            duration: 820,
+            delay: a.stagger(48),
+            ease: "outExpo"
+        });
+    };
+
+    if (state.motionOff || !("IntersectionObserver" in window)) {
+        headings.forEach(show);
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            show(entry.target);
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.42, rootMargin: "0px 0px -12% 0px" });
+
+    headings.forEach((heading) => observer.observe(heading));
 }
 
 /* ------------------------------------------------------------------
@@ -525,8 +576,12 @@ function openProjectDialog(id) {
     if (p.extra) parts.push(`<a class="button button--ghost magnetic" href="${p.extra.url}" target="_blank" rel="noopener noreferrer">${escapeHTML(p.extra.label)} <span>↗</span></a>`);
     links.innerHTML = parts.join("") || `<p class="mono">Résumé-only / private codebase.</p>`;
     dialog.showModal();
+    setCursorHost(dialog);
     document.body.classList.add("dialog-open");
-    dialog.addEventListener("close", () => document.body.classList.remove("dialog-open"), { once: true });
+    dialog.addEventListener("close", () => {
+        document.body.classList.remove("dialog-open");
+        setCursorHost(document.body);
+    }, { once: true });
 }
 
 /* ------------------------------------------------------------------
@@ -642,6 +697,13 @@ function initCursor() {
     requestAnimationFrame(tick);
 }
 
+function setCursorHost(host) {
+    const dot = el("cursorDot");
+    const ring = el("cursorRing");
+    if (!host || !dot || !ring) return;
+    host.append(dot, ring);
+}
+
 /* ------------------------------------------------------------------
    IMAGE TILT (case-study media)
 ------------------------------------------------------------------ */
@@ -657,6 +719,52 @@ function initTilt() {
         });
         node.addEventListener("mouseleave", () => {
             node.style.transform = "perspective(800px) rotateY(0) rotateX(0)";
+        });
+    });
+}
+
+/* ------------------------------------------------------------------
+   FEATURED PROJECT MOTION (hover feedback)
+------------------------------------------------------------------ */
+function initProjectCardMotion() {
+    if (state.motionOff || window.matchMedia("(pointer: coarse)").matches) return;
+    const a = animeApi();
+    if (!a?.animate) return;
+
+    document.querySelectorAll(".project-feature").forEach((card) => {
+        const image = card.querySelector(".project-feature__image");
+        const copy = card.querySelectorAll(".project-feature__meta, .project-feature__copy h3, .project-feature__links");
+
+        card.addEventListener("mouseenter", () => {
+            if (image) {
+                a.animate(image, {
+                    scale: 1.055,
+                    duration: 720,
+                    ease: "outExpo"
+                });
+            }
+            a.animate(copy, {
+                x: 10,
+                duration: 430,
+                delay: a.stagger(34),
+                ease: "outQuart"
+            });
+        });
+
+        card.addEventListener("mouseleave", () => {
+            if (image) {
+                a.animate(image, {
+                    scale: 1,
+                    duration: 620,
+                    ease: "outQuart"
+                });
+            }
+            a.animate(copy, {
+                x: 0,
+                duration: 360,
+                delay: a.stagger(22),
+                ease: "outQuart"
+            });
         });
     });
 }
@@ -694,8 +802,20 @@ function initApproachStory() {
         return;
     }
 
+    let activeStep = null;
     const activate = (step) => {
+        if (activeStep === step) return;
+        activeStep = step;
         steps.forEach((item) => item.classList.toggle("is-active", item === step));
+        const a = animeApi();
+        if (a?.animate) {
+            a.animate(step.querySelectorAll("h3, p, span"), {
+                x: { from: 22 },
+                duration: 620,
+                delay: a.stagger(55),
+                ease: "outExpo"
+            });
+        }
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -705,6 +825,37 @@ function initApproachStory() {
     }, { threshold: 0.35, rootMargin: "-18% 0px -34% 0px" });
 
     steps.forEach((step) => observer.observe(step));
+}
+
+/* ------------------------------------------------------------------
+   LEARNING ACCORDION MOTION (state-change feedback)
+------------------------------------------------------------------ */
+function initLearningMotion() {
+    if (state.motionOff) return;
+    const a = animeApi();
+    if (!a?.animate) return;
+
+    document.querySelectorAll("details.learning").forEach((item) => {
+        item.addEventListener("toggle", () => {
+            if (!item.open) return;
+            const heading = item.querySelector("summary h3");
+            if (heading) {
+                a.animate(heading, {
+                    x: { from: -12 },
+                    duration: 430,
+                    ease: "outQuart"
+                });
+            }
+            const body = item.querySelector(".learning__body");
+            if (!body) return;
+            a.animate(body, {
+                y: { from: 18 },
+                opacity: [0, 1],
+                duration: 520,
+                ease: "outQuart"
+            });
+        });
+    });
 }
 
 /* ------------------------------------------------------------------

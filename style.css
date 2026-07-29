@@ -325,7 +325,6 @@ button:active {
     gap: 0.7rem;
 }
 
-.icon-button,
 .menu-toggle {
     display: grid;
     width: 2.85rem;
@@ -334,16 +333,6 @@ button:active {
     border: 1px solid var(--line);
     background: transparent;
     cursor: pointer;
-}
-
-.motion-glyph {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    font-weight: 500;
-}
-
-.icon-button[aria-pressed="true"] {
-    color: var(--papaya);
 }
 
 .header-resume {
@@ -738,11 +727,6 @@ button:active {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 850ms var(--ease);
-}
-
-.project-feature:hover .project-feature__image {
-    transform: scale(1.045);
 }
 
 .project-feature__copy {
@@ -1795,6 +1779,23 @@ button:active {
     opacity: 1;
 }
 
+.kinetic-word {
+    display: inline-block;
+    padding-bottom: 0.08em;
+    margin-bottom: -0.08em;
+    overflow: hidden;
+    vertical-align: bottom;
+}
+
+.kinetic-word > span {
+    display: inline-block;
+}
+
+.js .kinetic-word > span {
+    opacity: 0.15;
+    transform: translateY(112%);
+}
+
 /* Tablet */
 
 @media (max-width: 72rem) {
@@ -2197,6 +2198,11 @@ button:active {
 }
 
 .motion-off .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+.motion-off .kinetic-word > span {
     opacity: 1 !important;
     transform: none !important;
 }
