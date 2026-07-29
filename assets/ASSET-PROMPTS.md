@@ -21,7 +21,7 @@ Output: `assets/generated/hero-workbench.webp`
 
 ## Previous asset set
 
-The prompts below document the earlier telemetry-style renders. They remain in the repository for reference but are no longer used by the page.
+The prompts below document the earlier telemetry-style direction for reference. Those generated images are not part of the live site.
 
 ## Shared visual language
 
