@@ -583,7 +583,7 @@ function initCursor() {
     const dot = el("cursorDot");
     const ring = el("cursorRing");
     if (!dot || !ring) return;
-    if (window.matchMedia("(pointer: coarse)").matches || state.motionOff) {
+    if (window.matchMedia("(pointer: coarse)").matches) {
         dot.style.display = "none";
         ring.style.display = "none";
         return;
@@ -611,6 +611,12 @@ function initCursor() {
 
         dot.classList.toggle("is-on-papaya", useDarkCursor);
         ring.classList.toggle("is-on-papaya", useDarkCursor);
+
+        if (state.motionOff) {
+            const transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+            dot.style.transform = transform;
+            ring.style.transform = transform;
+        }
     });
 
     document.addEventListener("mouseover", (e) => {
@@ -619,6 +625,8 @@ function initCursor() {
     document.addEventListener("mouseout", (e) => {
         if (e.target.closest("a, button, .archive-card, [data-tilt]")) ring.classList.remove("is-active");
     });
+
+    if (state.motionOff) return;
 
     const tick = () => {
         // dot follows tightly, ring trails with easing
