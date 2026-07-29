@@ -1,1051 +1,1064 @@
-// ========================================
-// PORTFOLIO WEBSITE - INTERACTIVE SCRIPT
-// ========================================
+/* =========================================================
+   PRATHAMESH NIKAM — PORTFOLIO
+   Anime.js choreography · generative SVG art · Lenis scroll
+   ========================================================= */
 
-// Wait for DOM to be fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-    initLoadingScreen();
+/* ------------------------------------------------------------------
+   PROJECT DATA (single source of truth for the archive)
+------------------------------------------------------------------ */
+const projects = [
+    {
+        id: "shortlistd",
+        title: "ShortList'd",
+        year: "2026",
+        type: "AI product",
+        categories: ["product", "ml"],
+        summary: "Tailors one résumé to one job description, checks ATS signals, compiles LaTeX, and writes a cover letter.",
+        problem: "Tailoring a résumé for every role is repetitive.",
+        system: "Imports PDF, DOCX, TXT, or Markdown. Gemini uses the user's key; guest data stays on the device.",
+        stack: ["Next.js", "TypeScript", "Gemini", "Firebase", "Cloudflare"],
+        repo: "https://github.com/Prathmesh333/ShortList-D"
+    },
+    {
+        id: "forecastforge",
+        title: "ForecastForge",
+        year: "2026",
+        type: "Decision intelligence",
+        categories: ["ml", "research"],
+        summary: "Offline P10/P50/P90 revenue and ROAS forecasts for Google, Meta, and Microsoft Ads.",
+        problem: "Point forecasts hide downside risk, especially for new campaigns.",
+        system: "Blends empirical Bayes with a capped XGBoost challenger, reconciles totals, and labels weak evidence.",
+        stack: ["Python", "XGBoost", "Streamlit", "Empirical Bayes", "Backtesting"],
+        repo: "https://github.com/Prathmesh333/ForecastForge"
+    },
+    {
+        id: "hqde",
+        title: "HQDE",
+        year: "2026",
+        type: "Open-source research",
+        categories: ["ml", "research"],
+        summary: "PyTorch package for ensemble training, optional Ray workers, FedAvg-style sync, and quantized deltas.",
+        problem: "Ensemble experiments repeat worker and aggregation code.",
+        system: "Supports independent and FedAvg modes, local fallback, weighted predictions, and adaptive quantization.",
+        stack: ["Python", "PyTorch", "Ray", "FedAvg", "PyPI"],
+        repo: "https://github.com/Prathmesh333/HQDE-PyPI",
+        extra: { label: "PyPI package", url: "https://pypi.org/project/hqde/" }
+    },
+    {
+        id: "psychota",
+        title: "TA-RS / PsychoTA",
+        year: "2026",
+        type: "NLP research",
+        categories: ["ml", "research"],
+        summary: "Multi-task dialogue model for four Transactional Analysis labels.",
+        problem: "Transactional Analysis labels depend on speaker and conversation context.",
+        system: "Uses a DeBERTa-style encoder, speaker-aware attention, causal turn attention, a BiGRU, and four heads.",
+        stack: ["Python", "PyTorch", "DeBERTa", "Multi-task NLP", "GRU"],
+        repo: "https://github.com/Prathmesh333/PsychoTA"
+    },
+    {
+        id: "fh-rag",
+        title: "FH-RAG",
+        year: "2026",
+        type: "Retrieval research",
+        categories: ["ml", "research"],
+        summary: "Hierarchical RAG experiment for long documents.",
+        problem: "Flat chunk search discards document structure.",
+        system: "Uses tree chunking, fuzzy relevance, and beam search. Variants were evaluated on SQuAD and BookSum.",
+        stack: ["Python", "PyTorch", "Transformers", "Sentence Transformers", "Ray"],
+        repo: null
+    },
+    {
+        id: "f1-race-predictor",
+        title: "F1 Race Position Predictor",
+        year: "2025",
+        type: "Predictive modeling",
+        categories: ["ml"],
+        summary: "Predicts F1 finishing positions from Ergast race, qualifying, sprint, and circuit data.",
+        problem: "Race outcomes depend on history, track, and grid context.",
+        system: "Uses feature engineering, a chronological split, tuned gradient boosting, MAE/R², and a Gradio UI.",
+        stack: ["Python", "scikit-learn", "Gradient Boosting", "Pandas", "Gradio"],
+        repo: "https://github.com/Prathmesh333/F1-Race-Prediction"
+    },
+    {
+        id: "multimodal-curation",
+        title: "Multimodal Data Curation",
+        year: "2025",
+        type: "Data pipeline",
+        categories: ["ml", "research"],
+        summary: "Processes audio, video, and images into normalized metadata.",
+        problem: "Mixed media arrives in inconsistent formats and languages.",
+        system: "Runs Whisper transcription, OCR, translation, metadata normalization, and validation.",
+        stack: ["Python", "Whisper", "OpenCV", "Google Vision", "Translation APIs"],
+        repo: null
+    },
+    {
+        id: "researchhub",
+        title: "ResearchHub",
+        year: "2026",
+        type: "Full-stack product",
+        categories: ["product"],
+        summary: "Admin/member project and task tracking for research teams.",
+        problem: "Research work is often split across chats, notes, and sheets.",
+        system: "React and Express app with JWT, Prisma/PostgreSQL, role checks, memberships, and task status.",
+        stack: ["React", "Vite", "Express", "PostgreSQL", "Prisma"],
+        repo: "https://github.com/Prathmesh333/ResearchHub"
+    },
+    {
+        id: "vsfeed",
+        title: "VSFeed",
+        year: "2026",
+        type: "Developer tool",
+        categories: ["product"],
+        summary: "VS Code extension for time-limited browsing during builds and waits.",
+        problem: "A short wait can turn into a long browser detour.",
+        system: "Uses VS Code's integrated browser, custom shortcuts, launch history, and a timed focus mode.",
+        stack: ["TypeScript", "VS Code API", "Webview", "Extension"],
+        repo: "https://github.com/Prathmesh333/vsfeed"
+    },
+    {
+        id: "janseva",
+        title: "JanSeva AI",
+        year: "2026",
+        type: "Hackathon architecture",
+        categories: ["product", "ml"],
+        summary: "AWS architecture for a voice-first welfare-scheme assistant.",
+        problem: "Welfare information is hard to navigate across languages and forms.",
+        system: "The repository documents a Bedrock RAG design using Transcribe, Polly, Translate, Lambda, OpenSearch, and a React PWA.",
+        stack: ["AWS Bedrock", "RAG", "Transcribe", "Polly", "React PWA"],
+        repo: "https://github.com/Prathmesh333/AI4Bharat-JansevaAI"
+    },
+    {
+        id: "trace",
+        title: "TRACE",
+        year: "2026",
+        type: "Hackathon winner",
+        categories: ["product", "ml"],
+        summary: "Hackathon prototype for grading, verification, and student-risk workflows.",
+        problem: "Grading and attendance data are usually handled in separate workflows.",
+        system: "The design covers 15 components using FastAPI, OCR, scikit-learn, vector search, SHAP, and Streamlit.",
+        stack: ["FastAPI", "scikit-learn", "FAISS", "SHAP", "Streamlit"],
+        repo: "https://github.com/Prathmesh333/TRACE_Transparent_Results_and_Academic_Compliance_Engine"
+    },
+    {
+        id: "takeone",
+        title: "TakeOne",
+        year: "2026",
+        type: "AI video search",
+        categories: ["product", "ml"],
+        summary: "Indexes video scenes for natural-language and script-line search.",
+        problem: "Editors scrub footage manually to find usable clips.",
+        system: "Uses YOLO scene detection, FFmpeg clips, Gemini analysis, sentence embeddings, and ChromaDB search.",
+        stack: ["Python", "Gemini", "YOLOv8", "ChromaDB", "FFmpeg"],
+        repo: "https://github.com/Prathmesh333/TakeOne"
+    },
+    {
+        id: "caniplay",
+        title: "CanIPlay",
+        year: "2026",
+        type: "Network utility",
+        categories: ["product"],
+        summary: "Checks whether game servers respond from the current browser and network.",
+        problem: "Restricted networks may block specific game services.",
+        system: "Uses HTTP fetch and image requests to estimate approximate RTT and jitter across 60+ endpoints.",
+        stack: ["JavaScript", "HTTP requests", "Latency", "localStorage"],
+        repo: "https://github.com/Prathmesh333/CanIPlay",
+        demo: "https://caniplay-web.web.app"
+    },
+    {
+        id: "neural-consensus",
+        title: "Neural Consensus Engine",
+        year: "2025",
+        type: "Agentic AI",
+        categories: ["product", "ml"],
+        summary: "Runs creative, logical, and ethical Gemini agents, then produces one answer.",
+        problem: "One model response hides competing viewpoints.",
+        system: "FastAPI and React app with parallel agents, configurable prompts, a process graph, and a Cloud Run demo.",
+        stack: ["Python", "FastAPI", "Gemini", "React", "GCP Cloud Run"],
+        repo: "https://github.com/Prathmesh333/Neural-Consensus-Engine",
+        demo: "https://neural-consensus-engine-429635047942.asia-south1.run.app/"
+    },
+    {
+        id: "sih-vanguard",
+        title: "VanGuard Crowd Management",
+        year: "2025",
+        type: "Smart India Hackathon",
+        categories: ["product"],
+        summary: "Smart India Hackathon MVP for pilgrimage crowd and queue operations.",
+        problem: "Pilgrimage sites need one view of crowd, queue, and incident status.",
+        system: "React/Express prototype with mock IoT data, QR queues, Socket.io updates, and simulated forecasts.",
+        stack: ["React", "TypeScript", "Express", "MongoDB", "Socket.io"],
+        repo: "https://github.com/Prathmesh333/SIH_Team_VanGuard_Prototype"
+    }
+];
+
+/* ------------------------------------------------------------------
+   STATE + MOTION PREFERENCE
+------------------------------------------------------------------ */
+const state = {
+    filter: "all",
+    query: "",
+    motionOff: false,
+    lenis: null,
+    cursorRing: null,
+    cursorDot: null,
+    ringX: 0,
+    ringY: 0,
+    dotX: 0,
+    dotY: 0,
+    mouseX: 0,
+    mouseY: 0
+};
+
+const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+const storedMotionPreference = localStorage.getItem("pn-motion");
+state.motionOff = storedMotionPreference === "off" || (storedMotionPreference === null && prefersReducedMotion.matches);
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+const el = (id) => document.getElementById(id);
+const animeApi = () => window.anime;
+
+/* ------------------------------------------------------------------
+   INIT
+------------------------------------------------------------------ */
+document.addEventListener("DOMContentLoaded", () => {
+    applyMotionPreference();
+    buildCaseCovers();
+    renderProjects();
+    initSmoothScroll();
     initNavigation();
-    initParallax();
-    initScrollAnimations();
-    initSkillBars();
-    initThreeJSFade();
-    initScrollIndicator();
+    initScrollState();
+    initScrollProgress();
+    initReveals();
+    initProjectFilters();
+    initProjectDialog();
+    initContact();
+    initMagneticElements();
+    initCursor();
+    initTilt();
+    initHeroParallax();
+    initCountUp();
+    initMarquee();
+    initSlashSearch();
+    fetchGitHubStats();
+    runHero();
 });
 
-// ========================================
-// SCROLL INDICATOR - Click to scroll
-// ========================================
+window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+        resetSmoothScroll();
+    }
+});
 
-function initScrollIndicator() {
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    if (!scrollIndicator) return;
-
-    scrollIndicator.addEventListener('click', () => {
-        const aboutSection = document.getElementById('about');
-        if (aboutSection) {
-            aboutSection.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
+/* ------------------------------------------------------------------
+   MOTION PREFERENCE
+------------------------------------------------------------------ */
+function applyMotionPreference() {
+    const toggle = el("motionToggle");
+    if (toggle) toggle.setAttribute("aria-pressed", String(state.motionOff));
+    document.documentElement.classList.toggle("motion-off", state.motionOff);
 }
 
-// ========================================
-// LOADING SCREEN
-// ========================================
-
-function initLoadingScreen() {
-    const loadingScreen = document.getElementById('loadingScreen');
-    const loadBtn = document.getElementById('loadBtn');
-    const mainContent = document.getElementById('mainContent');
-
-    // If loading screen elements don't exist (loading screen removed), 
-    // just make sure main content is visible
-    if (!loadBtn || !loadingScreen) {
-        if (mainContent) {
-            mainContent.classList.add('visible');
-        }
+/* ------------------------------------------------------------------
+   BOOT (minimal)
+------------------------------------------------------------------ */
+function finishBoot() {
+    const boot = el("boot");
+    if (!boot) return;
+    const a = animeApi();
+    if (state.motionOff || !a?.animate) {
+        boot.classList.add("is-done");
+        runHero();
         return;
     }
+    a.animate(".boot__mark span", {
+        y: { from: 110 },
+        opacity: { from: 0 },
+        duration: 620,
+        delay: a.stagger(120),
+        ease: "outExpo"
+    });
+    setTimeout(() => {
+        boot.classList.add("is-done");
+        runHero();
+    }, 720);
+}
 
-    loadBtn.addEventListener('click', () => {
-        // Hide loading screen
-        loadingScreen.classList.add('hidden');
+/* ------------------------------------------------------------------
+   HERO ART — generative SVG speed-field (F1 soul, papaya streaks)
+------------------------------------------------------------------ */
+function buildHeroArt() {
+    const lines = el("speedLines");
+    const grid = el("gridLines");
+    if (!lines || !grid) return;
 
-        // Show main content after a delay
-        setTimeout(() => {
-            mainContent.classList.add('visible');
-        }, 800);
+    // perspective speed lines converging toward a vanishing point on the right
+    const vanishX = 1180;
+    const vanishY = 300;
+    const count = 34;
+    let frag = "";
+    for (let i = 0; i < count; i++) {
+        const t = i / (count - 1);
+        // distribute start points across the left edge and bottom
+        const startX = -80 + Math.random() * 200;
+        const startY = 120 + t * 760 + (Math.random() - 0.5) * 60;
+        const cx1 = startX + (vanishX - startX) * 0.55 + (Math.random() - 0.5) * 80;
+        const cy1 = startY + (vanishY - startY) * 0.4;
+        const op = (0.25 + Math.random() * 0.6).toFixed(2);
+        frag += `<path d="M${startX} ${startY} C${cx1} ${cy1}, ${vanishX - 120} ${vanishY + 40}, ${vanishX + 200} ${vanishY}" opacity="${op}" stroke-dasharray="${20 + Math.random() * 60} ${40 + Math.random() * 120}"/>`;
+    }
+    lines.innerHTML = frag;
+
+    // receding horizon grid (perspective floor)
+    let g = "";
+    for (let i = 0; i < 14; i++) {
+        const y = 560 + i * (28 + i * 4);
+        if (y > 940) break;
+        g += `<path d="M-100 ${y} L1540 ${y}" opacity="${(0.5 - i * 0.03).toFixed(2)}"/>`;
+    }
+    // vertical perspective lines fanning from a low center point
+    const baseY = 920;
+    for (let i = -8; i <= 8; i++) {
+        const bx = 720 + i * 120;
+        g += `<path d="M720 ${baseY - 360} L${bx} ${baseY}" opacity="0.35"/>`;
+    }
+    grid.innerHTML = g;
+}
+
+function runHero() {
+    const a = animeApi();
+    if (state.motionOff || !a?.animate) return;
+
+    const nameTargets = document.querySelectorAll("[data-split]");
+    a.animate(nameTargets, {
+        y: { from: 105 },
+        opacity: [0, 1],
+        rotate: { from: -5 },
+        duration: 920,
+        delay: a.stagger(34, { start: 120 }),
+        ease: "outExpo"
+    });
+
+    a.animate(".hero-reveal", {
+        y: { from: 18 },
+        opacity: [0, 1],
+        duration: 760,
+        delay: a.stagger(90, { start: 520 }),
+        ease: "outQuart"
+    });
+
+    a.animate("#threadPath", {
+        strokeDashoffset: [1, 0],
+        duration: 1800,
+        delay: 260,
+        ease: "inOutQuart"
+    });
+
+    a.animate(".hero-route__node", {
+        scale: [1, 1.75],
+        opacity: [0.95, 0.35],
+        duration: 1500,
+        loop: true,
+        alternate: true,
+        ease: "inOutSine"
     });
 }
 
-// ========================================
-// NAVIGATION
-// ========================================
+/* ------------------------------------------------------------------
+   CASE-STUDY COVERS — distinct generative SVG per project
+------------------------------------------------------------------ */
+function buildCaseCovers() {
+    const makers = {
+        shortlistd: coverShortlistd,
+        forecastforge: coverForecast,
+        hqde: coverNetwork,
+        psychota: coverDialogue
+    };
+    document.querySelectorAll("svg[data-cover]").forEach((svg) => {
+        const key = svg.getAttribute("data-cover");
+        const fn = makers[key];
+        if (fn) svg.innerHTML = fn();
+    });
 
+    // animate stroke draw-ons when covers enter view
+    if (state.motionOff) return;
+    const a = animeApi();
+    if (!a?.animate) return;
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const svg = entry.target;
+            const paths = svg.querySelectorAll("[data-draw]");
+            if (paths.length) {
+                a.animate(paths, {
+                    strokeDashoffset: [1, 0],
+                    opacity: [0, 1],
+                    duration: 1400,
+                    delay: a.stagger(90),
+                    ease: "outQuart"
+                });
+            }
+            obs.unobserve(svg);
+        });
+    }, { threshold: 0.25 });
+    document.querySelectorAll("svg[data-cover]").forEach((s) => obs.observe(s));
+}
+
+function svgDefs(id, stops) {
+    return `<defs>
+        <linearGradient id="${id}-bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#121218"/>
+            <stop offset="100%" stop-color="#07070b"/>
+        </linearGradient>
+        <linearGradient id="${id}-line" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#ff6a00" stop-opacity="0"/>
+            <stop offset="60%" stop-color="#ff8a2a"/>
+            <stop offset="100%" stop-color="#ffb347" stop-opacity="0"/>
+        </linearGradient>
+        ${stops || ""}
+    </defs>`;
+}
+const dash = (p) => `pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" data-draw="1"`;
+
+function coverShortlistd() {
+    // layered paper sheets passing through a scanning frame
+    return `${svgDefs("sl")}
+        <rect width="600" height="450" fill="url(#sl-bg)"/>
+        <g opacity="0.5">${coverGridLines(40, 0.05)}</g>
+        <g transform="translate(300 225)">
+            ${[0, 1, 2, 3].map((i) => {
+                const a = (i - 1.5) * 7;
+                return `<g transform="rotate(${a})">
+                    <rect x="-110" y="-150" width="220" height="300" rx="6"
+                        fill="#1b1b22" stroke="rgba(244,241,234,0.14)"/>
+                    <rect x="-90" y="-120" width="120" height="8" rx="2" fill="rgba(244,241,234,0.10)"/>
+                    ${[0,1,2,3,4,5].map((r)=>`<rect x="-90" y="${-90 + r*36}" width="${100 + Math.random()*90}" height="6" rx="2" fill="rgba(244,241,234,0.07)"/>`).join("")}
+                </g>`;
+            }).join("")}
+            <rect x="-130" y="-6" width="260" height="14" fill="url(#sl-line)" opacity="0.85"/>
+            <line x1="-130" y1="0" x2="130" y2="0" stroke="#ff8a2a" stroke-width="1.5" ${dash("")}/>
+        </g>`;
+}
+
+function coverForecast() {
+    // P10 / P50 / P90 paths converging toward a decision gate
+    return `${svgDefs("ff")}
+        <rect width="600" height="450" fill="url(#ff-bg)"/>
+        <g opacity="0.4">${coverGridLines(50, 0.05)}</g>
+        <path d="M40 360 C 180 340, 240 200, 470 120" fill="none" stroke="rgba(244,241,234,0.25)" stroke-width="1.5" ${dash("")}/>
+        <path d="M40 320 C 180 300, 260 220, 470 150" fill="none" stroke="url(#ff-line)" stroke-width="2.5" ${dash("")}/>
+        <path d="M40 280 C 180 270, 240 250, 470 180" fill="none" stroke="rgba(244,241,234,0.25)" stroke-width="1.5" ${dash("")}/>
+        ${[60,140,220,300,380].map((x)=>`<circle cx="${x}" cy="${340-(x*0.4)}" r="3" fill="#ff8a2a" opacity="0.8"/>`).join("")}
+        <g transform="translate(490 150)">
+            <rect x="-4" y="-50" width="8" height="100" rx="4" fill="#ff6a00"/>
+            <circle r="14" fill="none" stroke="#ff6a00" stroke-width="1.5" ${dash("")}/>
+        </g>`;
+}
+
+function coverNetwork() {
+    // distributed nodes syncing toward a central core
+    return `${svgDefs("hq")}
+        <rect width="600" height="450" fill="url(#hq-bg)"/>
+        <g opacity="0.35">${coverGridLines(60, 0.04)}</g>
+        <g transform="translate(300 225)">
+            ${[[ -170, -90],[-160, 80],[150,-100],[170,90],[0,-160],[0,150] ].map((n)=>{
+                return `<line x1="0" y1="0" x2="${n[0]}" y2="${n[1]}" stroke="rgba(255,138,42,0.4)" stroke-width="1" ${dash("")}/>`;
+            }).join("")}
+            ${[[ -170, -90],[-160, 80],[150,-100],[170,90],[0,-160],[0,150] ].map((n)=>{
+                return `<g transform="translate(${n[0]} ${n[1]})">
+                    <rect x="-18" y="-18" width="36" height="36" rx="6" fill="#1b1b22" stroke="rgba(244,241,234,0.2)"/>
+                    <circle r="4" fill="#ff8a2a"/>
+                </g>`;
+            }).join("")}
+            <circle r="34" fill="#07070b" stroke="rgba(255,138,42,0.6)" stroke-width="1.5" ${dash("")}/>
+            <circle r="18" fill="url(#ff-line)"/>
+            <circle r="6" fill="#ff6a00"/>
+        </g>`;
+}
+
+function coverDialogue() {
+    // interleaving dialogue pulses resolving into quadrants
+    return `${svgDefs("pt")}
+        <rect width="600" height="450" fill="url(#pt-bg)"/>
+        <g opacity="0.3">${coverGridLines(45, 0.04)}</g>
+        <g transform="translate(300 225)">
+            <circle r="150" fill="none" stroke="rgba(244,241,234,0.10)" ${dash("")}/>
+            <circle r="95" fill="none" stroke="rgba(244,241,234,0.14)" ${dash("")}/>
+            <line x1="-150" y1="0" x2="150" y2="0" stroke="rgba(255,138,42,0.4)" ${dash("")}/>
+            <line x1="0" y1="-150" x2="0" y2="150" stroke="rgba(255,138,42,0.4)" ${dash("")}/>
+            ${Array.from({length:18}).map((_,i)=>{
+                const ang = (i/18)*Math.PI*2;
+                const r = 40 + (i%3)*22;
+                return `<circle cx="${Math.cos(ang)*r}" cy="${Math.sin(ang)*r}" r="${2+(i%3)}" fill="#ff8a2a" opacity="${0.4+ (i%3)*0.2}"/>`;
+            }).join("")}
+            <circle r="8" fill="#ff6a00"/>
+        </g>`;
+}
+
+function coverGridLines(step, op) {
+    let g = "";
+    for (let x = 0; x <= 600; x += step) g += `<line x1="${x}" y1="0" x2="${x}" y2="450" stroke="rgba(244,241,234,${op})"/>`;
+    for (let y = 0; y <= 450; y += step) g += `<line x1="0" y1="${y}" x2="600" y2="${y}" stroke="rgba(244,241,234,${op})"/>`;
+    return g;
+}
+
+/* ------------------------------------------------------------------
+   SMOOTH SCROLL (Lenis)
+------------------------------------------------------------------ */
+function initSmoothScroll() {
+    if (state.motionOff || typeof window.Lenis !== "function") return;
+    state.lenis = new window.Lenis({
+        autoRaf: true,
+        anchors: { offset: -72 },
+        smoothWheel: true,
+        stopInertiaOnNavigate: true
+    });
+}
+
+function resetSmoothScroll() {
+    state.lenis?.destroy();
+    state.lenis = null;
+    initSmoothScroll();
+}
+
+/* ------------------------------------------------------------------
+   NAVIGATION + SCROLL STATE
+------------------------------------------------------------------ */
 function initNavigation() {
-    const navToggle = document.getElementById('navToggle');
-    const menuOverlay = document.getElementById('menuOverlay');
-    const menuLinks = document.querySelectorAll('.menu-link');
-
-    // Toggle menu
-    navToggle.addEventListener('click', () => {
-        navToggle.classList.toggle('active');
-        menuOverlay.classList.toggle('active');
-
-        // Prevent body scroll when menu is open
-        if (menuOverlay.classList.contains('active')) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = '';
-        }
-    });
-
-    // Close menu with close button
-    const menuClose = document.getElementById('menuClose');
-    if (menuClose) {
-        menuClose.addEventListener('click', () => {
-            navToggle.classList.remove('active');
-            menuOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    }
-
-    // Close menu when clicking a link
-    menuLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href');
-
-            // Close menu
-            navToggle.classList.remove('active');
-            menuOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-
-            // Smooth scroll to section
-            setTimeout(() => {
-                const targetSection = document.querySelector(targetId);
-                if (targetSection) {
-                    targetSection.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 400);
-        });
-    });
-
-    // ===== GALLERY CONTROLLER =====
-    const imagePool = [
-        'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80', // Code on screen
-        'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80', // Code editor
-        'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80', // Developer workspace
-        'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&q=80', // Laptop code
-        'https://images.unsplash.com/photo-1484417894907-623942c8ee29?w=800&q=80', // MacBook workspace
-        'https://images.unsplash.com/photo-1550439062-609e1531270e?w=800&q=80', // Developer desk
-        'https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=800&q=80', // Tech workspace
-        'https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=800&q=80', // Laptop and coffee
-        'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=800&q=80', // Developer coding
-        'https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=800&q=80'  // Tech background
-    ];
-
-    const menuImages = document.querySelectorAll('.menu-image');
-    const usedImages = new Set();
-
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function getRandomImage() {
-        const available = imagePool.filter(img => !usedImages.has(img));
-        if (available.length === 0) {
-            usedImages.clear();
-            return imagePool[Math.floor(Math.random() * imagePool.length)];
-        }
-        return available[Math.floor(Math.random() * available.length)];
-    }
-
-    function randomizeSlot(img) {
-        const src = getRandomImage();
-        usedImages.add(src);
-        img.style.backgroundImage = `url('${src}')`;
-        img.style.top = getRandomInt(2, 65) + '%';
-        img.style.left = getRandomInt(0, 30) + '%';
-        img.style.width = getRandomInt(180, 300) + 'px';
-        img.style.height = getRandomInt(130, 220) + 'px';
-    }
-
-    // Initial assignment
-    menuImages.forEach(img => randomizeSlot(img));
-
-    // Cycle images every 3 seconds
-    let galleryInterval = null;
-
-    function startGallery() {
-        if (galleryInterval) return;
-        galleryInterval = setInterval(() => {
-            const idx = getRandomInt(0, menuImages.length - 1);
-            const img = menuImages[idx];
-            img.style.opacity = '0';
-            img.style.transform = 'scale(0.6)';
-            setTimeout(() => {
-                randomizeSlot(img);
-                img.style.opacity = '0.55';
-                img.style.transform = 'scale(1)';
-            }, 600);
-        }, 3000);
-    }
-
-    function stopGallery() {
-        clearInterval(galleryInterval);
-        galleryInterval = null;
-    }
-
-    // Start/stop gallery when menu opens/closes
-    const observer = new MutationObserver(() => {
-        if (menuOverlay.classList.contains('active')) {
-            startGallery();
-        } else {
-            stopGallery();
-        }
-    });
-    observer.observe(menuOverlay, { attributes: true, attributeFilter: ['class'] });
-}
-
-// ========================================
-// PARALLAX EFFECTS
-// ========================================
-
-function initParallax() {
-    const parallaxElements = document.querySelectorAll('[data-parallax]');
-
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-
-        parallaxElements.forEach(element => {
-            const speed = parseFloat(element.getAttribute('data-parallax'));
-            const yPos = -(scrolled * speed);
-            element.style.transform = `translateY(${yPos}px)`;
-        });
-    });
-}
-
-// ========================================
-// SCROLL ANIMATIONS
-// ========================================
-
-function initScrollAnimations() {
-    // Use simple CSS-based animations that don't cause visibility issues
-    // GSAP was causing content to disappear on resize due to from() setting opacity:0
-
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-in');
-            }
-        });
-    }, observerOptions);
-
-    // Observe all animatable elements
-    const animatableElements = document.querySelectorAll(
-        '.section-header, .project-card, .skill-category, .timeline-item, .stat-item, .info-card, .contact-card'
-    );
-
-    animatableElements.forEach((element, index) => {
-        element.classList.add('animate-ready');
-        element.style.transitionDelay = `${Math.min(index % 6, 5) * 0.1}s`;
-        observer.observe(element);
-    });
-
-    // Add parallax effect for background text (this is safe)
-    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-        gsap.registerPlugin(ScrollTrigger);
-
-        // Only use GSAP for safe parallax effects (not opacity-based animations)
-        gsap.utils.toArray('.section-bg-text').forEach(text => {
-            gsap.to(text, {
-                scrollTrigger: {
-                    trigger: text.parentElement,
-                    start: 'top bottom',
-                    end: 'bottom top',
-                    scrub: 1
-                },
-                x: 80,
-                ease: 'none'
-            });
-        });
-
-        console.log('✨ Scroll animations initialized');
-    }
-}
-
-function initFallbackAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
-            }
-        });
-    }, observerOptions);
-
-    // Observe all sections
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => {
-        section.style.opacity = '0';
-        section.style.transform = 'translateY(50px)';
-        section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-        observer.observe(section);
-    });
-
-    // Observe project cards
-    const projectCards = document.querySelectorAll('.project-card');
-    projectCards.forEach((card, index) => {
-        card.style.opacity = '0';
-        card.style.transform = 'translateY(50px)';
-        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-        observer.observe(card);
-    });
-}
-
-// ========================================
-// SKILL BARS ANIMATION
-// ========================================
-
-function initSkillBars() {
-    const skillFills = document.querySelectorAll('.skill-fill');
-
-    const observerOptions = {
-        threshold: 0.5
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const skillFill = entry.target;
-                const skillValue = skillFill.getAttribute('data-skill');
-
-                // Animate skill bar
-                setTimeout(() => {
-                    skillFill.style.setProperty('--skill-width', `${skillValue}%`);
-                    skillFill.classList.add('animate');
-                }, 200);
-
-                observer.unobserve(skillFill);
-            }
-        });
-    }, observerOptions);
-
-    skillFills.forEach(fill => {
-        observer.observe(fill);
-    });
-}
-
-// ========================================
-// PROJECT CARD INTERACTIONS
-// ========================================
-
-const projectCards = document.querySelectorAll('.project-card');
-
-projectCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        // Add glow effect
-        card.style.boxShadow = '0 20px 60px rgba(0, 255, 255, 0.3)';
-    });
-
-    card.addEventListener('mouseleave', () => {
-        // Remove glow effect
-        card.style.boxShadow = '';
-    });
-
-    // Optional: Add click handler for project details
-    card.addEventListener('click', () => {
-        const projectNumber = card.getAttribute('data-project');
-        console.log(`Project ${projectNumber} clicked`);
-        // You can add modal or page navigation here
-    });
-});
-
-// ========================================
-// SMOOTH SCROLL ENHANCEMENT
-// ========================================
-
-// Add smooth scrolling for all anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// ========================================
-// CURSOR EFFECTS (OPTIONAL ENHANCEMENT)
-// ========================================
-
-// Create custom cursor follower
-const cursor = document.createElement('div');
-cursor.className = 'custom-cursor';
-cursor.style.cssText = `
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--color-primary);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 10000;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-    opacity: 0;
-    mix-blend-mode: difference;
-`;
-document.body.appendChild(cursor);
-
-let mouseX = 0;
-let mouseY = 0;
-let cursorX = 0;
-let cursorY = 0;
-
-document.addEventListener('mousemove', (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    cursor.style.opacity = '1';
-});
-
-document.addEventListener('mouseleave', () => {
-    cursor.style.opacity = '0';
-});
-
-// Smooth cursor follow animation
-function animateCursor() {
-    const dx = mouseX - cursorX;
-    const dy = mouseY - cursorY;
-
-    cursorX += dx * 0.1;
-    cursorY += dy * 0.1;
-
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-
-    requestAnimationFrame(animateCursor);
-}
-animateCursor();
-
-// Cursor interactions with interactive elements
-const interactiveElements = document.querySelectorAll('a, button, .project-card');
-interactiveElements.forEach(element => {
-    element.addEventListener('mouseenter', () => {
-        cursor.style.transform = 'scale(2)';
-        cursor.style.borderColor = 'var(--color-secondary)';
-    });
-
-    element.addEventListener('mouseleave', () => {
-        cursor.style.transform = 'scale(1)';
-        cursor.style.borderColor = 'var(--color-primary)';
-    });
-});
-
-// ========================================
-// PERFORMANCE OPTIMIZATION
-// ========================================
-
-// Debounce scroll events
-let scrollTimeout;
-window.addEventListener('scroll', () => {
-    if (scrollTimeout) {
-        window.cancelAnimationFrame(scrollTimeout);
-    }
-
-    scrollTimeout = window.requestAnimationFrame(() => {
-        // Add any scroll-dependent logic here
-        updateScrollProgress();
-    });
-});
-
-function updateScrollProgress() {
-    const scrolled = window.pageYOffset;
-    const height = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = (scrolled / height) * 100;
-
-    // You can use this for a progress bar if needed
-    // console.log(`Scroll progress: ${progress}%`);
-}
-
-// ========================================
-// RESPONSIVE UTILITIES
-// ========================================
-
-// Handle window resize
-let resizeTimeout;
-window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-        // Refresh ScrollTrigger on resize
-        if (typeof ScrollTrigger !== 'undefined') {
-            ScrollTrigger.refresh();
-        }
-    }, 250);
-});
-
-// ========================================
-// CONSOLE EASTER EGG - PRATHAMESH NIKAM
-// ========================================
-
-console.log('%c Prathamesh Nikam', 'font-size: 2rem; font-weight: bold; color: #00ffff;');
-console.log('%cML Engineer | AI Enthusiast | Problem Solver', 'font-size: 1.2rem; color: #02e498ff;');
-console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #333;');
-console.log('%c Specializing in:', 'font-size: 1rem; color: #00ff88;');
-console.log('%c   • Deep Learning & Neural Networks', 'color: #a0a0a0;');
-console.log('%c   • NLP & Large Language Models', 'color: #a0a0a0;');
-console.log('%c   • Quantum-Inspired ML (HQDE)', 'color: #a0a0a0;');
-console.log('%c   • Distributed Computing with Ray', 'color: #a0a0a0;');
-console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #333;');
-console.log('%c GitHub: github.com/Prathmesh333', 'font-size: 1rem; color: #ffffff;');
-console.log('%c Email: prathmeshnikam2208@gmail.com', 'font-size: 1rem; color: #ffffff;');
-console.log('%c LinkedIn: linkedin.com/in/prathamesh-nikam-89b614210', 'font-size: 1rem; color: #ffffff;');
-console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', 'color: #333;');
-console.log("%c Impressed? Let's build something amazing together!", 'font-size: 1rem; font-style: italic; color: #00ffff;');
-
-
-
-// ========================================
-// THREE.JS BACKGROUND FADE ON SCROLL
-// ========================================
-
-function initThreeJSFade() {
-    const threeCanvas = document.getElementById('three-canvas');
-    if (!threeCanvas) return;
-
-    let ticking = false;
-
-    function updateCanvasOpacity() {
-        const scrollPosition = window.scrollY;
-        const windowHeight = window.innerHeight;
-
-        // Calculate opacity based on scroll
-        // Starts fading after 20% of viewport height
-        // Fully faded at 150% of viewport height
-        const fadeStart = windowHeight * 0.2;
-        const fadeEnd = windowHeight * 1.5;
-
-        let opacity = 1;
-
-        if (scrollPosition > fadeStart) {
-            const fadeRange = fadeEnd - fadeStart;
-            const fadeProgress = (scrollPosition - fadeStart) / fadeRange;
-            opacity = Math.max(0.40, 1 - fadeProgress); // Minimum 15% opacity
-        }
-
-        threeCanvas.style.opacity = opacity;
-        ticking = false;
-    }
-
-    function requestTick() {
-        if (!ticking) {
-            window.requestAnimationFrame(updateCanvasOpacity);
-            ticking = true;
-        }
-    }
-
-    // Listen to scroll events
-    window.addEventListener('scroll', requestTick, { passive: true });
-
-    // Initial check
-    updateCanvasOpacity();
-}
-
-
-// ========================================
-// HERO TITLE EFFECTS - ULTIMATE CYBERPUNK COMBO
-// Matrix Rain + Electric Arc + Holographic Scan + Glitch
-// ========================================
-
-class HeroTitleEffects {
-    constructor() {
-        this.titleLines = document.querySelectorAll('.title-line');
-        this.heroSection = document.querySelector('.hero');
-        this.matrixDrops = [];
-        this.arcs = [];
-        this.mouse = { x: 0, y: 0 };
-        this.canvas = null;
-        this.ctx = null;
-        this.letterPositions = [];
-        this.activeGlitchIntervals = []; // Store all active glitch intervals
-        
-        if (!this.titleLines.length || !this.heroSection) return;
-        
-        this.init();
-    }
-    
-    init() {
-        this.createCanvas();
-        this.initMatrixRain();
-        this.initGlitchEffect();
-        this.initMouseTracking();
-        this.getLetterPositions();
-        this.initVisibilityHandler();
-        this.animate();
-    }
-    
-    initVisibilityHandler() {
-        // Store original text for all title lines
-        this.titleLines.forEach(line => {
-            line.dataset.originalText = line.textContent;
-        });
-        
-        // Reset text when page becomes visible or hidden
-        document.addEventListener('visibilitychange', () => {
-            // Clear all active glitch intervals
-            this.activeGlitchIntervals.forEach(interval => clearInterval(interval));
-            this.activeGlitchIntervals = [];
-            
-            // Reset all title lines to original text
-            this.titleLines.forEach(line => {
-                line.textContent = line.dataset.originalText;
-                line.style.transform = '';
-                line.style.textShadow = '';
-            });
-        });
-    }
-    
-    createCanvas() {
-        this.canvas = document.createElement('canvas');
-        this.canvas.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 2;
-        `;
-        this.heroSection.appendChild(this.canvas);
-        this.ctx = this.canvas.getContext('2d');
-        this.resizeCanvas();
-        
-        window.addEventListener('resize', () => {
-            this.resizeCanvas();
-            this.initMatrixRain();
-            this.getLetterPositions();
-        });
-    }
-    
-    resizeCanvas() {
-        this.canvas.width = this.heroSection.offsetWidth;
-        this.canvas.height = this.heroSection.offsetHeight;
-    }
-    
-    // ========== MATRIX RAIN EFFECT ==========
-    initMatrixRain() {
-        this.matrixDrops = [];
-        const columns = Math.floor(this.canvas.width / 20);
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
-        
-        for (let i = 0; i < columns; i++) {
-            this.matrixDrops.push({
-                x: i * 20,
-                y: Math.random() * -500,
-                speed: Math.random() * 3 + 2,
-                chars: Array(20).fill(0).map(() => chars[Math.floor(Math.random() * chars.length)]),
-                opacity: Math.random() * 0.5 + 0.3
-            });
-        }
-    }
-    
-    updateMatrixRain() {
-        this.matrixDrops.forEach(drop => {
-            drop.y += drop.speed;
-            
-            if (drop.y > this.canvas.height + 100) {
-                drop.y = Math.random() * -200;
-                drop.speed = Math.random() * 3 + 2;
-            }
-            
-            // Randomly change characters
-            if (Math.random() > 0.95) {
-                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()';
-                const idx = Math.floor(Math.random() * drop.chars.length);
-                drop.chars[idx] = chars[Math.floor(Math.random() * chars.length)];
-            }
-        });
-    }
-    
-    drawMatrixRain() {
-        const colors = [
-            getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim(),
-            getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim()
-        ];
-        
-        this.matrixDrops.forEach(drop => {
-            drop.chars.forEach((char, i) => {
-                const y = drop.y + (i * 20);
-                if (y > 0 && y < this.canvas.height) {
-                    this.ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-                    this.ctx.globalAlpha = drop.opacity * (1 - i / drop.chars.length);
-                    this.ctx.font = '14px monospace';
-                    this.ctx.fillText(char, drop.x, y);
-                }
-            });
-        });
-        this.ctx.globalAlpha = 1;
-    }
-    
-    // ========== ELECTRIC ARC EFFECT ==========
-    getLetterPositions() {
-        this.letterPositions = [];
-        this.titleLines.forEach(line => {
-            const rect = line.getBoundingClientRect();
-            const heroRect = this.heroSection.getBoundingClientRect();
-            
-            // Approximate letter positions
-            const text = line.textContent;
-            const letterWidth = rect.width / text.length;
-            
-            for (let i = 0; i < text.length; i++) {
-                this.letterPositions.push({
-                    x: rect.left - heroRect.left + (i * letterWidth) + (letterWidth / 2),
-                    y: rect.top - heroRect.top + (rect.height / 2)
-                });
-            }
-        });
-    }
-    
-    createElectricArc() {
-        // Only create arc occasionally
-        if (Math.random() > 0.98 && this.letterPositions.length > 1) {
-            const start = this.letterPositions[Math.floor(Math.random() * this.letterPositions.length)];
-            const end = this.letterPositions[Math.floor(Math.random() * this.letterPositions.length)];
-            
-            if (start !== end) {
-                this.arcs.push({
-                    start: { ...start },
-                    end: { ...end },
-                    life: 1,
-                    segments: this.generateArcSegments(start, end)
-                });
-            }
-        }
-    }
-    
-    generateArcSegments(start, end) {
-        const segments = [];
-        const steps = 10;
-        
-        for (let i = 0; i <= steps; i++) {
-            const t = i / steps;
-            const x = start.x + (end.x - start.x) * t;
-            const y = start.y + (end.y - start.y) * t;
-            
-            // Add random offset for lightning effect
-            const offset = (Math.random() - 0.5) * 30 * Math.sin(t * Math.PI);
-            
-            segments.push({
-                x: x + offset,
-                y: y + offset
-            });
-        }
-        
-        return segments;
-    }
-    
-    updateArcs() {
-        this.createElectricArc();
-        
-        this.arcs = this.arcs.filter(arc => {
-            arc.life -= 0.05;
-            return arc.life > 0;
-        });
-    }
-    
-    drawArcs() {
-        const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-secondary').trim();
-        
-        this.arcs.forEach(arc => {
-            this.ctx.beginPath();
-            this.ctx.moveTo(arc.segments[0].x, arc.segments[0].y);
-            
-            for (let i = 1; i < arc.segments.length; i++) {
-                this.ctx.lineTo(arc.segments[i].x, arc.segments[i].y);
-            }
-            
-            this.ctx.strokeStyle = secondaryColor;
-            this.ctx.globalAlpha = arc.life * 0.8;
-            this.ctx.lineWidth = 2;
-            this.ctx.shadowBlur = 10;
-            this.ctx.shadowColor = secondaryColor;
-            this.ctx.stroke();
-            
-            // Draw glow
-            this.ctx.globalAlpha = arc.life * 0.3;
-            this.ctx.lineWidth = 6;
-            this.ctx.stroke();
-        });
-        
-        this.ctx.globalAlpha = 1;
-        this.ctx.shadowBlur = 0;
-    }
-    
-    // ========== GLITCH EFFECT ==========
-    initGlitchEffect() {
-        this.titleLines.forEach(line => {
-            setInterval(() => {
-                if (Math.random() > 0.7) {
-                    this.glitch(line);
-                }
-            }, 3000 + Math.random() * 2000);
-        });
-    }
-    
-    glitch(element) {
-        // Don't glitch if page is hidden
-        if (document.hidden) return;
-        
-        const originalText = element.dataset.originalText || element.textContent;
-        const glitchChars = '!<>-_\\/[]{}—=+*^?#________';
-        
-        let iterations = 0;
-        const maxIterations = 8;
-        
-        const glitchInterval = setInterval(() => {
-            // Stop if page becomes hidden
-            if (document.hidden) {
-                clearInterval(glitchInterval);
-                // Remove from active intervals
-                const index = this.activeGlitchIntervals.indexOf(glitchInterval);
-                if (index > -1) {
-                    this.activeGlitchIntervals.splice(index, 1);
-                }
-                element.textContent = originalText;
-                element.style.transform = '';
-                element.style.textShadow = '';
-                return;
-            }
-            
-            element.textContent = originalText
-                .split('')
-                .map((char, index) => {
-                    if (index < iterations) {
-                        return originalText[index];
-                    }
-                    return glitchChars[Math.floor(Math.random() * glitchChars.length)];
-                })
-                .join('');
-            
-            const offsetX = (Math.random() - 0.5) * 10;
-            const offsetY = (Math.random() - 0.5) * 5;
-            element.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-            element.style.textShadow = `
-                ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 rgba(255, 0, 0, 0.7),
-                ${Math.random() * 10 - 5}px ${Math.random() * 10 - 5}px 0 rgba(0, 255, 255, 0.7)
-            `;
-            
-            iterations++;
-            
-            if (iterations > maxIterations) {
-                clearInterval(glitchInterval);
-                // Remove from active intervals
-                const index = this.activeGlitchIntervals.indexOf(glitchInterval);
-                if (index > -1) {
-                    this.activeGlitchIntervals.splice(index, 1);
-                }
-                element.textContent = originalText;
-                element.style.transform = '';
-                element.style.textShadow = '';
-            }
-        }, 50);
-        
-        // Store the interval so we can clear it later
-        this.activeGlitchIntervals.push(glitchInterval);
-    }
-    
-    initMouseTracking() {
-        this.heroSection.addEventListener('mousemove', (e) => {
-            const rect = this.heroSection.getBoundingClientRect();
-            this.mouse.x = e.clientX - rect.left;
-            this.mouse.y = e.clientY - rect.top;
-        });
-    }
-    
-    animate() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        
-        // Draw Matrix Rain and Electric Arcs
-        this.updateMatrixRain();
-        this.drawMatrixRain();
-        
-        this.updateArcs();
-        this.drawArcs();
-        
-        requestAnimationFrame(() => this.animate());
-    }
-}
-
-// Initialize hero title effects when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        new HeroTitleEffects();
-    });
-} else {
-    new HeroTitleEffects();
-}
-
-
-// ========================================
-// MENU 3D BACKGROUND - LIGHTWEIGHT GEOMETRIC SHAPES
-// ========================================
-
-class Menu3DBackground {
-    constructor() {
-        this.menuOverlay = document.getElementById('menuOverlay');
-        if (!this.menuOverlay) return;
-        
-        this.container = null;
-        this.scene = null;
-        this.camera = null;
-        this.renderer = null;
-        this.shapes = [];
-        this.isActive = false;
-        
-        this.init();
-    }
-    
-    init() {
-        // Create container for Three.js canvas
-        this.container = document.createElement('div');
-        this.container.style.cssText = `
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        `;
-        this.menuOverlay.insertBefore(this.container, this.menuOverlay.firstChild);
-        
-        // Setup Three.js
-        this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        this.camera.position.z = 15;
-        
-        this.renderer = new THREE.WebGLRenderer({ 
-            antialias: true, 
-            alpha: true 
-        });
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
-        this.renderer.setClearColor(0x000000, 0);
-        this.container.appendChild(this.renderer.domElement);
-        
-        // Create shapes
-        this.createShapes();
-        
-        // Handle window resize
-        window.addEventListener('resize', () => this.onResize());
-        
-        // Watch for menu open/close
-        this.observeMenu();
-    }
-    
-    createShapes() {
-        const geometries = [
-            new THREE.OctahedronGeometry(2),
-            new THREE.TetrahedronGeometry(2),
-            new THREE.IcosahedronGeometry(1.5),
-            new THREE.TorusGeometry(1.5, 0.5, 16, 32)
-        ];
-        
-        const colors = [
-            getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#00ffff',
-            getComputedStyle(document.documentElement).getPropertyValue('--color-secondary').trim() || '#ff00ff',
-            getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim() || '#00ff88'
-        ];
-        
-        // Create 4 shapes
-        for (let i = 0; i < 4; i++) {
-            const geometry = geometries[i % geometries.length];
-            const material = new THREE.MeshBasicMaterial({
-                color: colors[i % colors.length],
-                wireframe: true,
-                transparent: true,
-                opacity: 0.3
-            });
-            
-            const mesh = new THREE.Mesh(geometry, material);
-            
-            // Position shapes
-            mesh.position.x = (Math.random() - 0.5) * 20;
-            mesh.position.y = (Math.random() - 0.5) * 15;
-            mesh.position.z = (Math.random() - 0.5) * 10;
-            
-            // Random rotation speeds
-            mesh.userData.rotationSpeed = {
-                x: (Math.random() - 0.5) * 0.01,
-                y: (Math.random() - 0.5) * 0.01,
-                z: (Math.random() - 0.5) * 0.01
-            };
-            
-            this.shapes.push(mesh);
-            this.scene.add(mesh);
-        }
-    }
-    
-    observeMenu() {
-        const observer = new MutationObserver(() => {
-            if (this.menuOverlay.classList.contains('active')) {
-                this.start();
+    const menuToggle = el("menuToggle");
+    const mobileMenu = el("mobileMenu");
+    const motionToggle = el("motionToggle");
+
+    if (menuToggle && mobileMenu) {
+        const closeMenu = () => {
+            mobileMenu.classList.remove("is-open");
+            menuToggle.setAttribute("aria-expanded", "false");
+            menuToggle.setAttribute("aria-label", "Open navigation");
+            mobileMenu.setAttribute("aria-hidden", "true");
+            document.body.classList.remove("menu-open");
+        };
+        menuToggle.addEventListener("click", () => {
+            const open = menuToggle.getAttribute("aria-expanded") === "true";
+            if (open) {
+                closeMenu();
             } else {
-                this.stop();
+                mobileMenu.classList.add("is-open");
+                menuToggle.setAttribute("aria-expanded", "true");
+                menuToggle.setAttribute("aria-label", "Close navigation");
+                mobileMenu.setAttribute("aria-hidden", "false");
+                document.body.classList.add("menu-open");
             }
         });
-        
-        observer.observe(this.menuOverlay, { 
-            attributes: true, 
-            attributeFilter: ['class'] 
+        mobileMenu.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && mobileMenu.classList.contains("is-open")) closeMenu();
         });
     }
-    
-    start() {
-        this.isActive = true;
-        this.container.style.opacity = '1';
-        this.animate();
-    }
-    
-    stop() {
-        this.isActive = false;
-        this.container.style.opacity = '0';
-    }
-    
-    animate() {
-        if (!this.isActive) return;
-        
-        requestAnimationFrame(() => this.animate());
-        
-        // Rotate shapes
-        this.shapes.forEach(shape => {
-            shape.rotation.x += shape.userData.rotationSpeed.x;
-            shape.rotation.y += shape.userData.rotationSpeed.y;
-            shape.rotation.z += shape.userData.rotationSpeed.z;
-            
-            // Gentle floating motion
-            shape.position.y += Math.sin(Date.now() * 0.001 + shape.position.x) * 0.01;
+
+    if (motionToggle) {
+        motionToggle.addEventListener("click", () => {
+            state.motionOff = !state.motionOff;
+            localStorage.setItem("pn-motion", state.motionOff ? "off" : "on");
+            applyMotionPreference();
+            showToast(state.motionOff ? "Motion reduced" : "Motion on");
+            if (state.motionOff) {
+                state.lenis?.destroy();
+                state.lenis = null;
+            } else {
+                resetSmoothScroll();
+            }
+            window.location.reload();
         });
-        
-        // Slight camera rotation
-        this.camera.position.x = Math.sin(Date.now() * 0.0003) * 2;
-        this.camera.position.y = Math.cos(Date.now() * 0.0002) * 1;
-        this.camera.lookAt(0, 0, 0);
-        
-        this.renderer.render(this.scene, this.camera);
     }
-    
-    onResize() {
-        this.camera.aspect = window.innerWidth / window.innerHeight;
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+    // nav link active state via IntersectionObserver
+    const navLinks = document.querySelectorAll(".desktop-nav a");
+    const sections = ["work", "profile", "projects", "contact"]
+        .map((id) => el(id))
+        .filter(Boolean);
+    if (navLinks.length && "IntersectionObserver" in window) {
+        const setActive = (id) => {
+            navLinks.forEach((l) => l.classList.toggle("is-active", l.getAttribute("href") === `#${id}`));
+        };
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) setActive(entry.target.id);
+            });
+        }, { rootMargin: "-45% 0px -50% 0px" });
+        sections.forEach((s) => obs.observe(s));
     }
 }
 
-// Initialize menu 3D background when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        if (typeof THREE !== 'undefined') {
-            new Menu3DBackground();
+function initScrollState() {
+    const header = el("siteHeader");
+    if (!header) return;
+    const onScroll = () => header.classList.toggle("is-scrolled", window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+}
+
+function initScrollProgress() {
+    const bar = el("scrollProgress");
+    if (!bar) return;
+    const onScroll = () => {
+        const h = document.documentElement.scrollHeight - window.innerHeight;
+        bar.style.width = (h > 0 ? (window.scrollY / h) * 100 : 0) + "%";
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+}
+
+/* ------------------------------------------------------------------
+   REVEALS (scroll-driven, anime.js)
+------------------------------------------------------------------ */
+function initReveals() {
+    const elements = [...document.querySelectorAll(".reveal")];
+    if (state.motionOff || !("IntersectionObserver" in window)) {
+        elements.forEach((e) => e.classList.add("is-visible"));
+        return;
+    }
+    const a = animeApi();
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const element = entry.target;
+            element.classList.add("is-visible");
+            if (a?.animate) {
+                a.animate(element, {
+                    y: { from: 26 },
+                    opacity: { from: 0 },
+                    duration: 760,
+                    ease: "outQuart"
+                });
+            }
+            observer.unobserve(element);
+        });
+    }, { threshold: 0.12, rootMargin: "0px 0px -8% 0px" });
+    elements.forEach((e) => observer.observe(e));
+}
+
+/* ------------------------------------------------------------------
+   MANIFESTO — word-by-word light-up on scroll
+------------------------------------------------------------------ */
+function initManifesto() {
+    const words = document.querySelectorAll(".manifesto .word");
+    if (!words.length) return;
+    if (state.motionOff || !("IntersectionObserver" in window)) {
+        words.forEach((w) => w.classList.add("is-lit"));
+        return;
+    }
+    const block = el("manifesto");
+    const onScroll = () => {
+        const rect = block.getBoundingClientRect();
+        const vh = window.innerHeight;
+        // progress: how far the block has traveled up through viewport
+        const progress = (vh * 0.78 - rect.top) / (rect.height + vh * 0.4);
+        const lit = Math.max(0, Math.min(1, progress));
+        const count = Math.round(lit * words.length);
+        words.forEach((w, i) => w.classList.toggle("is-lit", i < count));
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+}
+
+/* ------------------------------------------------------------------
+   PROJECT ARCHIVE
+------------------------------------------------------------------ */
+function renderProjects() {
+    const grid = el("archiveGrid");
+    if (!grid) return;
+    const list = projects.filter(matchesFilter);
+    const count = el("archiveCount");
+    if (count) count.textContent = String(list.length);
+    if (!list.length) {
+        grid.innerHTML = `<p class="archive-empty">No projects match “${escapeHTML(state.query)}”.</p>`;
+        return;
+    }
+    grid.innerHTML = list.map((p, i) => {
+        const num = String(i + 1).padStart(2, "0");
+        const stack = p.stack.slice(0, 3).map((s) => `<span>${escapeHTML(s)}</span>`).join("");
+        return `<button class="archive-card" type="button" data-id="${p.id}" aria-label="Open ${escapeHTML(p.title)} details">
+            <div class="archive-card__top"><span class="num">${num}</span><span>${escapeHTML(p.year)}</span></div>
+            <h3 class="archive-card__title">${escapeHTML(p.title)}</h3>
+            <p class="archive-card__type">${escapeHTML(p.type)}</p>
+            <p class="archive-card__summary">${escapeHTML(p.summary)}</p>
+            <div class="archive-card__stack">${stack}</div>
+        </button>`;
+    }).join("");
+
+    grid.querySelectorAll(".archive-card").forEach((card) => {
+        card.addEventListener("click", () => openProjectDialog(card.dataset.id));
+    });
+
+    // staggered entrance
+    if (!state.motionOff) {
+        const a = animeApi();
+        a?.animate?.(".archive-card", {
+            y: { from: 18 },
+            opacity: { from: 0 },
+            duration: 520,
+            delay: a.stagger(40),
+            ease: "outQuart"
+        });
+    }
+}
+
+function matchesFilter(p) {
+    const inCat = state.filter === "all" || p.categories.includes(state.filter);
+    const q = state.query.trim().toLowerCase();
+    const inQuery = !q || [p.title, p.type, p.summary, ...(p.stack || [])].join(" ").toLowerCase().includes(q);
+    return inCat && inQuery;
+}
+
+function initProjectFilters() {
+    const chips = el("filterChips");
+    const search = el("projectSearch");
+    if (chips) {
+        chips.addEventListener("click", (e) => {
+            const btn = e.target.closest("button[data-filter]");
+            if (!btn) return;
+            state.filter = btn.dataset.filter;
+            chips.querySelectorAll("button").forEach((b) => b.classList.toggle("is-active", b === btn));
+            renderProjects();
+        });
+    }
+    if (search) {
+        let t;
+        search.addEventListener("input", () => {
+            clearTimeout(t);
+            t = setTimeout(() => {
+                state.query = search.value;
+                renderProjects();
+            }, 120);
+        });
+    }
+}
+
+/* ------------------------------------------------------------------
+   PROJECT DIALOG
+------------------------------------------------------------------ */
+function initProjectDialog() {
+    const dialog = el("projectDialog");
+    const close = el("dialogClose");
+    if (!dialog || !close) return;
+    close.addEventListener("click", () => dialog.close());
+    dialog.addEventListener("click", (e) => {
+        if (e.target === dialog) dialog.close();
+    });
+}
+
+function openProjectDialog(id) {
+    const p = projects.find((x) => x.id === id);
+    const dialog = el("projectDialog");
+    if (!p || !dialog) return;
+    setText("dialogTitle", p.title);
+    setText("dialogType", `${p.type} · ${p.year}`);
+    setText("dialogSummary", p.summary);
+    setText("dialogProblem", p.problem);
+    setText("dialogSystem", p.system);
+    const stack = el("dialogStack");
+    stack.innerHTML = p.stack.map((s) => `<span>${escapeHTML(s)}</span>`).join("");
+    const links = el("dialogLinks");
+    const parts = [];
+    if (p.repo) parts.push(`<a class="button button--ghost magnetic" href="${p.repo}" target="_blank" rel="noopener noreferrer">Source <span>↗</span></a>`);
+    if (p.demo) parts.push(`<a class="button button--primary magnetic" href="${p.demo}" target="_blank" rel="noopener noreferrer">Live demo <span>↗</span></a>`);
+    if (p.extra) parts.push(`<a class="button button--ghost magnetic" href="${p.extra.url}" target="_blank" rel="noopener noreferrer">${escapeHTML(p.extra.label)} <span>↗</span></a>`);
+    links.innerHTML = parts.join("") || `<p class="mono">Résumé-only / private codebase.</p>`;
+    dialog.showModal();
+    document.body.classList.add("dialog-open");
+    dialog.addEventListener("close", () => document.body.classList.remove("dialog-open"), { once: true });
+}
+
+/* ------------------------------------------------------------------
+   CONTACT
+------------------------------------------------------------------ */
+function initContact() {
+    const form = el("contactForm");
+    const copy = el("copyEmail");
+    if (form) {
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const data = new FormData(form);
+            const subject = encodeURIComponent(`Project inquiry from ${data.get("name") || "the portfolio"}`);
+            const body = encodeURIComponent(data.get("message") || "");
+            window.location.href = `mailto:prathmeshnikam2208@gmail.com?subject=${subject}&body=${body}`;
+            showToast("Opening your email app…");
+        });
+    }
+    if (copy) {
+        copy.addEventListener("click", async () => {
+            try {
+                await navigator.clipboard.writeText(copy.dataset.copy);
+                showToast("Email copied");
+            } catch {
+                showToast("Copy failed — long-press the address");
+            }
+        });
+    }
+}
+
+/* ------------------------------------------------------------------
+   MAGNETIC ELEMENTS
+------------------------------------------------------------------ */
+function initMagneticElements() {
+    if (state.motionOff || window.matchMedia("(pointer: coarse)").matches) return;
+    const items = document.querySelectorAll(".magnetic");
+    items.forEach((item) => {
+        const strength = 18;
+        item.addEventListener("mousemove", (e) => {
+            const r = item.getBoundingClientRect();
+            const x = e.clientX - (r.left + r.width / 2);
+            const y = e.clientY - (r.top + r.height / 2);
+            item.style.transform = `translate(${(x / r.width) * strength}px, ${(y / r.height) * strength}px)`;
+        });
+        item.addEventListener("mouseleave", () => {
+            item.style.transform = "";
+        });
+    });
+}
+
+/* ------------------------------------------------------------------
+   CUSTOM CURSOR (trailing ring + dot)
+------------------------------------------------------------------ */
+function initCursor() {
+    const dot = el("cursorDot");
+    const ring = el("cursorRing");
+    if (!dot || !ring) return;
+    if (window.matchMedia("(pointer: coarse)").matches || state.motionOff) {
+        dot.style.display = "none";
+        ring.style.display = "none";
+        return;
+    }
+    document.documentElement.classList.add("cursor-ready");
+    state.cursorDot = dot;
+    state.cursorRing = ring;
+    state.mouseX = window.innerWidth / 2;
+    state.mouseY = window.innerHeight / 2;
+    state.ringX = state.mouseX;
+    state.ringY = state.mouseY;
+    state.dotX = state.mouseX;
+    state.dotY = state.mouseY;
+
+    window.addEventListener("mousemove", (e) => {
+        state.mouseX = e.clientX;
+        state.mouseY = e.clientY;
+
+        const target = e.target instanceof Element ? e.target : null;
+        const orangeSurface = target?.closest(
+            ".contact, .marquee, .button--primary, .filter-chips button"
+        );
+        const darkControl = target?.closest(".contact__email button");
+        const useDarkCursor = Boolean(orangeSurface && !darkControl);
+
+        dot.classList.toggle("is-on-papaya", useDarkCursor);
+        ring.classList.toggle("is-on-papaya", useDarkCursor);
+    });
+
+    document.addEventListener("mouseover", (e) => {
+        if (e.target.closest("a, button, .archive-card, [data-tilt]")) ring.classList.add("is-active");
+    });
+    document.addEventListener("mouseout", (e) => {
+        if (e.target.closest("a, button, .archive-card, [data-tilt]")) ring.classList.remove("is-active");
+    });
+
+    const tick = () => {
+        // dot follows tightly, ring trails with easing
+        state.dotX += (state.mouseX - state.dotX) * 0.6;
+        state.dotY += (state.mouseY - state.dotY) * 0.6;
+        state.ringX += (state.mouseX - state.ringX) * 0.16;
+        state.ringY += (state.mouseY - state.ringY) * 0.16;
+        dot.style.transform = `translate(${state.dotX}px, ${state.dotY}px) translate(-50%, -50%)`;
+        ring.style.transform = `translate(${state.ringX}px, ${state.ringY}px) translate(-50%, -50%)`;
+        requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+}
+
+/* ------------------------------------------------------------------
+   IMAGE TILT (case-study media)
+------------------------------------------------------------------ */
+function initTilt() {
+    if (state.motionOff || window.matchMedia("(pointer: coarse)").matches) return;
+    document.querySelectorAll("[data-tilt]").forEach((node) => {
+        const max = 6;
+        node.addEventListener("mousemove", (e) => {
+            const r = node.getBoundingClientRect();
+            const px = (e.clientX - r.left) / r.width - 0.5;
+            const py = (e.clientY - r.top) / r.height - 0.5;
+            node.style.transform = `perspective(800px) rotateY(${px * max}deg) rotateX(${-py * max}deg)`;
+        });
+        node.addEventListener("mouseleave", () => {
+            node.style.transform = "perspective(800px) rotateY(0) rotateX(0)";
+        });
+    });
+}
+
+/* ------------------------------------------------------------------
+   HERO PARALLAX (pointer + scroll)
+------------------------------------------------------------------ */
+function initHeroParallax() {
+    const image = el("heroImage");
+    const route = document.querySelector(".hero-route");
+    if (!image || state.motionOff) return;
+    let tx = 0, ty = 0, cx = 0, cy = 0;
+    window.addEventListener("mousemove", (e) => {
+        tx = (e.clientX / window.innerWidth - 0.5);
+        ty = (e.clientY / window.innerHeight - 0.5);
+    });
+    const tick = () => {
+        cx += (tx - cx) * 0.06;
+        cy += (ty - cy) * 0.06;
+        image.style.transform = `scale(1.055) translate3d(${cx * -14}px, ${cy * -10}px, 0)`;
+        if (route) route.style.transform = `translate3d(${cx * 10}px, ${cy * 7}px, 0)`;
+        requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+}
+
+/* ------------------------------------------------------------------
+   COUNT-UP STATS
+------------------------------------------------------------------ */
+function initCountUp() {
+    const counts = document.querySelectorAll(".count[data-count]");
+    if (!counts.length) return;
+    const a = animeApi();
+    const run = (node) => {
+        const target = Number(node.dataset.count);
+        if (state.motionOff || !a?.animate) {
+            node.textContent = String(target).padStart(2, "0");
+            return;
+        }
+        const obj = { v: 0 };
+        a.animate(obj, {
+            v: target,
+            duration: 1400,
+            ease: "outExpo",
+            onUpdate: () => {
+                node.textContent = String(Math.round(obj.v)).padStart(2, "0");
+            }
+        });
+    };
+    if (!("IntersectionObserver" in window)) {
+        counts.forEach(run);
+        return;
+    }
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                run(entry.target);
+                obs.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.6 });
+    counts.forEach((c) => obs.observe(c));
+}
+
+/* ------------------------------------------------------------------
+   MARQUEE
+------------------------------------------------------------------ */
+function initMarquee() {
+    const track = el("marqueeTrack");
+    if (!track) return;
+    // duplicate content for seamless loop
+    track.innerHTML += track.innerHTML;
+    if (state.motionOff) return;
+    const a = animeApi();
+    if (!a?.animate) return;
+    a.animate(track, {
+        translateX: ["0%", "-50%"],
+        duration: 26000,
+        loop: true,
+        ease: "linear"
+    });
+}
+
+/* ------------------------------------------------------------------
+   SLASH-TO-SEARCH
+------------------------------------------------------------------ */
+function initSlashSearch() {
+    const search = el("projectSearch");
+    if (!search) return;
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "/" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA") {
+            e.preventDefault();
+            search.focus();
+            search.scrollIntoView({ behavior: "smooth", block: "center" });
         }
     });
-} else {
-    if (typeof THREE !== 'undefined') {
-        new Menu3DBackground();
+}
+
+/* ------------------------------------------------------------------
+   GITHUB STATS (live, with static fallback)
+------------------------------------------------------------------ */
+function fetchGitHubStats() {
+    const repos = el("publicRepos");
+    const stars = el("totalStars");
+    const followers = el("githubFollowers");
+    if (!repos && !stars && !followers) return;
+    fetch("https://api.github.com/users/Prathmesh333")
+        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+        .then((data) => {
+            if (repos && typeof data.public_repos === "number") {
+                repos.textContent = data.public_repos;
+                animateNumber(repos, data.public_repos);
+            }
+            if (followers && typeof data.followers === "number") {
+                followers.textContent = data.followers;
+            }
+        })
+        .catch(() => {
+            if (stars) stars.textContent = "—";
+        });
+
+    // stars require a search query (rate-limited); best-effort
+    fetch("https://api.github.com/users/Prathmesh333/repos?per_page=100")
+        .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+        .then((list) => {
+            const total = list.reduce((s, r) => s + (r.stargazers_count || 0), 0);
+            if (stars) {
+                stars.textContent = total;
+                animateNumber(stars, total);
+            }
+        })
+        .catch(() => {
+            if (stars) stars.textContent = "★";
+        });
+}
+
+function animateNumber(node, target) {
+    const a = animeApi();
+    if (state.motionOff || !a?.animate) {
+        node.textContent = target;
+        return;
     }
+    const obj = { v: 0 };
+    a.animate(obj, {
+        v: target,
+        duration: 1200,
+        ease: "outExpo",
+        onUpdate: () => { node.textContent = Math.round(obj.v); }
+    });
+}
+
+/* ------------------------------------------------------------------
+   HELPERS
+------------------------------------------------------------------ */
+function showToast(message) {
+    const toast = el("toast");
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add("is-visible");
+    clearTimeout(toast._t);
+    toast._t = setTimeout(() => toast.classList.remove("is-visible"), 2400);
+}
+
+function setText(id, value) {
+    const node = el(id);
+    if (node) node.textContent = value;
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, (c) => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[c]);
 }
