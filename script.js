@@ -234,6 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initCursor();
     initTilt();
     initHeroParallax();
+    initApproachStory();
     initCountUp();
     initMarquee();
     initSlashSearch();
@@ -604,7 +605,7 @@ function initCursor() {
 
         const target = e.target instanceof Element ? e.target : null;
         const orangeSurface = target?.closest(
-            ".contact, .marquee, .button--primary, .filter-chips button"
+            ".contact, .marquee, .proof-stat--lead, .button--primary, .filter-chips button"
         );
         const darkControl = target?.closest(".contact__email button");
         const useDarkCursor = Boolean(orangeSurface && !darkControl);
@@ -683,6 +684,30 @@ function initHeroParallax() {
 }
 
 /* ------------------------------------------------------------------
+   APPROACH STORY (active step follows the reading position)
+------------------------------------------------------------------ */
+function initApproachStory() {
+    const steps = [...document.querySelectorAll("[data-approach-step]")];
+    if (!steps.length) return;
+    if (state.motionOff || !("IntersectionObserver" in window)) {
+        steps.forEach((step) => step.classList.add("is-active"));
+        return;
+    }
+
+    const activate = (step) => {
+        steps.forEach((item) => item.classList.toggle("is-active", item === step));
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) activate(entry.target);
+        });
+    }, { threshold: 0.35, rootMargin: "-18% 0px -34% 0px" });
+
+    steps.forEach((step) => observer.observe(step));
+}
+
+/* ------------------------------------------------------------------
    COUNT-UP STATS
 ------------------------------------------------------------------ */
 function initCountUp() {
@@ -691,8 +716,9 @@ function initCountUp() {
     const a = animeApi();
     const run = (node) => {
         const target = Number(node.dataset.count);
+        const pad = Number(node.dataset.pad || 1);
         if (state.motionOff || !a?.animate) {
-            node.textContent = String(target).padStart(2, "0");
+            node.textContent = String(target).padStart(pad, "0");
             return;
         }
         const obj = { v: 0 };
@@ -701,7 +727,7 @@ function initCountUp() {
             duration: 1400,
             ease: "outExpo",
             onUpdate: () => {
-                node.textContent = String(Math.round(obj.v)).padStart(2, "0");
+                node.textContent = String(Math.round(obj.v)).padStart(pad, "0");
             }
         });
     };

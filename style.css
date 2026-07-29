@@ -793,6 +793,228 @@ button:active {
     color: var(--papaya);
 }
 
+/* Proof */
+
+.proof {
+    overflow: hidden;
+    border-top: 1px solid var(--line);
+    background:
+        radial-gradient(circle at 12% 72%, rgba(255, 106, 0, 0.09), transparent 28rem),
+        var(--night);
+}
+
+.proof__layout {
+    display: grid;
+    grid-template-columns: minmax(18rem, 0.7fr) minmax(0, 1.3fr);
+    gap: clamp(4rem, 9vw, 10rem);
+    align-items: start;
+}
+
+.proof__lead {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+}
+
+.proof__lead h2 {
+    max-width: 11ch;
+    margin: 1rem 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 5vw, 6rem);
+    line-height: 0.96;
+    letter-spacing: -0.065em;
+}
+
+.proof__lead > p:last-child {
+    max-width: 33rem;
+    margin: 2rem 0 0;
+    color: var(--paper-muted);
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
+}
+
+.proof__numbers {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(15rem, 0.85fr);
+    grid-template-rows: repeat(3, minmax(10rem, auto));
+    border-top: 1px solid var(--line);
+}
+
+.proof-stat {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    gap: 1.4rem;
+    align-items: center;
+    padding: 1.7rem;
+    border-bottom: 1px solid var(--line);
+}
+
+.proof-stat--lead {
+    grid-row: 1 / span 3;
+    grid-template-columns: 1fr;
+    align-content: space-between;
+    min-height: 32rem;
+    padding: clamp(2rem, 4vw, 4rem);
+    border-right: 1px solid var(--night);
+    border-bottom-color: var(--papaya);
+    background: var(--papaya);
+    color: var(--night);
+}
+
+.proof-stat strong {
+    color: var(--papaya);
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4vw, 5rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.08em;
+}
+
+.proof-stat--lead strong {
+    color: var(--night);
+    font-size: clamp(7rem, 15vw, 14rem);
+}
+
+.proof-stat h3 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.35vw, 1.3rem);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+}
+
+.proof-stat p {
+    margin: 0.55rem 0 0;
+    color: var(--paper-muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.proof-stat--lead h3 {
+    font-size: clamp(1.6rem, 2.5vw, 2.7rem);
+}
+
+.proof-stat--lead p {
+    max-width: 27rem;
+    color: rgba(5, 5, 5, 0.7);
+    font-size: 0.9rem;
+}
+
+/* Working approach */
+
+.approach {
+    border-block: 1px solid var(--line);
+    background:
+        linear-gradient(90deg, transparent 49.95%, rgba(255, 106, 0, 0.045) 50%, transparent 50.05%),
+        var(--coal);
+}
+
+.approach__layout {
+    display: grid;
+    grid-template-columns: minmax(18rem, 0.72fr) minmax(0, 1.28fr);
+    gap: clamp(4rem, 10vw, 12rem);
+    align-items: start;
+}
+
+.approach__intro {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+}
+
+.approach__intro h2 {
+    max-width: 12ch;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.7rem, 5vw, 6.2rem);
+    line-height: 0.96;
+    letter-spacing: -0.065em;
+}
+
+.approach__intro p {
+    max-width: 31rem;
+    margin: 2rem 0 0;
+    color: var(--paper-muted);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+}
+
+.approach__steps {
+    border-left: 1px solid var(--line-strong);
+}
+
+.approach-step {
+    position: relative;
+    display: grid;
+    min-height: min(68vh, 39rem);
+    align-items: center;
+    padding: clamp(3rem, 7vw, 6rem);
+    border-bottom: 1px solid var(--line);
+    transition:
+        background-color var(--medium) ease;
+}
+
+.approach-step:last-child {
+    border-bottom: 0;
+}
+
+.approach-step__marker {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -1px;
+    width: 2px;
+    background: var(--papaya);
+    transform: scaleY(0.08);
+    transform-origin: top;
+    transition: transform 720ms var(--ease);
+}
+
+.approach-step > div:last-child {
+    opacity: 0.58;
+    transition: opacity var(--medium) ease;
+}
+
+.approach-step.is-active {
+    background: linear-gradient(90deg, var(--papaya-wash), transparent 66%);
+}
+
+.approach-step.is-active > div:last-child {
+    opacity: 1;
+}
+
+.no-js .approach-step > div:last-child {
+    opacity: 1;
+}
+
+.approach-step.is-active .approach-step__marker {
+    transform: scaleY(1);
+}
+
+.approach-step h3 {
+    max-width: 14ch;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.2vw, 5.2rem);
+    line-height: 0.98;
+    letter-spacing: -0.06em;
+}
+
+.approach-step p {
+    max-width: 38rem;
+    margin: 1.7rem 0 0;
+    color: var(--paper-soft);
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+}
+
+.approach-step span {
+    display: block;
+    max-width: 34rem;
+    margin-top: 1.4rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    color: var(--paper-muted);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    line-height: 1.55;
+}
+
 /* About */
 
 .about {
@@ -910,6 +1132,134 @@ button:active {
     margin: 0.45rem 0 0;
     color: var(--paper-muted);
     font-size: 0.82rem;
+}
+
+/* Learnings */
+
+.learnings {
+    background:
+        linear-gradient(rgba(255, 106, 0, 0.025) 1px, transparent 1px),
+        var(--night-soft);
+    background-size: 100% 6rem;
+}
+
+.learnings__head {
+    max-width: 58rem;
+    margin-bottom: clamp(4rem, 8vw, 7rem);
+}
+
+.learnings__head h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 6.2vw, 7rem);
+    line-height: 0.94;
+    letter-spacing: -0.07em;
+}
+
+.learnings__head p {
+    max-width: 35rem;
+    margin: 1.7rem 0 0;
+    color: var(--paper-muted);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+}
+
+.learnings__list {
+    border-top: 1px solid var(--line-strong);
+}
+
+.learning {
+    border-bottom: 1px solid var(--line);
+}
+
+.learning summary {
+    display: grid;
+    grid-template-columns: 9rem minmax(0, 1fr) 2rem;
+    gap: 2rem;
+    min-height: 9.5rem;
+    align-items: center;
+    padding-block: 1.5rem;
+    list-style: none;
+    cursor: pointer;
+}
+
+.learning summary::-webkit-details-marker {
+    display: none;
+}
+
+.learning summary > span {
+    color: var(--papaya);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+}
+
+.learning summary h3 {
+    max-width: 25ch;
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 3vw, 3.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+}
+
+.learning summary i {
+    position: relative;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.learning summary i::before,
+.learning summary i::after {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1.1rem;
+    height: 1px;
+    background: currentColor;
+    content: "";
+    transform: translate(-50%, -50%);
+    transition: transform var(--medium) var(--ease);
+}
+
+.learning summary i::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.learning[open] summary i::after {
+    transform: translate(-50%, -50%) rotate(0deg);
+}
+
+.learning[open] summary h3 {
+    color: var(--papaya);
+}
+
+.learning__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2rem;
+    align-items: end;
+    max-width: 56rem;
+    margin-left: 11rem;
+    padding: 0 0 3rem;
+}
+
+.learning__body p {
+    max-width: 43rem;
+    margin: 0;
+    color: var(--paper-soft);
+    font-size: clamp(0.95rem, 1.25vw, 1.1rem);
+}
+
+.learning__body a {
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--line-strong);
+    color: var(--papaya);
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    white-space: nowrap;
+}
+
+.learning__body a:hover {
+    border-color: var(--papaya);
 }
 
 /* Archive */
@@ -1491,6 +1841,22 @@ button:active {
         grid-template-columns: minmax(0, 1fr) minmax(16rem, 0.5fr);
     }
 
+    .proof__layout,
+    .approach__layout {
+        gap: clamp(3rem, 6vw, 5rem);
+    }
+
+    .proof__numbers {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto;
+    }
+
+    .proof-stat--lead {
+        grid-row: auto;
+        min-height: 25rem;
+        border-right: 0;
+    }
+
     .archive-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -1632,6 +1998,63 @@ button:active {
         font-size: 1.05rem;
     }
 
+    .proof__layout,
+    .approach__layout {
+        grid-template-columns: 1fr;
+    }
+
+    .proof__lead,
+    .approach__intro {
+        position: static;
+    }
+
+    .proof__lead h2,
+    .approach__intro h2,
+    .learnings__head h2 {
+        font-size: clamp(2.7rem, 13vw, 5rem);
+    }
+
+    .proof__numbers {
+        margin-top: 1rem;
+    }
+
+    .proof-stat {
+        grid-template-columns: 4rem minmax(0, 1fr);
+        padding-inline: 0;
+    }
+
+    .proof-stat--lead {
+        grid-template-columns: 1fr;
+        min-height: 22rem;
+        padding: 2rem;
+    }
+
+    .proof-stat--lead strong {
+        font-size: clamp(7rem, 38vw, 11rem);
+    }
+
+    .approach {
+        background: var(--coal);
+    }
+
+    .approach__steps {
+        border-left: 0;
+        border-top: 1px solid var(--line-strong);
+    }
+
+    .approach-step {
+        min-height: 26rem;
+        padding: 3rem 1rem 3rem 1.5rem;
+    }
+
+    .approach-step__marker {
+        left: 0;
+    }
+
+    .approach-step h3 {
+        font-size: clamp(2rem, 10vw, 3.8rem);
+    }
+
     .featured-grid {
         grid-template-columns: 1fr;
         gap: 4.5rem;
@@ -1664,6 +2087,36 @@ button:active {
     .timeline-entry {
         grid-template-columns: 5rem 1fr;
         gap: 1rem;
+    }
+
+    .learning summary {
+        grid-template-columns: minmax(0, 1fr) 1.5rem;
+        gap: 1rem;
+        min-height: 10rem;
+    }
+
+    .learning summary > span {
+        grid-column: 1;
+        align-self: end;
+    }
+
+    .learning summary h3 {
+        grid-column: 1;
+    }
+
+    .learning summary i {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+    }
+
+    .learning__body {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin-left: 0;
+    }
+
+    .learning__body a {
+        width: fit-content;
     }
 
     .archive-grid {
