@@ -1,0 +1,15 @@
+button:focus-visible, textarea:focus-visible, select:focus-visible, input:focus-visible {
+  outline: 3px solid #225dcc; outline-offset: 3px;
+}
+.header [role=status] { font-size: .9rem; max-width: 65ch; margin: 1rem auto; }
+.history-item button { border: 0; background: transparent; color: inherit; text-align: left; width: 100%; cursor: pointer; padding: .4rem; }
+@media (max-width: 760px) {
+  .history-sidebar { display: none; }
+  .main-content { margin-left: 0 !important; padding: 1rem !important; }
+  .input-card > div, .engine-dashboard, .breakdown-grid, .results-section > div, .experts-grid { grid-template-columns: 1fr !important; }
+  .header h1 { font-size: 2rem; padding-right: 2rem; }
+  .graph-panel, .config-panel { min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

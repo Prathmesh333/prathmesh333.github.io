@@ -1,0 +1,8 @@
+.source-demo { display: flex; flex-direction: column; min-height: 100%; background: #f7f8fa; }
+.source-demo > header { padding: 18px 22px; background: #fffaf4; border-bottom: 1px solid #d9d3ca; }
+.source-demo h2 { font-size: 1.25rem; margin: 0 0 6px; }
+.source-demo p { font-size: .85rem; line-height: 1.5; color: #514b44; max-width: 90ch; }
+.source-demo nav { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+.source-demo nav a, .source-demo nav button { display: inline-flex; align-items: center; gap: 6px; padding: 9px 12px; border: 1px solid #c5b9aa; border-radius: 6px; color: #33291e; background: white; font-size: .8rem; }
+.source-demo iframe { width: 100%; min-height: 680px; flex: 1; border: 0; background: #f7f8fa; }
+@media (max-width: 760px) { .source-demo > header { padding: 14px; } .source-demo iframe { min-height: 75dvh; } }
