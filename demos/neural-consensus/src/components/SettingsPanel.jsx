@@ -13,7 +13,7 @@ const SettingsPanel = ({ settings, setSettings }) => {
             <div className="settings-grid">
                 <div className="setting-group">
                     <label>Output Format</label>
-                    <select name="output_format" value={settings.output_format} onChange={handleChange}>
+                    <select aria-label="Output format" name="output_format" value={settings.output_format} onChange={handleChange}>
                         <option value="Standard">Standard</option>
                         <option value="Bullet Points">Bullet Points</option>
                         <option value="Essay">Essay</option>
@@ -25,7 +25,7 @@ const SettingsPanel = ({ settings, setSettings }) => {
 
                 <div className="setting-group">
                     <label>Tone</label>
-                    <select name="tone" value={settings.tone} onChange={handleChange}>
+                    <select aria-label="Tone" name="tone" value={settings.tone} onChange={handleChange}>
                         <option value="Neutral">Neutral</option>
                         <option value="Formal">Formal</option>
                         <option value="Casual">Casual</option>
@@ -37,7 +37,7 @@ const SettingsPanel = ({ settings, setSettings }) => {
 
                 <div className="setting-group">
                     <label>Length</label>
-                    <select name="length" value={settings.length} onChange={handleChange}>
+                    <select aria-label="Length" name="length" value={settings.length} onChange={handleChange}>
                         <option value="Standard">Standard</option>
                         <option value="Concise">Concise</option>
                         <option value="Detailed">Detailed</option>
@@ -47,7 +47,7 @@ const SettingsPanel = ({ settings, setSettings }) => {
 
                 <div className="setting-group">
                     <label>Target Audience</label>
-                    <select name="target_audience" value={settings.target_audience} onChange={handleChange}>
+                    <select aria-label="Target audience" name="target_audience" value={settings.target_audience} onChange={handleChange}>
                         <option value="General">General Public</option>
                         <option value="Beginner">Beginner</option>
                         <option value="Professional">Professional</option>
@@ -61,6 +61,7 @@ const SettingsPanel = ({ settings, setSettings }) => {
                 <label>Creativity (Temperature): {settings.temperature}</label>
                 <input
                     type="range"
+                    aria-label="Creativity temperature"
                     name="temperature"
                     min="0.0"
                     max="1.0"
@@ -79,6 +80,7 @@ const SettingsPanel = ({ settings, setSettings }) => {
                 <label>Judgement Criteria:</label>
                 <input
                     type="text"
+                    aria-label="Judgement criteria"
                     name="criteria"
                     value={settings.criteria}
                     onChange={handleChange}
