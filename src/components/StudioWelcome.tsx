@@ -18,6 +18,6 @@ export function StudioWelcome({ openApp }: { openApp: (id: AppId) => void }) {
       <div className="art-orbit-label"><span>01 /</span> CONNECT THE UNEXPECTED</div>
       <button className="art-research-link" onClick={() => openApp('research')}><FlaskConical size={17}/><span>From experiments<br/><strong>to useful systems</strong></span><ArrowUpRight size={19}/></button>
     </div>
-    <div className="welcome-work-strip"><div><Code2 size={17}/><span>{projects.length} public repositories<span className="strip-detail"> · one very curious developer</span></span></div><button onClick={() => openApp('vsfeed')}>Try VSFeed <ArrowUpRight size={14}/></button><button onClick={() => openApp('resume')}>Read my résumé <ArrowDown size={14}/></button></div>
+    <div className="welcome-work-strip"><div><Code2 size={17}/><span>{projects.length} public repositories<span className="strip-detail"> · one very curious developer</span></span></div><button onClick={() => openApp('vsfeed')}>Try VSFeed <ArrowUpRight size={14}/></button><button onClick={() => openApp('resume')}>Choose a résumé <ArrowDown size={14}/></button></div>
   </div>
 }

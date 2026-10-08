@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowRight, ArrowUpRight, BookOpen, Box, Check, CheckCircle2, ChevronRight, Clipboard, Download, FileCode2, FileText, FlaskConical, Folder, Github, GraduationCap, HardDrive, Layers3, Linkedin, Mail, Network, PackageCheck, Play, Search, ShieldCheck, Sparkles, Trophy, UserRound } from 'lucide-react'
 import { projectCategories, projects, type Project } from '../data/projects'
 import { profile, skills } from '../data/profile'
+import { defaultResumeId, roleResumes } from '../data/resumes'
 import type { AppId } from '../types'
 
 export function WelcomeApp({ openApp, recruiterMode, setRecruiterMode }: { openApp: (id: AppId) => void; recruiterMode: boolean; setRecruiterMode: (value: boolean) => void }) {
@@ -51,8 +52,20 @@ export function EducationApp() {
 }
 
 export function ResumeApp() {
-  const resumeUrl = `${import.meta.env.BASE_URL}resume/resume.pdf?v=20260910`
-  return <div className="resume-app"><div className="resume-document"><iframe src={`${resumeUrl}#view=FitH&toolbar=0`} title="Prathamesh Nikam latest resume preview"/><div className="resume-fallback"><FileText/><strong>Latest resume</strong><span>One-page software and machine-learning resume</span></div></div><aside className="resume-actions"><div className="resume-verified"><ShieldCheck/><span>Latest verified copy</span></div><h3>Software + machine learning</h3><p>This is the same resume supplied for applications. It includes current skills, five flagship projects, two internships, education, and hackathon achievements.</p><div className="resume-facts"><div><span>Experience</span><strong>2 internships</strong></div><div><span>Projects</span><strong>5 flagship</strong></div><div><span>Education</span><strong>M.Tech + B.E.</strong></div></div><a className="primary-action" href={resumeUrl} target="_blank" rel="noreferrer"><FileText size={15}/> VIEW RESUME</a><a className="secondary-action" href={resumeUrl} download="Prathamesh_Nikam_Resume.pdf"><Download size={15}/> DOWNLOAD PDF</a><small>Portfolio copy updated {profile.resumeUpdated}</small></aside></div>
+  const [selectedId, setSelectedId] = useState(defaultResumeId)
+  const selected = roleResumes.find(resume => resume.id === selectedId) ?? roleResumes[0]
+  const resumeUrl = `${import.meta.env.BASE_URL}${selected.file}?v=20261008`
+  const downloadName = `Prathamesh_Nikam_${selected.role.replaceAll(/[^a-zA-Z0-9]+/g, '_')}.pdf`
+
+  return <div className="resume-app role-resume-app">
+    <aside className="resume-library" aria-label="Role-specific resumes">
+      <div className="resume-library-heading"><span>APPLICATION KIT</span><h3>Choose a résumé</h3><p>Five focused versions, tuned to the role without changing the underlying experience.</p></div>
+      <div className="resume-role-list">{roleResumes.map(resume => <button key={resume.id} className={selected.id === resume.id ? 'active' : ''} onClick={() => setSelectedId(resume.id)} aria-pressed={selected.id === resume.id}><span>{resume.label}</span><strong>{resume.role}</strong><ChevronRight size={15}/></button>)}</div>
+      <div className="resume-library-note"><ShieldCheck/><span><strong>ATS-checked PDFs</strong>One page · selectable text · verified links</span></div>
+    </aside>
+    <div className="resume-document"><iframe key={selected.id} src={`${resumeUrl}#view=FitH&toolbar=0`} title={`Prathamesh Nikam — ${selected.role} resume preview`}/><div className="resume-fallback"><FileText/><strong>{selected.role}</strong><span>Open the PDF using the action panel.</span></div></div>
+    <aside className="resume-actions"><div className="resume-verified"><ShieldCheck/><span>Selected role résumé</span></div><span className="resume-role-code">{selected.label}</span><h3>{selected.role}</h3><p>{selected.summary}</p><div className="resume-highlights">{selected.highlights.map(highlight => <span key={highlight}><Check size={12}/>{highlight}</span>)}</div><div className="resume-facts"><div><span>Format</span><strong>One-page PDF</strong></div><div><span>Parsing</span><strong>ATS checked</strong></div><div><span>Updated</span><strong>{profile.resumeUpdated}</strong></div></div><a className="primary-action" href={resumeUrl} target="_blank" rel="noreferrer"><FileText size={15}/> OPEN PDF</a><a className="secondary-action" href={resumeUrl} download={downloadName}><Download size={15}/> DOWNLOAD THIS VERSION</a><small>Select a role on the left to update this preview.</small></aside>
+  </div>
 }
 
 export function ContactApp() {
@@ -93,7 +106,7 @@ export function RecruiterPanel({ openApp, close }: { openApp: (id: AppId) => voi
     { id: 'projects', label: 'GitHub catalog', detail: `${projects.length} classified repositories`, icon: <Folder/> },
     { id: 'research', label: 'Research', detail: 'HQDE, EvidenceMem, forecasting', icon: <FlaskConical/> },
     { id: 'skills', label: 'Capabilities', detail: 'Python, PyTorch, Ray, TypeScript', icon: <PackageCheck/> },
-    { id: 'resume', label: 'Résumé', detail: 'Latest PDF · experience and achievements', icon: <FileText/> },
+    { id: 'resume', label: 'Role résumés', detail: '5 focused PDFs · preview and download', icon: <FileText/> },
     { id: 'contact', label: 'Contact', detail: 'Email + GitHub + LinkedIn', icon: <Mail/> },
   ]
   return <div className="recruiter-overlay" role="dialog" aria-modal="true" aria-labelledby="recruiter-title" onKeyDown={trapFocus}><div className="recruiter-panel" ref={panelRef}><header><div><span>RECRUITER MODE</span><h2 id="recruiter-title">The 30-second version.</h2><p>Everything important, zero game mechanics required.</p></div><button onClick={close} autoFocus>RETURN TO DESKTOP</button></header><div className="recruiter-summary"><div><strong>PRATHAMESH NIKAM</strong><span>AI / ML Engineer · Software Developer</span></div><p>Builds distributed learning systems, evidence-grounded AI, and tools for developers. Public work spans Python, PyTorch, Ray, and TypeScript.</p><a href={profile.github} target="_blank" rel="noreferrer">github.com/Prathmesh333 <ArrowUpRight size={13}/></a></div><div className="recruiter-links">{links.map(link => <button key={link.id} onClick={() => { openApp(link.id); close() }}>{link.icon}<div><strong>{link.label}</strong><span>{link.detail}</span></div><ChevronRight/></button>)}</div></div></div>

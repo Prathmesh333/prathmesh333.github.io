@@ -6,7 +6,7 @@ export const profile = {
   github: 'https://github.com/Prathmesh333',
   portfolio: 'https://prathmesh333.github.io/',
   location: 'Hyderabad, India',
-  resumeUpdated: '10 September 2026',
+  resumeUpdated: '8 October 2026',
   email: 'prathmeshnikam2208@gmail.com',
   linkedin: 'https://www.linkedin.com/in/prathamesh-nikam-89b614210/',
   education: [

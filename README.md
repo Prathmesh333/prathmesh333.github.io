@@ -64,7 +64,7 @@ src/
 
 ## Customize profile, resume, and contact
 
-Edit `src/data/profile.ts` for public profile values. The verified application résumé lives at `public/resume/resume.pdf`, and the Resume application embeds that exact file. The contact address matches the latest supplied résumé.
+Edit `src/data/profile.ts` for public profile values. Role-specific résumé metadata lives in `src/data/resumes.ts`, with the five deployable PDFs in `public/resumes/`. The Resume application lets visitors preview and download the GenAI/LLM, ML/Deep Learning, AI Engineer, Full-Stack, or ML/AI Research version. `public/resume/resume.pdf` remains as a backwards-compatible link to the general AI Engineer résumé. The contact address matches the supplied résumé set.
 
 ## Add another project
 
