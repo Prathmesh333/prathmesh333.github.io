@@ -14,8 +14,8 @@ export const profile = {
     { period: '2019 - 2023', title: 'B.E. · Computer Engineering', detail: 'Modern Education Society College of Engineering, Pune · Honors in AI/ML · CGPA 8.85' },
   ],
   experience: [
-    { period: 'Apr 2022 — May 2022', organization: 'The Sparks Foundation', role: 'Android Developer Intern', detail: 'Built an Android banking application with transaction workflows, SQLite persistence, XML interfaces, and modular application design.' },
-    { period: 'Mar 2022 (3 weeks)', organization: 'Suven Consultants and Technology Pvt. Ltd.', role: 'Machine Learning Intern', detail: 'Developed an IMDb sentiment-analysis pipeline using NLP preprocessing, supervised learning, and model evaluation. Remote internship.' },
+    { period: 'Jan — Jun 2026', organization: 'University of Hyderabad', role: 'Teaching Assistant · Web Development (IT) Lab', detail: 'Guided students on project design and full-stack application development, recommended GenAI tools for specific project needs, suggested improvements, and supported project evaluation.' },
+    { period: 'Jul — Dec 2025', organization: 'University of Hyderabad', role: 'Teaching Assistant · Java OOP Lab', detail: 'Designed lab questions, evaluated student work, and guided students through Java object-oriented programming concepts and debugging.' },
   ],
   achievements: [
     'Data Science Conference Hackathon - Winner (2026): built TRACE for AI-assisted grading, academic analytics, and early identification of at-risk students.',
