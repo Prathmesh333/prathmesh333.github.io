@@ -138,30 +138,45 @@
 /* Role-focused resume library */
 .studio-os .role-resume-app { display: grid; grid-template-columns: 235px minmax(360px, 1fr) 270px; height: 100%; }
 .studio-os .resume-library { background: #f4f1e9; border-right: 1px solid #d8d3c7; display: flex; flex-direction: column; min-width: 0; padding: 24px 16px 18px; }
-.studio-os .resume-library-heading { padding: 0 7px 18px; }
-.studio-os .resume-library-heading > span, .studio-os .resume-role-code { color: #a75235; font: 700 9px var(--font-mono); letter-spacing: .13em; }
-.studio-os .resume-library-heading h3 { color: #23251f; font: 700 23px/1.1 var(--font-display); margin: 7px 0 8px; }
+.studio-os .resume-library-topline { align-items: center; color: #a75235; display: flex; font: 700 8px var(--font-mono); justify-content: space-between; letter-spacing: .12em; padding: 0 7px 17px; }
+.studio-os .resume-library-topline strong { color: #969286; font-size: 7px; font-weight: 600; }
+.studio-os .resume-library-heading { border-top: 1px solid #ddd8cc; padding: 18px 7px; }
+.studio-os .resume-role-code { color: #a75235; font: 700 9px var(--font-mono); letter-spacing: .13em; }
+.studio-os .resume-library-heading h3 { color: #23251f; font: 700 25px/1.02 var(--font-display); letter-spacing: -.035em; margin: 0 0 9px; max-width: 180px; }
 .studio-os .resume-library-heading p { color: #78776e; font-size: 10px; line-height: 1.55; margin: 0; }
 .studio-os .resume-role-list { display: grid; gap: 5px; }
-.studio-os .resume-role-list button { align-items: center; background: transparent; border: 1px solid transparent; border-radius: 7px; color: #2c2e28; cursor: pointer; display: grid; grid-template-columns: 1fr auto; min-height: 56px; padding: 9px 10px; text-align: left; transition: background .15s ease, border-color .15s ease, transform .15s ease; }
+.studio-os .resume-role-list button { align-items: center; background: transparent; border: 1px solid transparent; border-radius: 7px; color: #2c2e28; cursor: pointer; display: grid; gap: 9px; grid-template-columns: 22px minmax(0,1fr) auto; min-height: 59px; padding: 8px 9px; position: relative; text-align: left; transition: background .15s ease, border-color .15s ease, transform .15s ease; }
 .studio-os .resume-role-list button:hover { background: #ebe7dc; }
 .studio-os .resume-role-list button:focus-visible { outline: 2px solid #a75235; outline-offset: 2px; }
 .studio-os .resume-role-list button.active { background: #fffefa; border-color: #cfc8ba; box-shadow: 0 2px 7px rgba(78,66,47,.08); transform: translateX(2px); }
-.studio-os .resume-role-list button > span { color: #9a968c; font: 700 8px var(--font-mono); grid-column: 1; letter-spacing: .1em; }
-.studio-os .resume-role-list button > strong { font-size: 11px; font-weight: 650; grid-column: 1; margin-top: 3px; }
-.studio-os .resume-role-list button > svg { color: #a8a398; grid-column: 2; grid-row: 1 / 3; }
-.studio-os .resume-role-list button.active > span, .studio-os .resume-role-list button.active > svg { color: #b85e3f; }
+.studio-os .resume-role-list button.active::before { background: #b85e3f; border-radius: 3px; content: ''; inset: 9px auto 9px -1px; position: absolute; width: 3px; }
+.studio-os .resume-role-list button > small { color: #aaa69b; font: 500 9px var(--font-mono); }
+.studio-os .resume-role-list button > div { min-width: 0; }
+.studio-os .resume-role-list button > div span { color: #9a968c; display: block; font: 700 7px var(--font-mono); letter-spacing: .1em; }
+.studio-os .resume-role-list button > div strong { display: block; font-size: 11px; font-weight: 650; line-height: 1.25; margin-top: 4px; }
+.studio-os .resume-role-list button > svg { color: #a8a398; }
+.studio-os .resume-role-list button.active > small, .studio-os .resume-role-list button.active > div span, .studio-os .resume-role-list button.active > svg { color: #b85e3f; }
 .studio-os .resume-library-note { align-items: center; border-top: 1px solid #d8d3c7; color: #77766d; display: flex; gap: 9px; margin-top: auto; padding: 15px 7px 0; }
 .studio-os .resume-library-note svg { color: #66845b; flex: 0 0 auto; height: 18px; width: 18px; }
 .studio-os .resume-library-note span { display: grid; font: 8px/1.45 var(--font-mono); }
 .studio-os .resume-library-note strong { color: #4b4d45; font-size: 9px; }
-.studio-os .role-resume-app .resume-document { min-width: 0; }
+.studio-os .role-resume-app .resume-document { display: flex; flex-direction: column; min-width: 0; overflow: hidden; padding: 0; }
+.studio-os .resume-preview-bar { align-items: center; background: #efede5; border-bottom: 1px solid #d6d1c6; display: flex; flex: 0 0 56px; justify-content: space-between; padding: 0 17px; }
+.studio-os .resume-preview-bar div { display: grid; gap: 3px; }
+.studio-os .resume-preview-bar div span, .studio-os .resume-preview-bar > span, .studio-os .resume-document > footer { color: #908d83; font: 700 7px var(--font-mono); letter-spacing: .11em; }
+.studio-os .resume-preview-bar div strong { color: #4e5049; font-size: 11px; font-weight: 600; }
+.studio-os .resume-preview-bar > span { border: 1px solid #d1ccc0; border-radius: 4px; padding: 5px 7px; }
+.studio-os .resume-paper-frame { background: #dedbd2; flex: 1; min-height: 0; padding: 15px 15px 0; position: relative; }
+.studio-os .resume-paper-frame img { animation: resume-paper-in 220ms var(--ease) both; background: white; border: 1px solid #cbc6ba; border-bottom: 0; border-radius: 4px 4px 0 0; box-shadow: 0 10px 25px rgba(77,67,50,.12); display: block; height: 100%; object-fit: contain; object-position: top center; width: 100%; }
+.studio-os .resume-document > footer { align-items: center; background: #dedbd2; display: flex; flex: 0 0 28px; justify-content: space-between; padding: 0 16px; }
+.studio-os .resume-document > footer span:first-child { color: #6f6f67; }
 .studio-os .role-resume-app .resume-actions { min-width: 0; padding: 24px; }
 .studio-os .resume-role-code { display: block; margin-top: 22px; }
 .studio-os .role-resume-app .resume-actions h3 { color: #242620; font-size: 24px; margin: 7px 0 8px; }
 .studio-os .resume-highlights { display: grid; gap: 7px; margin: 16px 0 18px; }
 .studio-os .resume-highlights span { align-items: center; color: #565950; display: flex; font-size: 10px; gap: 7px; }
 .studio-os .resume-highlights svg { color: #66845b; }
+@keyframes resume-paper-in { from { opacity: .35; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 1040px) {
   .studio-os .role-resume-app { grid-template-columns: 205px minmax(340px, 1fr); }
@@ -175,13 +190,14 @@
 @media (max-width: 760px) {
   .studio-os .role-resume-app { display: flex; flex-direction: column; height: auto; min-height: 100%; }
   .studio-os .resume-library { border-bottom: 1px solid #d8d3c7; border-right: 0; padding: 18px 14px 14px; }
-  .studio-os .resume-library-heading { padding-bottom: 12px; }
+  .studio-os .resume-library-topline { padding-bottom: 13px; }
+  .studio-os .resume-library-heading { padding: 14px 7px 12px; }
   .studio-os .resume-library-heading h3 { font-size: 21px; }
   .studio-os .resume-role-list { display: flex; gap: 7px; overflow-x: auto; padding: 2px 2px 8px; scroll-snap-type: x mandatory; }
-  .studio-os .resume-role-list button { flex: 0 0 155px; scroll-snap-align: start; }
+  .studio-os .resume-role-list button { flex: 0 0 184px; scroll-snap-align: start; }
   .studio-os .resume-role-list button.active { transform: none; }
   .studio-os .resume-library-note { display: none; }
-  .studio-os .role-resume-app .resume-document { min-height: 500px; order: 2; }
+  .studio-os .role-resume-app .resume-document { min-height: 560px; order: 2; }
   .studio-os .role-resume-app .resume-actions { order: 1; padding: 22px; }
   .studio-os .role-resume-app .resume-facts { display: grid; gap: 0; }
 }

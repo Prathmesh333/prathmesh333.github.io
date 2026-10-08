@@ -54,17 +54,20 @@ export function EducationApp() {
 export function ResumeApp() {
   const [selectedId, setSelectedId] = useState(defaultResumeId)
   const selected = roleResumes.find(resume => resume.id === selectedId) ?? roleResumes[0]
+  const selectedIndex = roleResumes.findIndex(resume => resume.id === selected.id)
   const resumeUrl = `${import.meta.env.BASE_URL}${selected.file}?v=20261008`
+  const previewUrl = `${import.meta.env.BASE_URL}${selected.preview}?v=20261008`
   const downloadName = `Prathamesh_Nikam_${selected.role.replaceAll(/[^a-zA-Z0-9]+/g, '_')}.pdf`
 
   return <div className="resume-app role-resume-app">
     <aside className="resume-library" aria-label="Role-specific resumes">
-      <div className="resume-library-heading"><span>APPLICATION KIT</span><h3>Choose a résumé</h3><p>Five focused versions, tuned to the role without changing the underlying experience.</p></div>
-      <div className="resume-role-list">{roleResumes.map(resume => <button key={resume.id} className={selected.id === resume.id ? 'active' : ''} onClick={() => setSelectedId(resume.id)} aria-pressed={selected.id === resume.id}><span>{resume.label}</span><strong>{resume.role}</strong><ChevronRight size={15}/></button>)}</div>
+      <div className="resume-library-topline"><span>ROLE DESK</span><strong>05 DOCUMENTS</strong></div>
+      <div className="resume-library-heading"><h3>Choose the right story.</h3><p>The experience stays truthful. The emphasis changes for the role.</p></div>
+      <div className="resume-role-list">{roleResumes.map((resume, index) => <button key={resume.id} className={selected.id === resume.id ? 'active' : ''} onClick={() => setSelectedId(resume.id)} aria-pressed={selected.id === resume.id}><small>{String(index + 1).padStart(2, '0')}</small><div><span>{resume.label}</span><strong>{resume.role}</strong></div><ChevronRight size={15}/></button>)}</div>
       <div className="resume-library-note"><ShieldCheck/><span><strong>ATS-checked PDFs</strong>One page · selectable text · verified links</span></div>
     </aside>
-    <div className="resume-document"><iframe key={selected.id} src={`${resumeUrl}#view=FitH&toolbar=0`} title={`Prathamesh Nikam — ${selected.role} resume preview`}/><div className="resume-fallback"><FileText/><strong>{selected.role}</strong><span>Open the PDF using the action panel.</span></div></div>
-    <aside className="resume-actions"><div className="resume-verified"><ShieldCheck/><span>Selected role résumé</span></div><span className="resume-role-code">{selected.label}</span><h3>{selected.role}</h3><p>{selected.summary}</p><div className="resume-highlights">{selected.highlights.map(highlight => <span key={highlight}><Check size={12}/>{highlight}</span>)}</div><div className="resume-facts"><div><span>Format</span><strong>One-page PDF</strong></div><div><span>Parsing</span><strong>ATS checked</strong></div><div><span>Updated</span><strong>{profile.resumeUpdated}</strong></div></div><a className="primary-action" href={resumeUrl} target="_blank" rel="noreferrer"><FileText size={15}/> OPEN PDF</a><a className="secondary-action" href={resumeUrl} download={downloadName}><Download size={15}/> DOWNLOAD THIS VERSION</a><small>Select a role on the left to update this preview.</small></aside>
+    <section className="resume-document" aria-label={`${selected.role} document preview`} aria-live="polite"><header className="resume-preview-bar"><div><span>DOCUMENT PREVIEW</span><strong>{selected.role}</strong></div><span>{String(selectedIndex + 1).padStart(2, '0')} / {String(roleResumes.length).padStart(2, '0')}</span></header><div className="resume-paper-frame"><img key={selected.id} src={previewUrl} alt={`First page preview of the ${selected.role} résumé`} decoding="async"/></div><footer><span>PRATHAMESH NIKAM</span><span>ONE PAGE · PDF</span></footer></section>
+    <aside className="resume-actions"><div className="resume-verified"><ShieldCheck/><span>ATS-ready · links verified</span></div><span className="resume-role-code">SELECTED EDITION · {selected.label}</span><h3>{selected.role}</h3><p>{selected.summary}</p><div className="resume-highlights">{selected.highlights.map(highlight => <span key={highlight}><Check size={12}/>{highlight}</span>)}</div><div className="resume-facts"><div><span>Format</span><strong>One-page PDF</strong></div><div><span>Variants</span><strong>{roleResumes.length} focused editions</strong></div><div><span>Updated</span><strong>{profile.resumeUpdated}</strong></div></div><a className="primary-action" href={resumeUrl} target="_blank" rel="noreferrer"><FileText size={15}/> OPEN FULL SIZE</a><a className="secondary-action" href={resumeUrl} download={downloadName}><Download size={15}/> DOWNLOAD PDF</a><small>Choose a role to match the opportunity you are reviewing.</small></aside>
   </div>
 }
 
