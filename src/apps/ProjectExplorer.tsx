@@ -12,7 +12,7 @@ type ProjectsProps = {
 }
 
 type Filter = 'All projects' | 'Selected work' | ProjectCategory
-const openingOrder = ['HQDE', 'VSFeed', 'CanIPlay', 'EvidenceMem', 'Neural Consensus Engine', 'TRACE', 'ResearchHub', 'Python Clearly']
+const openingOrder = ['CodeClash', 'HQDE', 'JanSeva AI', 'VSFeed', 'AI Evals Atlas', 'Bulk Certificate Generator', 'CanIPlay', 'EvidenceMem', 'Neural Consensus Engine', 'TRACE', 'ResearchHub', 'Python Clearly']
 
 const categoryNames: Record<ProjectCategory, string> = {
   'AI Research': 'Research',

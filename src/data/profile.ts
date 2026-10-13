@@ -1,12 +1,12 @@
 export const profile = {
   name: 'Prathamesh Nikam',
   handle: 'Prathmesh333',
-  role: 'AI / ML Engineer · Software Developer',
-  focus: 'Distributed learning, evidence-grounded AI, and developer tools.',
+  role: 'Software Engineer · Backend, AI & Distributed Systems',
+  focus: 'Real-time backends, AI applications, distributed ML systems, and developer tools.',
   github: 'https://github.com/Prathmesh333',
   portfolio: 'https://prathmesh333.github.io/',
   location: 'Hyderabad, India',
-  resumeUpdated: '8 October 2026',
+  resumeUpdated: '13 October 2026',
   email: 'prathmeshnikam2208@gmail.com',
   linkedin: 'https://www.linkedin.com/in/prathamesh-nikam-89b614210/',
   education: [
@@ -27,7 +27,7 @@ export const profile = {
 
 export const skills = [
   ['TypeScript', 'language'], ['JavaScript', 'language'], ['Python', 'language'], ['Java', 'language'], ['SQL', 'language'], ['C++', 'language'],
-  ['HTML5', 'web'], ['CSS3', 'web'], ['Node.js', 'web'], ['REST APIs', 'web'], ['FastAPI', 'web'], ['VS Code Extension API', 'developer tooling'], ['Webview API', 'developer tooling'],
+  ['HTML5', 'web'], ['CSS3', 'web'], ['Node.js', 'web'], ['REST APIs', 'web'], ['FastAPI', 'web'], ['WebSockets', 'web'], ['Cloudflare Workers', 'cloud'], ['Durable Objects', 'cloud'], ['D1', 'data'], ['VS Code Extension API', 'developer tooling'], ['Webview API', 'developer tooling'],
   ['OOP', 'concepts'], ['Asynchronous & Event-Driven Programming', 'concepts'], ['Data Structures & Algorithms', 'concepts'],
   ['PyTorch', 'AI / ML'], ['TensorFlow', 'AI / ML'], ['Scikit-learn', 'AI / ML'], ['XGBoost', 'AI / ML'], ['LangChain', 'AI / ML'], ['Ray', 'distributed AI'],
   ['GCP', 'cloud'], ['Firebase', 'cloud'], ['Docker', 'systems'], ['Git', 'tooling'], ['MySQL', 'data'], ['SQLite', 'data'], ['MongoDB', 'data'], ['Linux', 'systems'],

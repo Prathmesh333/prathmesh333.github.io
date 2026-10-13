@@ -170,7 +170,7 @@ export default function App() {
   if (shutdown) return <div className="shutdown-screen"><Power/><h1>Thanks for visiting.</h1><p>PrathameshOS is safely shut down.</p><button onClick={() => setShutdown(false)}><RotateCcw size={16}/> REBOOT</button></div>
 
   return <main className={`desktop ${matrix ? 'matrix-mode' : ''}`} id="main-content">
-    <h1 className="sr-only">Prathamesh Nikam — AI/ML engineer and software developer portfolio</h1>
+    <h1 className="sr-only">Prathamesh Nikam — software engineer portfolio for backend, AI, and distributed systems</h1>
     <div className="wallpaper" aria-hidden="true"><div className="terrain t1"/><div className="terrain t2"/><div className="terrain t3"/><div className="network-grid"/><span className="wallpaper-label">PRATHAMESH<br/>NIKAM</span></div>
     <header className="desktop-topbar"><div className="brand"><i>PN</i><span>PRATHAMESH OS</span><strong>WORKSTATION</strong></div><button className="recruiter-toggle" onClick={() => setRecruiterMode(true)}><BriefcaseBusiness size={14}/> RECRUITER MODE</button><div className="top-status"><span><Wifi size={13}/> ONLINE</span><span>WORKSPACE · PUBLIC</span></div></header>
     <nav className="desktop-icons" aria-label="Desktop applications">{desktopIcons.map(([id, label]) => <DesktopIcon key={id} id={id} label={label} onOpen={openApp}/>)}</nav>

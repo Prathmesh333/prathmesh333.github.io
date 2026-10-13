@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, ArrowUpRight, BookOpen, Box, Check, CheckCircle2, ChevronRight, Clipboard, Download, FileCode2, FileText, FlaskConical, Folder, Github, GraduationCap, HardDrive, Layers3, Linkedin, Mail, Network, PackageCheck, Play, Search, ShieldCheck, Sparkles, Trophy, UserRound } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, BookOpen, Box, Check, CheckCircle2, ChevronRight, Clipboard, Download, FileCode2, FileText, FlaskConical, Folder, Github, GraduationCap, HardDrive, Layers3, Linkedin, Mail, Network, PackageCheck, Pause, Play, Search, ShieldCheck, Sparkles, Trophy, UserRound } from 'lucide-react'
 import { projectCategories, projects, type Project } from '../data/projects'
 import { profile, skills } from '../data/profile'
 import { defaultResumeId, roleResumes } from '../data/resumes'
@@ -7,8 +7,8 @@ import type { AppId } from '../types'
 
 export function WelcomeApp({ openApp, recruiterMode, setRecruiterMode }: { openApp: (id: AppId) => void; recruiterMode: boolean; setRecruiterMode: (value: boolean) => void }) {
   return <div className="welcome-app">
-    <div className="welcome-copy"><span className="path">/home/prathamesh/profile</span><h2>I build systems that make intelligence <em>usable.</em></h2><p>AI/ML engineer and software developer working across distributed learning, evidence-grounded models, and tools for people who build.</p><div className="welcome-actions"><button className="primary-action" onClick={() => openApp('projects')}>EXPLORE SYSTEMS <ArrowRight size={16}/></button><button className="secondary-action" onClick={() => setRecruiterMode(!recruiterMode)}>{recruiterMode ? 'EXIT RECRUITER MODE' : '30-SECOND RECRUITER MODE'}</button></div></div>
-    <div className="system-card"><div className="system-card-top"><span>LIVE WORKSPACE</span><i /></div><div className="system-map"><div className="map-core">PN</div>{['ML', 'RAY', 'DEV', 'AI'].map((item, index) => <span className={`orbit-item o${index + 1}`} key={item}>{item}</span>)}</div><div className="system-card-bottom"><span><strong>34</strong> public repositories</span><span><strong>03</strong> interactive labs</span></div></div>
+    <div className="welcome-copy"><span className="path">/home/prathamesh/profile</span><h2>I build systems that make intelligence <em>usable.</em></h2><p>Software engineer working across real-time backends, AI applications, distributed learning, and tools for people who build.</p><div className="welcome-actions"><button className="primary-action" onClick={() => openApp('projects')}>EXPLORE SYSTEMS <ArrowRight size={16}/></button><button className="secondary-action" onClick={() => setRecruiterMode(!recruiterMode)}>{recruiterMode ? 'EXIT RECRUITER MODE' : '30-SECOND RECRUITER MODE'}</button></div></div>
+    <div className="system-card"><div className="system-card-top"><span>LIVE WORKSPACE</span><i /></div><div className="system-map"><div className="map-core">PN</div>{['ML', 'RAY', 'DEV', 'AI'].map((item, index) => <span className={`orbit-item o${index + 1}`} key={item}>{item}</span>)}</div><div className="system-card-bottom"><span><strong>{projects.length}</strong> public repositories</span><span><strong>03</strong> interactive labs</span></div></div>
   </div>
 }
 
@@ -44,7 +44,7 @@ export function SkillsApp() {
 }
 
 export function AboutApp() {
-  return <div className="studio-profile"><header><div className="profile-monogram">pn<span>✳</span></div><div><span className="path">A LITTLE ABOUT ME</span><h2>{profile.name}</h2><p>{profile.role}</p></div></header><div className="profile-story"><h3>Interested in the why.<br/><em>Driven by the what if.</em></h3><p>I build distributed learning systems, evidence-grounded AI, and developer tools. I’m interested in the point where a research idea becomes something people can actually use.</p><div className="profile-actions"><a className="primary-action" href={profile.github} target="_blank" rel="noreferrer"><Github size={15}/> GitHub <ArrowUpRight size={14}/></a><a className="secondary-action" href={profile.linkedin} target="_blank" rel="noreferrer"><Linkedin size={15}/> LinkedIn</a></div></div><section className="profile-experience"><span className="path">EXPERIENCE</span>{profile.experience.map(item => <article key={item.organization}><time>{item.period}</time><div><h3>{item.role}</h3><strong>{item.organization}</strong><p>{item.detail}</p></div></article>)}</section><section className="profile-recognition"><span className="path">A FEW MILESTONES</span>{profile.achievements.map(item => <div key={item}><Trophy size={16}/><span>{item}</span></div>)}</section></div>
+  return <div className="studio-profile"><header><div className="profile-monogram">pn<span>✳</span></div><div><span className="path">A LITTLE ABOUT ME</span><h2>{profile.name}</h2><p>{profile.role}</p></div></header><div className="profile-story"><h3>Interested in the why.<br/><em>Driven by the what if.</em></h3><p>I build real-time backends, AI applications, distributed learning systems, and developer tools. I’m interested in the point where a research idea becomes something people can actually use.</p><div className="profile-actions"><a className="primary-action" href={profile.github} target="_blank" rel="noreferrer"><Github size={15}/> GitHub <ArrowUpRight size={14}/></a><a className="secondary-action" href={profile.linkedin} target="_blank" rel="noreferrer"><Linkedin size={15}/> LinkedIn</a></div></div><section className="profile-experience"><span className="path">EXPERIENCE</span>{profile.experience.map(item => <article key={item.organization + item.role}><time>{item.period}</time><div><h3>{item.role}</h3><strong>{item.organization}</strong><p>{item.detail}</p></div></article>)}</section><section className="profile-recognition"><span className="path">A FEW MILESTONES</span>{profile.achievements.map(item => <div key={item}><Trophy size={16}/><span>{item}</span></div>)}</section></div>
 }
 
 export function EducationApp() {
@@ -53,20 +53,43 @@ export function EducationApp() {
 
 export function ResumeApp() {
   const [selectedId, setSelectedId] = useState(defaultResumeId)
+  const [autoPlay, setAutoPlay] = useState(true)
+  const [previewPaused, setPreviewPaused] = useState(false)
+  const [cycleKey, setCycleKey] = useState(0)
   const selected = roleResumes.find(resume => resume.id === selectedId) ?? roleResumes[0]
   const selectedIndex = roleResumes.findIndex(resume => resume.id === selected.id)
-  const resumeUrl = `${import.meta.env.BASE_URL}${selected.file}?v=20261008`
-  const previewUrl = `${import.meta.env.BASE_URL}${selected.preview}?v=20261008`
+  const resumeUrl = `${import.meta.env.BASE_URL}${selected.file}?v=20261013`
+  const previewUrl = `${import.meta.env.BASE_URL}${selected.preview}?v=20261013`
   const downloadName = `Prathamesh_Nikam_${selected.role.replaceAll(/[^a-zA-Z0-9]+/g, '_')}.pdf`
 
-  return <div className="resume-app role-resume-app">
+  useEffect(() => {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    if (reducedMotion.matches) setAutoPlay(false)
+  }, [])
+
+  useEffect(() => {
+    if (!autoPlay || previewPaused) return
+    const timer = window.setTimeout(() => {
+      const currentIndex = roleResumes.findIndex(resume => resume.id === selectedId)
+      setSelectedId(roleResumes[(currentIndex + 1) % roleResumes.length].id)
+      setCycleKey(value => value + 1)
+    }, 20_000)
+    return () => window.clearTimeout(timer)
+  }, [autoPlay, previewPaused, selectedId, cycleKey])
+
+  const chooseResume = (id: string) => {
+    setSelectedId(id)
+    setCycleKey(value => value + 1)
+  }
+
+  return <div className="resume-app role-resume-app" onMouseEnter={() => setPreviewPaused(true)} onMouseLeave={() => setPreviewPaused(false)} onFocusCapture={() => setPreviewPaused(true)} onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPreviewPaused(false) }}>
     <aside className="resume-library" aria-label="Role-specific resumes">
-      <div className="resume-library-topline"><span>ROLE DESK</span><strong>05 DOCUMENTS</strong></div>
+      <div className="resume-library-topline"><span>ROLE DESK</span><strong>{String(roleResumes.length).padStart(2, '0')} DOCUMENTS</strong></div>
       <div className="resume-library-heading"><h3>Choose the right story.</h3><p>The experience stays truthful. The emphasis changes for the role.</p></div>
-      <div className="resume-role-list">{roleResumes.map((resume, index) => <button key={resume.id} className={selected.id === resume.id ? 'active' : ''} onClick={() => setSelectedId(resume.id)} aria-pressed={selected.id === resume.id}><small>{String(index + 1).padStart(2, '0')}</small><div><span>{resume.label}</span><strong>{resume.role}</strong></div><ChevronRight size={15}/></button>)}</div>
+      <div className="resume-role-list">{roleResumes.map((resume, index) => <button key={resume.id} className={selected.id === resume.id ? 'active' : ''} onClick={() => chooseResume(resume.id)} aria-pressed={selected.id === resume.id}><small>{String(index + 1).padStart(2, '0')}</small><div><span>{resume.label}</span><strong>{resume.role}</strong></div><ChevronRight size={15}/></button>)}</div>
       <div className="resume-library-note"><ShieldCheck/><span><strong>ATS-checked PDFs</strong>One page · selectable text · verified links</span></div>
     </aside>
-    <section className="resume-document" aria-label={`${selected.role} document preview`} aria-live="polite"><header className="resume-preview-bar"><div><span>DOCUMENT PREVIEW</span><strong>{selected.role}</strong></div><span>{String(selectedIndex + 1).padStart(2, '0')} / {String(roleResumes.length).padStart(2, '0')}</span></header><div className="resume-paper-frame"><img key={selected.id} src={previewUrl} alt={`First page preview of the ${selected.role} résumé`} decoding="async"/></div><footer><span>PRATHAMESH NIKAM</span><span>ONE PAGE · PDF</span></footer></section>
+    <section className="resume-document" aria-label={`${selected.role} document preview`}><header className="resume-preview-bar"><div><span>DOCUMENT PREVIEW</span><strong>{selected.role}</strong></div><div className="resume-preview-controls"><span>{String(selectedIndex + 1).padStart(2, '0')} / {String(roleResumes.length).padStart(2, '0')}</span><button onClick={() => setAutoPlay(value => !value)} aria-label={autoPlay ? 'Pause automatic résumé rotation' : 'Play automatic résumé rotation'} title={autoPlay ? 'Pause rotation' : 'Play rotation'}>{autoPlay ? <Pause size={12}/> : <Play size={12}/>}</button></div>{autoPlay && !previewPaused && <i className="resume-cycle-track" key={`${selected.id}-${cycleKey}`} aria-hidden="true"><span/></i>}</header><div className="resume-paper-frame"><img key={selected.id} src={previewUrl} alt={`First page preview of the ${selected.role} résumé`} decoding="async"/></div><footer><span>PRATHAMESH NIKAM</span><span>{autoPlay ? previewPaused ? 'ROTATION PAUSED WHILE VIEWING' : 'NEXT EDITION IN 20 SECONDS' : 'MANUAL PREVIEW'} · PDF</span></footer></section>
     <aside className="resume-actions"><div className="resume-verified"><ShieldCheck/><span>ATS-ready · links verified</span></div><span className="resume-role-code">SELECTED EDITION · {selected.label}</span><h3>{selected.role}</h3><p>{selected.summary}</p><div className="resume-highlights">{selected.highlights.map(highlight => <span key={highlight}><Check size={12}/>{highlight}</span>)}</div><div className="resume-facts"><div><span>Format</span><strong>One-page PDF</strong></div><div><span>Variants</span><strong>{roleResumes.length} focused editions</strong></div><div><span>Updated</span><strong>{profile.resumeUpdated}</strong></div></div><a className="primary-action" href={resumeUrl} target="_blank" rel="noreferrer"><FileText size={15}/> OPEN FULL SIZE</a><a className="secondary-action" href={resumeUrl} download={downloadName}><Download size={15}/> DOWNLOAD PDF</a><small>Choose a role to match the opportunity you are reviewing.</small></aside>
   </div>
 }
@@ -104,13 +127,13 @@ export function RecruiterPanel({ openApp, close }: { openApp: (id: AppId) => voi
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus() }
   }
   const links: { id: AppId; label: string; detail: string; icon: React.ReactNode }[] = [
-    { id: 'about', label: 'Profile', detail: 'AI/ML engineer + software developer', icon: <UserRound/> },
+    { id: 'about', label: 'Profile', detail: 'Software engineer · backend, AI, systems', icon: <UserRound/> },
     { id: 'education', label: 'Education', detail: 'M.Tech IT · B.E. Computer Engineering', icon: <GraduationCap/> },
     { id: 'projects', label: 'GitHub catalog', detail: `${projects.length} classified repositories`, icon: <Folder/> },
     { id: 'research', label: 'Research', detail: 'HQDE, EvidenceMem, forecasting', icon: <FlaskConical/> },
     { id: 'skills', label: 'Capabilities', detail: 'Python, PyTorch, Ray, TypeScript', icon: <PackageCheck/> },
-    { id: 'resume', label: 'Role résumés', detail: '5 focused PDFs · preview and download', icon: <FileText/> },
+    { id: 'resume', label: 'Role résumés', detail: `${roleResumes.length} focused PDFs · preview and download`, icon: <FileText/> },
     { id: 'contact', label: 'Contact', detail: 'Email + GitHub + LinkedIn', icon: <Mail/> },
   ]
-  return <div className="recruiter-overlay" role="dialog" aria-modal="true" aria-labelledby="recruiter-title" onKeyDown={trapFocus}><div className="recruiter-panel" ref={panelRef}><header><div><span>RECRUITER MODE</span><h2 id="recruiter-title">The 30-second version.</h2><p>Everything important, zero game mechanics required.</p></div><button onClick={close} autoFocus>RETURN TO DESKTOP</button></header><div className="recruiter-summary"><div><strong>PRATHAMESH NIKAM</strong><span>AI / ML Engineer · Software Developer</span></div><p>Builds distributed learning systems, evidence-grounded AI, and tools for developers. Public work spans Python, PyTorch, Ray, and TypeScript.</p><a href={profile.github} target="_blank" rel="noreferrer">github.com/Prathmesh333 <ArrowUpRight size={13}/></a></div><div className="recruiter-links">{links.map(link => <button key={link.id} onClick={() => { openApp(link.id); close() }}>{link.icon}<div><strong>{link.label}</strong><span>{link.detail}</span></div><ChevronRight/></button>)}</div></div></div>
+  return <div className="recruiter-overlay" role="dialog" aria-modal="true" aria-labelledby="recruiter-title" onKeyDown={trapFocus}><div className="recruiter-panel" ref={panelRef}><header><div><span>RECRUITER MODE</span><h2 id="recruiter-title">The 30-second version.</h2><p>Everything important, zero game mechanics required.</p></div><button onClick={close} autoFocus>RETURN TO DESKTOP</button></header><div className="recruiter-summary"><div><strong>PRATHAMESH NIKAM</strong><span>{profile.role}</span></div><p>Builds real-time backends, AI applications, distributed ML systems, and developer tools. Public work spans TypeScript, Python, Cloudflare, PyTorch, and Ray.</p><a href={profile.github} target="_blank" rel="noreferrer">github.com/Prathmesh333 <ArrowUpRight size={13}/></a></div><div className="recruiter-links">{links.map(link => <button key={link.id} onClick={() => { openApp(link.id); close() }}>{link.icon}<div><strong>{link.label}</strong><span>{link.detail}</span></div><ChevronRight/></button>)}</div></div></div>
 }

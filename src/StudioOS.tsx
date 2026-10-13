@@ -9,6 +9,7 @@ import { CanIPlayDemo, HQDEDemo, ProjectPreview, VSFeedDemo } from './apps/Demos
 import { SourceDemo, sourceDemos } from './apps/SourceDemo'
 import { Terminal } from './apps/Terminal'
 import { projects, type Project } from './data/projects'
+import { roleResumes } from './data/resumes'
 import type { AppId, WindowState } from './types'
 
 const appMeta: Record<AppId, { title: string; icon: React.ReactNode; path: string; detail: string }> = {
@@ -19,7 +20,7 @@ const appMeta: Record<AppId, { title: string; icon: React.ReactNode; path: strin
   skills: { title: 'Toolkit', icon: <PackageCheck/>, path: 'skills', detail: 'Languages, frameworks, and systems' },
   about: { title: 'About Prathamesh', icon: <CircleUserRound/>, path: 'about', detail: 'Background, experience, and achievements' },
   education: { title: 'Education', icon: <GraduationCap/>, path: 'education', detail: 'University of Hyderabad · M.Tech IT' },
-  resume: { title: 'Role Résumés', icon: <FileText/>, path: 'resume', detail: 'Five focused application editions' },
+  resume: { title: 'Role Résumés', icon: <FileText/>, path: 'resume', detail: `${roleResumes.length} focused application editions` },
   contact: { title: 'Let’s talk', icon: <Mail/>, path: 'contact', detail: 'Email, GitHub, and LinkedIn' },
   games: { title: 'Playground', icon: <Gamepad2/>, path: 'games', detail: 'Find the bug. Discover a secret.' },
   monitor: { title: 'Activity monitor', icon: <MonitorCog/>, path: 'monitor', detail: 'A playful simulated system monitor' },
@@ -129,7 +130,7 @@ export default function StudioOS() {
   const dockClick = (id: AppId) => { if (id === active) minimizeApp(id); else { if (id === 'preview') openPreview(previewProject); else openApp(id) } }
 
   return <main className={`desktop studio-os wallpaper-${wallpaper} ${matrix ? 'matrix-mode' : ''}`} data-has-windows={Boolean(active)} data-motion={motion ? 'on' : 'off'} id="main-content">
-    <h1 className="sr-only">Prathamesh Nikam — AI/ML engineer, researcher, and software developer</h1>
+    <h1 className="sr-only">Prathamesh Nikam — software engineer building backend, AI, and distributed systems</h1>
     <a className="os-skip-link" href="#os-dock">Skip to applications</a>
     <div className="studio-wallpaper" aria-hidden="true"><div className="wallpaper-orbit orbit-one"/><div className="wallpaper-orbit orbit-two"/><div className="wallpaper-orbit orbit-three"/><div className="wallpaper-wordmark">Make room<br/>for <em>curiosity.</em></div><span className="wallpaper-edition">PERSONAL WORKSPACE / 2026</span></div>
     <header className="studio-menubar">
@@ -137,7 +138,7 @@ export default function StudioOS() {
       <nav aria-label="Quick navigation"><button onClick={() => openApp('projects')}>Work</button><button onClick={() => openApp('about')}>About</button><button onClick={() => setRecruiterMode(true)}>Quick look <ArrowUpRight size={12} aria-hidden="true"/></button></nav>
       <div className="menubar-right"><button className="menubar-search" aria-label="Search apps and projects" onClick={() => setSearchOpen(true)}><Search size={16} aria-hidden="true"/><kbd>Ctrl K</kbd></button><button className="appearance-toggle" onClick={() => setSettingsOpen(value => !value)} aria-label="Desktop appearance" aria-expanded={settingsOpen}><Palette size={17} aria-hidden="true"/></button><time dateTime={time.toISOString()}><span className="menu-date">{time.toLocaleDateString('en-IN', { weekday: 'short', day: 'numeric', month: 'short' })}</span><span className="menu-clock">{time.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })}</span></time></div>
     </header>
-    <nav className="pinned-files" aria-label="Pinned desktop files">{([['projects', 'My projects', `${projects.length} repositories`], ['research', 'Research lab', 'Ideas in progress'], ['resume', 'Role résumés', '5 focused editions']] as [AppId, string, string][]).map(([id, title, detail]) => <button key={id} onClick={() => openApp(id)} className={`pinned-file pin-${id}`}><span className="file-object" aria-hidden="true">{appMeta[id].icon}{id === 'resume' && <i>PDF</i>}</span><span className="pinned-file-copy"><strong>{title}</strong><small>{detail}</small></span></button>)}</nav>
+    <nav className="pinned-files" aria-label="Pinned desktop files">{([['projects', 'My projects', `${projects.length} repositories`], ['research', 'Research lab', 'Ideas in progress'], ['resume', 'Role résumés', `${roleResumes.length} focused editions`]] as [AppId, string, string][]).map(([id, title, detail]) => <button key={id} onClick={() => openApp(id)} className={`pinned-file pin-${id}`}><span className="file-object" aria-hidden="true">{appMeta[id].icon}{id === 'resume' && <i>PDF</i>}</span><span className="pinned-file-copy"><strong>{title}</strong><small>{detail}</small></span></button>)}</nav>
     <aside className="desktop-note"><span><Asterisk size={14} aria-hidden="true"/> A note to you</span><p>Good things start<br/>with a little<br/><em>“what if?”</em></p><button onClick={() => openApp('contact')}>Let’s find out <ArrowUpRight size={16} aria-hidden="true"/></button></aside>
     <div className="desktop-bottomline"><span><i/> Built with curiosity. Based in India.</span><button onClick={() => setSearchOpen(true)}>Find your way around <Command size={13}/> K</button></div>
     <section className="window-layer" aria-label="Open applications">{openWindows.map(win => <Window key={win.id} window={win} mobile={mobile} active={win.id === active} onFocus={focusWindow} onMove={moveApp} onMinimize={minimizeApp} onMaximize={maximizeApp} onClose={closeApp}>{content(win.id)}</Window>)}</section>

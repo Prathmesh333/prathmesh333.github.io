@@ -10,6 +10,15 @@ export type RoleResume = {
 
 export const roleResumes: RoleResume[] = [
   {
+    id: 'software-engineer',
+    role: 'Software Engineer',
+    label: 'GENERAL',
+    summary: 'A balanced software-engineering edition spanning real-time backends, AI applications, distributed ML systems, and shipped developer products.',
+    highlights: ['Backend + real-time systems', 'AI + distributed ML', 'Cloud product delivery'],
+    file: 'resumes/prathamesh-nikam-software-engineer.pdf',
+    preview: 'resumes/previews/prathamesh-nikam-software-engineer.png',
+  },
+  {
     id: 'genai-llm',
     role: 'GenAI / LLM Engineer',
     label: 'GENAI',
@@ -54,6 +63,15 @@ export const roleResumes: RoleResume[] = [
     file: 'resumes/prathamesh-nikam-ml-ai-research.pdf',
     preview: 'resumes/previews/prathamesh-nikam-ml-ai-research.png',
   },
+  {
+    id: 'ai-research-engineer',
+    role: 'AI Engineer / Research Engineer',
+    label: 'AI RESEARCH',
+    summary: 'AI research paired with application engineering across vision-language retrieval, multi-agent systems, distributed deep learning, and comparative evaluation.',
+    highlights: ['Vision-language memory', 'Multi-agent systems', 'Distributed ML research'],
+    file: 'resumes/prathamesh-nikam-ai-research-engineer.pdf',
+    preview: 'resumes/previews/prathamesh-nikam-ai-research-engineer.png',
+  },
 ]
 
-export const defaultResumeId = 'ai-engineer'
+export const defaultResumeId = 'software-engineer'

@@ -151,7 +151,7 @@
 .studio-os .resume-role-code { color: #a75235; font: 700 9px var(--font-mono); letter-spacing: .13em; }
 .studio-os .resume-library-heading h3 { color: #23251f; font: 700 25px/1.02 var(--font-display); letter-spacing: -.035em; margin: 0 0 9px; max-width: 180px; }
 .studio-os .resume-library-heading p { color: #78776e; font-size: 10px; line-height: 1.55; margin: 0; }
-.studio-os .resume-role-list { display: grid; gap: 5px; }
+.studio-os .resume-role-list { display: grid; gap: 5px; min-height: 0; overflow-y: auto; padding: 1px 3px 1px 1px; scrollbar-color: #c9c3b7 transparent; scrollbar-width: thin; }
 .studio-os .resume-role-list button { align-items: center; background: transparent; border: 1px solid transparent; border-radius: 7px; color: #2c2e28; cursor: pointer; display: grid; gap: 9px; grid-template-columns: 22px minmax(0,1fr) auto; min-height: 59px; padding: 8px 9px; position: relative; text-align: left; transition: background .15s ease, border-color .15s ease, transform .15s ease; }
 .studio-os .resume-role-list button:hover { background: #ebe7dc; }
 .studio-os .resume-role-list button:focus-visible { outline: 2px solid #a75235; outline-offset: 2px; }
@@ -169,10 +169,18 @@
 .studio-os .resume-library-note strong { color: #4b4d45; font-size: 9px; }
 .studio-os .role-resume-app .resume-document { display: flex; flex-direction: column; min-width: 0; overflow: hidden; padding: 0; }
 .studio-os .resume-preview-bar { align-items: center; background: #efede5; border-bottom: 1px solid #d6d1c6; display: flex; flex: 0 0 56px; justify-content: space-between; padding: 0 17px; }
+.studio-os .resume-preview-bar { position: relative; }
 .studio-os .resume-preview-bar div { display: grid; gap: 3px; }
 .studio-os .resume-preview-bar div span, .studio-os .resume-preview-bar > span, .studio-os .resume-document > footer { color: #908d83; font: 700 7px var(--font-mono); letter-spacing: .11em; }
 .studio-os .resume-preview-bar div strong { color: #4e5049; font-size: 11px; font-weight: 600; }
 .studio-os .resume-preview-bar > span { border: 1px solid #d1ccc0; border-radius: 4px; padding: 5px 7px; }
+.studio-os .resume-preview-bar .resume-preview-controls { align-items: center; display: flex; flex-direction: row; gap: 6px; }
+.studio-os .resume-preview-controls > span { border: 1px solid #d1ccc0; border-radius: 4px; padding: 5px 7px; }
+.studio-os .resume-preview-controls button { align-items: center; background: #fffefa; border: 1px solid #d1ccc0; border-radius: 4px; color: #7b796f; cursor: pointer; display: flex; height: 24px; justify-content: center; padding: 0; width: 27px; }
+.studio-os .resume-preview-controls button:hover { background: #e7e2d7; color: #a75235; }
+.studio-os .resume-preview-controls button:focus-visible { outline: 2px solid #a75235; outline-offset: 2px; }
+.studio-os .resume-cycle-track { background: #d8d3c7; bottom: 0; height: 2px; left: 0; overflow: hidden; position: absolute; right: 0; }
+.studio-os .resume-cycle-track span { animation: resume-cycle 20s linear forwards; background: #b85e3f; display: block; height: 100%; transform-origin: left; }
 .studio-os .resume-paper-frame { background: #dedbd2; flex: 1; min-height: 0; padding: 15px 15px 0; position: relative; }
 .studio-os .resume-paper-frame img { animation: resume-paper-in 220ms var(--ease) both; background: white; border: 1px solid #cbc6ba; border-bottom: 0; border-radius: 4px 4px 0 0; box-shadow: 0 10px 25px rgba(77,67,50,.12); display: block; height: 100%; object-fit: contain; object-position: top center; width: 100%; }
 .studio-os .resume-document > footer { align-items: center; background: #dedbd2; display: flex; flex: 0 0 28px; justify-content: space-between; padding: 0 16px; }
@@ -184,6 +192,7 @@
 .studio-os .resume-highlights span { align-items: center; color: #565950; display: flex; font-size: 10px; gap: 7px; }
 .studio-os .resume-highlights svg { color: #66845b; }
 @keyframes resume-paper-in { from { opacity: .35; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes resume-cycle { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
 @media (max-width: 1040px) {
   .studio-os .role-resume-app { grid-template-columns: 205px minmax(340px, 1fr); }
@@ -200,7 +209,7 @@
   .studio-os .resume-library-topline { padding-bottom: 13px; }
   .studio-os .resume-library-heading { padding: 14px 7px 12px; }
   .studio-os .resume-library-heading h3 { font-size: 21px; }
-  .studio-os .resume-role-list { display: flex; gap: 7px; overflow-x: auto; padding: 2px 2px 8px; scroll-snap-type: x mandatory; }
+  .studio-os .resume-role-list { display: flex; gap: 7px; overflow-x: auto; overflow-y: hidden; padding: 2px 2px 8px; scroll-snap-type: x mandatory; }
   .studio-os .resume-role-list button { flex: 0 0 184px; scroll-snap-align: start; }
   .studio-os .resume-role-list button.active { transform: none; }
   .studio-os .resume-library-note { display: none; }

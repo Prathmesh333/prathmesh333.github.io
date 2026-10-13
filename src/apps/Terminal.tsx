@@ -14,7 +14,7 @@ export function Terminal({ openApp, onCommand, onMatrix, secretUnlocked, unlockS
   const output = (command: string): string => {
     const cmd = command.trim().toLowerCase()
     if (cmd === 'help') return help
-    if (cmd === 'whoami' || cmd === 'about') return 'Prathamesh Nikam\nAI/ML Engineer · Software Developer\nFocus: distributed learning, evidence-grounded AI, developer tools.'
+    if (cmd === 'whoami' || cmd === 'about') return 'Prathamesh Nikam\nSoftware Engineer · Backend, AI & Distributed Systems\nFocus: real-time backends, AI applications, distributed ML, developer tools.'
     if (cmd === 'pwd') return cwd === '~' ? '/home/prathamesh' : `/home/prathamesh/${cwd.replace('~/', '')}`
     if (cmd === 'ls') return cwd === '~/secret' ? 'classified.txt' : 'about.txt  skills.txt  resume.pdf  projects/  research/  secret/'
     if (cmd === 'cd projects') { setCwd('~/projects'); return 'Entered /projects — try the projects command.' }
